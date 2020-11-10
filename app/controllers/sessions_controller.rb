@@ -4,6 +4,7 @@ class SessionsController < ApplicationController
   end
 
   def new
+    check_session
   end
 
   def create
@@ -29,6 +30,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:session_token] = nil
+    flash[:notice] = "Logged out of user"
     redirect_to login_path
   end
 end
