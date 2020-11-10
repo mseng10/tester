@@ -1,0 +1,10 @@
+<h2>Sign-up</h2>
+
+<%= form_tag users_path, :class => 'form' do %>
+  <%= label :user, :username, 'User ID', :class => 'col-form-label' %>
+  <%= text_field :user, 'username', :class => 'form-control', :id =>'signupUser' %>
+  <%= label :user, :password, 'Password', :class => 'col-form-label' %>
+  <%= password_field :user, 'password', :class=> 'form-control', :id =>'signupEmail' %>
+  <%= button_to'Create My Account', users_path, method: :get, id: 'signupCreate'%>
+  <br/>
+<% end %>

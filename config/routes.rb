@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
 
   resources :games
-  root :to => redirect('/games')
-
+  resources :users
+  match '/login', to: 'sessions#new', via: :get
+  match '/login_create', to: 'sessions#create', via: :post
+  match '/logout', to: 'sessions#destroy', via: :delete
+  root :to => redirect('/login')
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
