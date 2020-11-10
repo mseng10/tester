@@ -1,0 +1,27 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/controllers/games_controller.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          null,
+          null,
+          null
+        ]
+      },
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/controllers/application_controller.rb": {
+        "lines": [
+          1,
+          null,
+          null,
+          1,
+          null
+        ]
+      }
+    },
+    "timestamp": 1605044196
+  }
+}
