@@ -4,9 +4,9 @@
   <%= button_to 'Create Game', games_path, method: :post, :id => 'create_game'%>
 
   <!--  TODO: Change games_path to games_create-->
-  <%= form_tag games_path, method: :get, :class => 'form' do %>
+  <%= form_tag lobby_join_path, method: :get, :class => 'form' do %>
     <%= text_field :game, 'game_id', :placeholder => "Enter Game ID" , :id => 'join_game_textbox'%>
-    <%= button_to 'Join Game!', games_path ,:id => 'join_game_button'%>
+    <%= button_to 'Join Game!', lobby_join_path , method: :get, :id => 'join_game_button'%>
   <% end %>
 
 </div>
