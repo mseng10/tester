@@ -7,5 +7,5 @@ When /^I have clicked on the create new game button$/ do
 end
 
 Then /^I should be on the create new game page$/ do
-  expect(page).to have_content('Please create a new game below!')
+  expect(page).to have_content('Please create a index game below!')
 end

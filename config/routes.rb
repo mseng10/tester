@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   match '/login', to: 'sessions#new', via: :get
   match '/login_create', to: 'sessions#create', via: :post
   match '/logout', to: 'sessions#destroy', via: :delete
+  match '/lobby', to: 'lobby#index', via: :get
+  match '/lobby_create', to: 'lobby#create', via: :post
+  match '/lobby_join', to: 'lobby#join', via: :post
 
   root :to => redirect('/login')
 
