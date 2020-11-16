@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/controllers/games_controller.rb": {
+      "/mnt/c/Users/owner/Desktop/Semester8/SELT/Team7_SELT2020/app/controllers/games_controller.rb": {
         "lines": [
           1,
           null,
@@ -12,16 +12,278 @@
           null
         ]
       },
-      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/controllers/application_controller.rb": {
+      "/mnt/c/Users/owner/Desktop/Semester8/SELT/Team7_SELT2020/app/controllers/application_controller.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          13,
+          null,
+          null,
+          1,
+          1,
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/mnt/c/Users/owner/Desktop/Semester8/SELT/Team7_SELT2020/spec/controllers/sessions_controller_spec.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null
+        ]
+      },
+      "/mnt/c/Users/owner/Desktop/Semester8/SELT/Team7_SELT2020/app/controllers/sessions_controller.rb": {
+        "lines": [
+          1,
+          1,
+          8,
+          null,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          null,
+          4,
+          4,
+          null,
+          4,
+          1,
+          1,
+          null,
+          3,
+          3,
+          1,
+          1,
+          null,
+          2,
+          2,
+          2,
+          null,
+          null,
+          2,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null
+        ]
+      },
+      "/mnt/c/Users/owner/Desktop/Semester8/SELT/Team7_SELT2020/spec/controllers/users_controller_spec.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null
+        ]
+      },
+      "/mnt/c/Users/owner/Desktop/Semester8/SELT/Team7_SELT2020/app/controllers/users_controller.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          10,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          6,
+          2,
+          2,
+          2,
+          null,
+          null,
+          4,
+          4,
+          4,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/mnt/c/Users/owner/Desktop/Semester8/SELT/Team7_SELT2020/spec/models/user_spec.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null
+        ]
+      },
+      "/mnt/c/Users/owner/Desktop/Semester8/SELT/Team7_SELT2020/app/models/user.rb": {
+        "lines": [
+          1,
+          1,
+          5,
+          5,
+          null,
+          null,
+          null
+        ]
+      },
+      "/mnt/c/Users/owner/Desktop/Semester8/SELT/Team7_SELT2020/db/seeds.rb": {
+        "lines": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          1,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          null,
+          1,
+          2,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          1,
+          null
+        ]
+      },
+      "/mnt/c/Users/owner/Desktop/Semester8/SELT/Team7_SELT2020/app/models/cardgame.rb": {
         "lines": [
           1,
           null,
           null,
+          null
+        ]
+      },
+      "/mnt/c/Users/owner/Desktop/Semester8/SELT/Team7_SELT2020/app/models/deck.rb": {
+        "lines": [
           1,
+          null,
+          null,
+          null
+        ]
+      },
+      "/mnt/c/Users/owner/Desktop/Semester8/SELT/Team7_SELT2020/app/models/hand.rb": {
+        "lines": [
+          1,
+          null,
+          null,
           null
         ]
       }
     },
-    "timestamp": 1605044196
+    "timestamp": 1605487845
   }
 }
