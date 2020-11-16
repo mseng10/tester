@@ -7,12 +7,12 @@ Then /^I should be on the login page$/ do
 end
 
 Given /the following users have been added to the database:/ do |users_table|
-  expect(User.all.size).to equal(12)
+  size = User.all.size
   users_table.hashes.each do |user|
     User.create(:username => user[:username],
                 :password => user[:password])
   end
-  expect(User.all.size).to equal(13)
+  expect(User.all.size).to equal(size+1)
 end
 
 When /^I have opted to login with username "(.+)" and password "(.+)"$/ do |username, password|
