@@ -1,5 +1,5 @@
 When /^I have clicked on the login button$/ do
-  click_on 'Sign up/Login'
+  click_on 'Login'
 end
 
 Then /^I should be on the login page$/ do
@@ -64,7 +64,7 @@ Then /^my account should not be successfully logged in$/ do
 end
 
 When /^I have opted to Logout my account$/ do
-  click_button 'Sign up/Login'
+  click_button 'Login'
 end
 
 Then /^my account should be successfully logged out$/ do
