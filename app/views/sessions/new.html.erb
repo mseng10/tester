@@ -1,11 +1,11 @@
 <h2>Login</h2>
 
-<%= form_tag login_create_path, :class => 'form' do %>
+<%= form_for login_path,:url => login_create_path,:method => :post do %>
   <%= label :user, :username, 'User ID', :class => 'col-form-label' %>
   <%= text_field :user, 'username', :class => 'form-control', :id => 'loginUser' %>
   <%= label :user, :password, 'Password', :class => 'col-form-label' %>
   <%= password_field :user, 'password', :class=> 'form-control', :id => 'loginPassword' %>
-  <%= button_to'Login to my account', login_create_path, method: :post, id: 'login_submit'%>
-  <%= button_to'Sign-up for an account', new_user_path, method: :get, id: 'signup' %>
   <br/>
+  <%= submit_tag 'Sign up/Login', :class => 'btn btn-primary', :id => 'login_submit' %>
+  <%= button_to'Sign-up for an account', new_user_path, method: :get, id: 'signup' %>
 <% end %>

@@ -8,8 +8,9 @@ class SessionsController < ApplicationController
   end
 
   def create
-    id= params[:user][:username]
-    password= params[:user][:password]
+
+    id= user_params[:username]
+    password= user_params[:password]
 
     if User.where(:username => id).empty?
       flash[:notice] = "Invalid user-id/password combination."
