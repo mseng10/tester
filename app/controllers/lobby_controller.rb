@@ -3,11 +3,11 @@ class LobbyController < ApplicationController
   def create
     # TODO: Implement fixed game code length
     # https://stackoverflow.com/questions/44031239/generating-random-number-of-length-6-with-securerandom-in-ruby
-    game_id = SecureRandom.random_number(10000)
+    game_id = SecureRandom.random_number(9000) + 1000
 
     # Verifies unique game id
     while Cardgame.exists?(game_id: game_id)
-      game_id = SecureRandom.random_number(10000)
+      game_id = SecureRandom.random_number(9000) + 1000
     end
 
     user_id = @current_user.select(:id).first.attributes.values[0]  # Gets the user id from current user
