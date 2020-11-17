@@ -51,14 +51,18 @@ class LobbyController < ApplicationController
     user_id = @current_user.select(:id).first.attributes.values[0]
 
     if Cardgame.exists?(game_id: game_id)
+      # Update the user's current game
+      @current_user.update_all(current_game: game_id)
 
       # Add user to game table
-      # TODO: Check to see if user is already in a game, if so delete that entry
       old_users = Cardgame.user_ids(game_id)
       Cardgame.where(game_id: game_id).update_all(user_ids: old_users.append(user_id))
 
       # Add new hand to the database
       # TODO: Check to see if user currently has a hand, if so delete that entry
+      if Hand.exists?(user_id: user_id)
+        Hand.delete.where(user_id: user_id)
+      end
       hand = Hand.create!({:user_id => user_id, :cards => "3"})
       old_hands = Cardgame.hand_ids(game_id)
       Cardgame.where(game_id: game_id).update_all(hand_ids: old_hands.append(hand.id))
