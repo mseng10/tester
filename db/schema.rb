@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201115203115) do
+ActiveRecord::Schema.define(version: 20201117032652) do
 
   create_table "cardgames", force: :cascade do |t|
     t.integer "game_id"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20201115203115) do
     t.string  "username"
     t.string  "password"
     t.string  "session_token"
+    t.integer "current_game"
   end
 
 end

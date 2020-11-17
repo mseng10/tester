@@ -1,8 +1,9 @@
 class LobbyController < ApplicationController
 
   def create
-    # TODO: Implement fixed game code length
-    # https://stackoverflow.com/questions/44031239/generating-random-number-of-length-6-with-securerandom-in-ruby
+    # TODO: Verify that a user is not in more than 1 game. If they are, force them to leave the current game.
+
+
     game_id = SecureRandom.random_number(9000) + 1000
 
     # Verifies unique game id
