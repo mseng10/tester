@@ -15,9 +15,8 @@ class LobbyController < ApplicationController
     discard = Deck.create!({:cards => "2"})
     hand = Hand.create!({:user_id => user_id, :cards => "3"})
 
-    # TODO: Update deck_ids and discard_ids to take a serializable array
     Cardgame.create!({ :game_id => game_id, :user_ids => [user_id],
-                           :deck_ids => deck.id.to_s + ',', :discard_ids => discard.id.to_s + ',',
+                           :deck_ids => [deck.id], :discard_ids => [discard.id],
                            :hand_ids => [hand.id], :started => false })
 
     redirect_to lobby_path(game_id)
