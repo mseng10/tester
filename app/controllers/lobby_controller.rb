@@ -1,8 +1,16 @@
 class LobbyController < ApplicationController
 
   def create
-    # TODO: Verify that a user is not in more than 1 game. If they are, force them to leave the current game.
+    # Verify that a user is not in more than 1 game. If they are, force them to leave the current game.
+    user_game_id = @current_user.select(:current_game).first.attributes.values[1]
+    if user_game_id != 0
+      flash[:notice] = "Please leave your current game before creating a new game."
 
+      # TODO: Redirect to game page that matches the Game ID
+      redirect_to lobby_path(user_game_id)
+
+      return
+    end
 
     game_id = SecureRandom.random_number(9000) + 1000
 
@@ -11,6 +19,7 @@ class LobbyController < ApplicationController
       game_id = SecureRandom.random_number(9000) + 1000
     end
 
+    @current_user.update_all(current_game: game_id)
     user_id = @current_user.select(:id).first.attributes.values[0]  # Gets the user id from current user
     deck = Deck.create!({:cards => "1"})
     discard = Deck.create!({:cards => "2"})
