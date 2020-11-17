@@ -1,5 +1,7 @@
 == README
 
+{<img src="https://github.com/UIOWAjohnsonhj/Team7_SELT2020/workflows/Rspec%20and%20Cucumber/badge.svg" alt="Code Climate">}[https://codeclimate.com/github/ruby/rdoc]
+
 Testing commit from branch -- another one -- another another one
 
 This README would normally document whatever steps are necessary to get the

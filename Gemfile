@@ -41,6 +41,7 @@ group :development, :test do
   gem 'rspec', '~>3.5'
   gem 'rspec-rails'
   gem 'guard-rspec'
+  gem 'knapsack_pro'
 end
 
 group :development do
