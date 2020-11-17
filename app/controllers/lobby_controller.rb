@@ -1,6 +1,6 @@
 class LobbyController < ApplicationController
 
-  def create
+  def check_if_in_game
     # Verify that a user is not in more than 1 game. If they are, force them to leave the current game.
     user_game_id = @current_user.select(:current_game).first.attributes.values[1]
     if user_game_id != 0
@@ -8,10 +8,20 @@ class LobbyController < ApplicationController
 
       # TODO: Redirect to game page that matches the Game ID
       redirect_to lobby_path(user_game_id)
+      true
+    else
+      false
+    end
+  end
 
+  private :check_if_in_game
+
+  def create
+    if check_if_in_game
       return
     end
 
+    # Initialize unique game ID
     game_id = SecureRandom.random_number(9000) + 1000
 
     # Verifies unique game id
@@ -33,8 +43,13 @@ class LobbyController < ApplicationController
   end
 
   def join
+    if check_if_in_game
+      return
+    end
+
     game_id = params[:game][:game_id]
     user_id = @current_user.select(:id).first.attributes.values[0]
+
     if Cardgame.exists?(game_id: game_id)
 
       # Add user to game table
