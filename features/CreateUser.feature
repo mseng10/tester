@@ -10,16 +10,21 @@ Feature: Allow new CardGame user to a user profile
     Then I should be on the Sign Up Page
 
   Scenario: Successful Signup
-    When I have opted to Sign-up with username "username2", email "username2@gmail.com" and password "password2"
+    When I have opted to Sign-up with username "username2", email "username2@gmail.com" password "password2" and password confirmation "password2"
     Then my account should be successfully created
     And I am on the login page
 
   Scenario: Unsuccessful Signup due to username
-    When I have opted to Sign-up with username "username1", email "username2@gmail.com" and password "password2"
+    When I have opted to Sign-up with username "username1", email "username2@gmail.com" password "password2" and password confirmation "password2"
     Then my account should not be successfully created due to the user-id
     And I should be on the Sign Up Page
 
   Scenario: Unsuccessful Signup due to email
-    When I have opted to Sign-up with username "username2", email "username1@gmail.com" and password "password2"
+    When I have opted to Sign-up with username "username2", email "username1@gmail.com" password "password2" and password confirmation "password2"
     Then my account should not be successfully created due to the email
+    And I should be on the Sign Up Page
+
+  Scenario: Unsuccessful Signup due to password mismatch
+    When I have opted to Sign-up with username "username2", email "username2@gmail.com" password "password2" and password confirmation "password1"
+    Then my account should not be successfully created due to the passwords
     And I should be on the Sign Up Page

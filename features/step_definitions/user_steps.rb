@@ -42,10 +42,11 @@ Then /^I should be on the Sign Up Page$/ do
   expect(page).to have_content('Sign-up')
 end
 
-When /^I have opted to Sign-up with username "(.+)", email "(.+)" and password "(.+)"$/ do |username, email, password|
+When /^I have opted to Sign-up with username "(.+)", email "(.+)" password "(.+)" and password confirmation "(.+)"$/ do |username, email, password, password2|
   fill_in "signupUser", with: username
   fill_in "signupEmail", with: email
   fill_in "signupPassword", with: password
+  fill_in "signuppasswordConfirmation", with: password2
   click_button 'Create my account'
 end
 
@@ -59,6 +60,10 @@ end
 
 Then /^my account should not be successfully created due to the email$/ do
   expect(page).to have_content('Sorry, email is already registered to an account. Please try a different one.')
+end
+
+Then /^my account should not be successfully created due to the passwords$/ do
+  expect(page).to have_content('Sorry, the passwords you have entered do not match. Please try again.')
 end
 
 Then /^my account should be successfully logged in$/ do
