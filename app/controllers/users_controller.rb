@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   def user_params
-    params.require(:user).permit(:username, :password)
+    params.require(:user).permit(:username, :email, :password)
   end
 
   def show
@@ -19,7 +19,11 @@ class UsersController < ApplicationController
   def create
 
     if User.exists?(username: user_params[:username])
-      flash[:notice] = "Sorry, this user-id is taken. Try again"
+      flash[:notice] = "Sorry, this user-id is taken. Please try again"
+      redirect_to new_user_path
+      return
+    elsif User.exists?(email: user_params[:email])
+      flash[:notice] = "Sorry, email is already registered to an account. Please try a different one."
       redirect_to new_user_path
       return
     end
