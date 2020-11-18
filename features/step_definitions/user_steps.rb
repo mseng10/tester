@@ -10,6 +10,7 @@ Given /the following users have been added to the database:/ do |users_table|
   size = User.all.size
   users_table.hashes.each do |user|
     User.create(:username => user[:username],
+                :email => user[:email],
                 :password => user[:password])
   end
   expect(User.all.size).to equal(size+1)
@@ -41,9 +42,10 @@ Then /^I should be on the Sign Up Page$/ do
   expect(page).to have_content('Sign-up')
 end
 
-When /^I have opted to Sign-up with username "(.+)" and password "(.+)"$/ do |username, password|
+When /^I have opted to Sign-up with username "(.+)", email "(.+)" and password "(.+)"$/ do |username, email, password|
   fill_in "signupUser", with: username
-  fill_in "signupEmail", with: password
+  fill_in "signupEmail", with: email
+  fill_in "signupPassword", with: password
   click_button 'Create my account'
 end
 
@@ -51,8 +53,12 @@ Then /^my account should be successfully created$/ do
   expect(page).to have_content('Your account has been created.')
 end
 
-Then /^my account should not be successfully created$/ do
-  expect(page).to have_content('Sorry, this user-id is taken. Try again')
+Then /^my account should not be successfully created due to the user-id$/ do
+  expect(page).to have_content('Sorry, this user-id is taken. Please try again')
+end
+
+Then /^my account should not be successfully created due to the email$/ do
+  expect(page).to have_content('Sorry, email is already registered to an account. Please try a different one.')
 end
 
 Then /^my account should be successfully logged in$/ do
