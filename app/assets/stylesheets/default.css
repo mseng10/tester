@@ -47,3 +47,6 @@ form label {
     font-weight: bold;
     color: maroon;
 }
+table#user_hand_cards td {
+    font-size: 100px;
+}

@@ -1,10 +1,17 @@
 <h1>"Hello"</h1>
-<p></p>
-<p style = "font-size:50px">
-  <div id = "content">
-    <%= @user_hand_card_values.join().html_safe%>
-  </div>
-</p>
+
+<table class="table table-striped col-md-12" id="user_hand_cards">
+  <tbody>
+  <tr>
+    <% @user_hand_card_values.each do |card| %>
+      <td>
+        <%= raw(card) %>
+      </td>
+      </tr>
+    <% end %>
+    </tbody>
+</table>
+
 
 
 
