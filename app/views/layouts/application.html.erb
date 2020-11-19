@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"></link>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <title>Selt2020G7Cardgameproject</title>
   <%= stylesheet_link_tag 'application', 'media' => 'all' %>
   <%= javascript_include_tag 'application' %>
@@ -11,9 +11,9 @@
   <div class="navbar navbar-expand-lg bg-primary text-white">
     <h1 class="title">Selt2020G7Cardgameproject</h1>
     <% if !(@current_user) %>
-      <%= button_to'Sign up/Login', login_path, method: :get, id: 'signupLogin'%>
+      <%= button_to'Sign up/Login', login_path,:class => "btn btn-light" ,method: :get, id: 'signupLogin'%>
     <% else %>
-      <%= button_to'Log Out', logout_path, method: :delete, id: 'logout'%>
+      <%= button_to'Log Out', logout_path,:class => "btn btn-light", method: :delete, id: 'logout'%>
     <% end %>
   </div>
   <div id="main">

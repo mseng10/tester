@@ -10,6 +10,9 @@ div#main {
     margin: 0;
     padding: 0 20px 20px;
 }
+div#content {
+    font-size: 100px;
+}
 a {
     background: transparent;
     color: maroon;
@@ -43,4 +46,14 @@ form label {
     line-height: 25px;
     font-weight: bold;
     color: maroon;
+}
+table#user_hand_cards tr {
+    font-size: 100px;
+    width: 30px;
+    align: center;
+}
+#user_hand_cards {
+    bottom: 20px;
+}
+#testing_div{
 }
