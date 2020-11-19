@@ -47,6 +47,15 @@ form label {
     font-weight: bold;
     color: maroon;
 }
-table#user_hand_cards td {
+table#user_hand_cards tr {
     font-size: 100px;
+    width: 30px;
+    align: center;
+}
+#user_hand_cards {
+    bottom: 20px;
+}
+#testing_div{
+    position: relative;
+    bottom: 0;
 }

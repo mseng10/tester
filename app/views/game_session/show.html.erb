@@ -1,17 +1,16 @@
 <h1>"Hello"</h1>
 
-<table class="table table-striped col-md-12" id="user_hand_cards">
+<div style="position: absolute; bottom:0px;", id = "testing_div">
+<table class="user_hand_cards" id="user_hand_cards">
   <tbody>
-  <tr>
     <% @user_hand_card_values.each do |card| %>
       <td>
         <%= raw(card) %>
       </td>
-      </tr>
     <% end %>
     </tbody>
 </table>
-
+</div>
 
 
 
