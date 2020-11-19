@@ -1,6 +1,6 @@
 name: Rspec and Cucumber
 
-on: [push]
+on: [push, pull_request]
 
 #This was adopted from the free to use tutorial here:
 #https://docs.knapsackpro.com/2019/how-to-run-rspec-on-github-actions-for-ruby-on-rails-app-using-parallel-jobs

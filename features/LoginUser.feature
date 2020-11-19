@@ -3,8 +3,8 @@ Feature: Allow CardGame user to create a user game
   Background: I select the Login/Sign up page
 
     Given the following users have been added to the database:
-      | username  | password  |
-      | username1 | password1 |
+      | username  | email               | password  |
+      | username1 | username1@gmail.com | password1 |
     And I am on the login page
     Then I should be on the login page
 
