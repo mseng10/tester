@@ -1,3 +1,56 @@
 <h1>Please create a new game below!</h1>
 
-<%= button_to 'Go to Lobby', '/lobby' %>
+<%= form_for '/lobby', :url => '/lobby', :method => :post do %>
+  <div class="game-settings">
+    <b>Choose number of decks:</b>
+    <div class="deck-settings">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="1 deck" id="1d" value="option1" checked>
+        <label class="form-check-label" for="1 deck">
+          1 deck
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="2 decks" id="2d" value="option2">
+        <label class="form-check-label" for="2 decks">
+          2 decks
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="3 decks" id="3d" value="option3">
+        <label class="form-check-label" for="3 decks">
+          3 decks
+        </label>
+      </div>
+    </div>
+  <br>
+    <b>Choose number of sinks:</b>
+    <div class="sink-settings">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="1 sink" id="1s" value="option1" checked>
+        <label class="form-check-label" for="1 sink">
+          1 sink
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="2 sinks" id="2s" value="option2">
+        <label class="form-check-label" for="2 sinks">
+          2 sinks
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="3 sinks" id="3s" value="option3">
+        <label class="form-check-label" for="3 sinks">
+          3 sinks
+        </label>
+      </div>
+    </div>
+    <br>
+    <b> Enter starting hand size: </b>
+    <br>
+    <%= text_field :start_hand_size, :class => 'form-control', :id => 'start_hand_id' %>
+  </div>
+<br>
+
+  <%= submit_tag 'Go to Lobby', :class => 'btn btn-primary', :id => 'lobby_submit' %>
+<% end %>
