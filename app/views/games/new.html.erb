@@ -48,12 +48,9 @@
     <br>
     <b> Enter starting hand size: </b>
     <br>
-    <%#= label :start_hand_size, 'Starting hand size', :class => 'col-form-label' %>
     <%= text_field :start_hand_size, :class => 'form-control', :id => 'start_hand_id' %>
   </div>
 <br>
 
   <%= submit_tag 'Go to Lobby', :class => 'btn btn-primary', :id => 'lobby_submit' %>
 <% end %>
-
-<%#= button_to 'Go to Lobby', '/lobby' %>
