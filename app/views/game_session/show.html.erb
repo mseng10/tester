@@ -1,4 +1,4 @@
-<div style="position: absolute; bottom:0px; text-align:center; margin: auto;", id = "testing_div">
+<div style="position: fixed; left: 50%; bottom: 0px; transform: translate(-50%, -50%); margin: 0 auto;", id = "testing_div">
 <table class="user_hand_cards" id="user_hand_cards">
   <tbody>
     <% @user_hand_card_values.each do |card| %>
@@ -6,7 +6,7 @@
         <%= raw(card) %>
       </td>
     <% end %>
-    </tbody>
+  </tbody>
 </table>
 </div>
 
