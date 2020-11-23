@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   def User::players_in_game(game_id)
     user_ids = Cardgame.find_by(game_id: game_id).user_ids
     usernames = []
-    user_ids.each { |user_id| usernames >> User.where(id: user_id).pluck(:username)[0] }
-    usernames.join('\n')
+    user_ids.each { |user_id| usernames << User.where(id: user_id).pluck(:username)[0] }
+    usernames.join(', ')
   end
 end

@@ -2,5 +2,7 @@
 
 <!-- TODO: Check the implementation of this -->
 <%= button_to  'Start Game', game_session_path, method: :get, :class => 'btn btn-success'%>
-<%= 'Game ID = ' + request.original_url.split(//).last(4).join %>
-<%= 'Players' %>
+<h3><%= 'Game ID = ' + request.original_url.split(//).last(4).join %></h3>
+<br><h4>Players:
+  <br><%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>
+</h4>
