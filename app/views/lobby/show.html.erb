@@ -6,11 +6,13 @@
 <br><h4>Players:</h4>
 <h4 id="usernames">
   <script type="text/javascript">
-      setInterval("refresh_usernames()", 1000)
+      document.getElementById("usernames").innerHTML =
+          '<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>';
+
+      setInterval("refresh_usernames()", 5000)
 
       function refresh_usernames() {
-          document.getElementById("usernames").innerHTML =
-              '<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>'
+          window.location.reload();
       }
   </script>
 </h4>
