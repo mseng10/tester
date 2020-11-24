@@ -18,7 +18,7 @@
                   $('#usernames').html('<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>')
               },
               complete: function() {
-                  setTimeout(refresh_usernames, 7000);
+                  setTimeout(refresh_usernames, 5000);
               }
           });
       })();
