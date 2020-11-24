@@ -6,17 +6,22 @@
 <br><h3>Players:</h3>
 <h4 id="usernames">
   <script type="text/javascript">
+
       document.getElementById("usernames").innerHTML =
           '<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>';
 
-      setInterval("refresh_usernames()", 10000)
+      (function refresh_usernames() {
+          $.ajax({
+              url: '/lobby',
+              type: 'POST',
+              success: function() {
+                  $('#usernames').html('<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>')
+              },
+              complete: function() {
+                  setTimeout(refresh_usernames, 7000);
+              }
+          });
+      })();
 
-      function refresh_usernames() {
-          $.ajax({url: '/lobby', type: 'POST', success: function() {
-                  document.getElementById("usernames").innerHTML =
-                      '<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>';
-                  $("#usernames").load(location.href+" #usernames>*","");
-              }})
-      }
   </script>
 </h4>
