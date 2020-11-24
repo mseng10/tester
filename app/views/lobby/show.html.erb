@@ -9,10 +9,14 @@
       document.getElementById("usernames").innerHTML =
           '<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>';
 
-      setInterval("refresh_usernames()", 5000)
+      setInterval("refresh_usernames()", 10000)
 
       function refresh_usernames() {
-          window.location.reload();
+          $.ajax({url: '/lobby', type: 'POST', success: function() {
+                  document.getElementById("usernames").innerHTML =
+                      '<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>';
+                  $("#usernames").load(location.href+" #usernames>*","");
+              }})
       }
   </script>
 </h4>
