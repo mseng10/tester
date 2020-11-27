@@ -13,3 +13,8 @@
  *= require_tree .
  *= require_self
  */
+
+.highlight
+{
+    border-bottom: 2px solid deepskyblue;
+}
