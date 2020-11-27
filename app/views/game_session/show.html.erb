@@ -1,9 +1,11 @@
-<div style="position: fixed; left: 50%; bottom: 0px; transform: translate(-50%, -50%); margin: 0 auto;", id = "testing_div">
+<div style="position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, -50%); margin: 0 auto;", id = "testing_div">
 <table class="user_hand_cards" id="user_hand_cards">
   <tbody>
     <% @user_hand_card_values.each do |card| %>
       <td>
-        <%= raw(card) %>
+        <div style="height: 110px;" class = "user_card">
+          <%= raw(card) %>
+        </div>
       </td>
     <% end %>
   </tbody>
