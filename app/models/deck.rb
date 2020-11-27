@@ -12,5 +12,14 @@ class Deck < ActiveRecord::Base
     end
     return deck_ids
   end
+
+  def Deck::create_sinks(number)
+    deck_ids = []
+    for deck in 1..number.to_i
+      curr_deck = create!({:cards => []})
+      deck_ids.append(curr_deck.id)
+    end
+    return deck_ids
+  end
 end
 
