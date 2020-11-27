@@ -73,13 +73,15 @@ class GameSessionController < ApplicationController
     return user_hand_card_values
   end
 
+  def new
+    game_id = @current_user.select(:current_game).first.attributes.values[1]
+    Cardgame.where(game_id: game_id).update_all(started: true)
+    redirect_to game_session_path(game_id)
+  end
+
   def show
     user_id = @current_user.select(:id).first.attributes.values[0]
     @user_hand_card_values = hash_return(Hand.where(user_id: user_id).select(:cards).first.attributes.values[1].split(','))
     puts(@user_hand_card_values.to_s)
-
-    game_id = @current_user.pluck(:current_game)[0]
-
-    Cardgame.where(game_id: game_id).update_all(started: true)
   end
 end
