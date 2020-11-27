@@ -18,3 +18,11 @@
 {
     border-bottom: 2px solid deepskyblue;
 }
+
+.game_buttons{
+    position: fixed;
+    left: 50%;
+    bottom: 0px;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+}
