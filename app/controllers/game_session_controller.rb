@@ -79,18 +79,32 @@ class GameSessionController < ApplicationController
     redirect_to game_session_path(game_id)
   end
 
+  #TODO: MAKE THE WEBPAGE REFRESH
   def show
+    unless @current_game
+      redirect_to games_path
+      return
+    end
     user_id = @current_user.select(:id).first.attributes.values[0]
     @user_hand_card_values = hash_return(Hand.where(user_id: user_id).select(:cards).first.attributes.values[1].split(','))
 
     deck_ids = @current_game.deck_ids
     sink_ids = @current_game.discard_ids
 
+
+
   end
 
+
   def destroy
-    user_ids = Cardgame.user_ids(@current_user.select(:current_game).first.attributes.values[1])
-    User.where(id: user_ids).update_all(current_game: 0)
+    game_id = @current_user.select(:current_game).first.attributes.values[1]
+    if @current_game
+      user_ids = Cardgame.user_ids(game_id)
+      User.where(id: user_ids).update_all(current_game: 0)
+      Cardgame.where(game_id: game_id).update_all(started: false )
+    end
+    #TODO: Remove the game from the database.
+
     # user_ids.each do |id|
     #   User.where(id: id).update_all(current_game: 0)
     # end
