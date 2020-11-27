@@ -1,10 +1,19 @@
 class ApplicationController < ActionController::Base
-  before_filter :set_current_user
+  before_filter :set_current_user, :set_current_game
   after_filter :flash_to_headers
   protect_from_forgery with: :exception
 
   def set_current_user
     @current_user ||= session[:session_token] && User.where(session_token: session[:session_token])
+  end
+
+  def set_current_game
+    if @current_user
+      if @current_user.select(:current_game).first.attributes.values[1]
+        id = @current_user.select(:current_game).first.attributes.values[1]
+        @current_game = Cardgame.where(game_id: id, started: true).first
+      end
+    end
   end
 
   def flash_to_headers
