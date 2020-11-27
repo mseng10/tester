@@ -87,4 +87,13 @@ class GameSessionController < ApplicationController
     sink_ids = @current_game.discard_ids
 
   end
+
+  def destroy
+    user_ids = Cardgame.user_ids(@current_user.select(:current_game).first.attributes.values[1])
+    User.where(id: user_ids).update_all(current_game: 0)
+    # user_ids.each do |id|
+    #   User.where(id: id).update_all(current_game: 0)
+    # end
+    redirect_to games_path
+  end
 end
