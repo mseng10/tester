@@ -29,7 +29,7 @@ class LobbyController < ApplicationController
       game_id = SecureRandom.random_number(9000) + 1000
     end
 
-    @current_user.update_all(current_game: game_id)
+    User.where(id: @current_user.select(:id).first.attributes.values[0]).update_all(current_game: game_id)
     user_id = @current_user.select(:id).first.attributes.values[0]  # Gets the user id from current user
     deck_ids = Deck.create_decks(params[:deck])
     discard_ids = Deck.create_sinks(params[:sink])
