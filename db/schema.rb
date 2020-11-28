@@ -13,14 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20201118035821) do
 
-  create_table "card_games", force: :cascade do |t|
-    t.integer "game_id"
-    t.string  "user_ids"
-    t.string  "deck_ids"
-    t.string  "discard_ids"
-    t.string  "hand_ids"
-  end
-
   create_table "cardgames", force: :cascade do |t|
     t.integer "game_id"
     t.string  "user_ids"

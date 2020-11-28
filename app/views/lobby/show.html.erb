@@ -1,5 +1,33 @@
 <h1> Lobby </h1>
 
 <!-- TODO: Check the implementation of this -->
-<%= button_to  'Start Game', game_session_path, method: :get, :class => 'btn btn-success'%>
-<%= 'Game ID = ' + request.original_url.split(//).last(4).join %>
+<%= button_to  'Start Game', game_session_path, method: :get, :class => 'btn btn-success', :id => 'start_game_button'%>
+<h3><%= 'Game ID = ' + request.original_url.split(//).last(4).join %></h3>
+<br><h3>Players:</h3>
+<h4 id="usernames">
+  <script type="text/javascript">
+
+      document.getElementById("usernames").innerHTML =
+          '<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>';
+
+      (function refresh_usernames() {
+          let started = <%= Cardgame.where(game_id: request.original_url.split(//).last(4).join.to_i).pluck(:started)[0] %>
+          if (started) {
+              document.getElementById("start_game_button").click();
+          }
+          else {
+              $.ajax({
+                  url: '/lobby',
+                  type: 'POST',
+                  success: function() {
+                      $('#usernames').html('<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>')
+                  },
+                  complete: function() {
+                      setTimeout(refresh_usernames, 5000);
+                  }
+              });
+          }
+      })();
+
+  </script>
+</h4>

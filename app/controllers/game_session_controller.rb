@@ -78,5 +78,8 @@ class GameSessionController < ApplicationController
     @user_hand_card_values = hash_return(Hand.where(user_id: user_id).select(:cards).first.attributes.values[1].split(','))
     puts(@user_hand_card_values.to_s)
 
+    game_id = @current_user.pluck(:current_game)[0]
+
+    Cardgame.where(game_id: game_id).update_all(started: true)
   end
 end

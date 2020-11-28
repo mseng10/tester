@@ -50,6 +50,13 @@ class LobbyController < ApplicationController
     game_id = params[:game][:game_id]
     user_id = @current_user.select(:id).first.attributes.values[0]
 
+    # Prevent users from joining a game that has already started
+    if Cardgame.where(game_id: game_id).pluck(:started)[0]
+      flash[:notice] = 'You cannot join a game that has already started.'
+      redirect_to games_path
+      return
+    end
+
     if Cardgame.exists?(game_id: game_id)
       # Update the user's current game
       @current_user.update_all(current_game: game_id)
