@@ -2,9 +2,9 @@ class Deck < ActiveRecord::Base
 
   def Deck::create_decks(number,shuffled,jokers)
     deck_ids = []
-    final_value = 56
-    if shuffled.to_s == "on"
-      final_value = 58
+    final_value = 52
+    if jokers.to_s == "on"
+      final_value = 54
     end
     for deck in 1..number.to_i
       cards = []
