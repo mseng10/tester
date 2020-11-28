@@ -1,10 +1,14 @@
 class Deck < ActiveRecord::Base
 
-  def Deck::create_decks(number,shuffled)
+  def Deck::create_decks(number,shuffled,jokers)
     deck_ids = []
+    final_value = 56
+    if shuffled.to_s == "on"
+      final_value = 58
+    end
     for deck in 1..number.to_i
       cards = []
-      for card in 1..59 do
+      for card in 1..final_value do
         cards.append(card.to_s)
       end
       if shuffled.to_s == "on"
