@@ -31,13 +31,13 @@ class LobbyController < ApplicationController
 
     User.where(id: @current_user.select(:id).first.attributes.values[0]).update_all(current_game: game_id)
     user_id = @current_user.select(:id).first.attributes.values[0]  # Gets the user id from current user
-    deck_ids = Deck.create_decks(params[:deck], params[:shuffle], params[:jokers])
+    deck_ids = Deck.create_decks(params[:deck], params[:shuffle],params[:jokers])
     discard_ids = Deck.create_sinks(params[:sink])
-    hand = Hand.create!({:user_id => user_id, :cards => "3,4,5,6"})
+    hand_ids = Hand.create_hand(params[:hand_size].to_i, deck_ids[0], user_id)
 
     Cardgame.create!({ :game_id => game_id, :user_ids => [user_id],
                            :deck_ids => deck_ids, :discard_ids => discard_ids,
-                           :hand_ids => [hand.id], :started => false })
+                           :hand_ids => hand_ids, :started => false })
 
     redirect_to lobby_path(game_id)
   end
