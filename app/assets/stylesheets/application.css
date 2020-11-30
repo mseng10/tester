@@ -48,6 +48,24 @@
     color: darkred;
 }
 
+.other_users_card_black{
+    display: block;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    font-size: 30px;
+    color: black;
+}
+
+.other_users_card_red{
+    display: block;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    font-size: 30px;
+    color: darkred;
+}
+
 .game_buttons{
     position: fixed;
     left: 50%;
