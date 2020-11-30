@@ -1,3 +1,19 @@
+<div style="position: fixed; left: 50%; transform: translate(-50%, -50%); margin: 0 auto;", id = "other_user_hands">
+  <% @user_cards_hash.each do |key, value| %>
+    <ul>
+      <li class = "username"><%= value[:username] %></li>
+      <% value[:cards].each do |card| %>
+        <% if card[0] == "R"%>
+          <li class = "user_card_red"><%= raw(card.gsub("R",""))%></li>
+        <% elsif card[0] == "B"%>
+          <li class = "user_card_black"><%= raw(card.gsub("B",""))%></li>
+        <% end %>
+      <% end %>
+    </ul>
+    <br>
+  <% end %>
+</div>
+
 <div style="position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, -50%); margin: 0 auto;", id = "testing_div">
   <ul>
     <% @user_hand_card_values.each do |card| %>
