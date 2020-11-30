@@ -91,6 +91,7 @@ class GameSessionController < ApplicationController
 
     deck_ids = @current_game.deck_ids
     sink_ids = @current_game.discard_ids
+    hand_ids = Hand.where(:user_id => user_id).first[:cards]
 
   end
 
