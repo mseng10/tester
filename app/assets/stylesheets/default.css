@@ -47,8 +47,11 @@ form label {
     font-weight: bold;
     color: maroon;
 }
-table#user_hand_cards tr {
-    font-size: 80px;
-    width: 30px;
-    vertical-align: text-bottom;
+
+ul{
+    list-style-type: none;
+    height: 40px;
+}
+li {
+    float: left;
 }

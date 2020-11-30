@@ -1,15 +1,13 @@
 <div style="position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, -50%); margin: 0 auto;", id = "testing_div">
-<table class="user_hand_cards" id="user_hand_cards">
-  <tbody>
+  <ul>
     <% @user_hand_card_values.each do |card| %>
-      <td>
-        <div style="height: 110px;" class = "user_card">
-          <%= raw(card) %>
-        </div>
-      </td>
+      <% if card[0] == "R"%>
+        <li class = "user_card_red"><%= raw(card.gsub("R",""))%></li>
+      <% elsif card[0] == "B"%>
+        <li class = "user_card_black"><%= raw(card.gsub("B",""))%></li>
+      <% end %>
     <% end %>
-  </tbody>
-</table>
+  </ul>
 </div>
 
 <div class = "game_buttons">
