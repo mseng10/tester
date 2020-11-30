@@ -67,7 +67,11 @@ class GameSessionController < ApplicationController
     }
     user_hand_card_values = []
     for i in cards
-      user_hand_card_values.append(@card_value[i.to_i])
+      if i.to_i == 53 or (i.to_i >=14 and i.to_i <= 39)
+        user_hand_card_values.append("R"+@card_value[i.to_i])
+      else
+        user_hand_card_values.append("B"+@card_value[i.to_i])
+      end
     end
 
     return user_hand_card_values

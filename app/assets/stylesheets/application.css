@@ -14,9 +14,38 @@
  *= require_self
  */
 
-.highlight
-{
+.user_card_black:hover {
     border-bottom: 2px solid deepskyblue;
+}
+
+.user_card_black:active, #user_card:focus {
+    border-bottom: 2px solid limegreen;
+}
+
+.user_card_red:hover {
+    border-bottom: 2px solid deepskyblue;
+}
+
+.user_card_red:active, #user_card:focus {
+    border-bottom: 2px solid limegreen;
+}
+
+.user_card_black{
+    display: block;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    font-size: 60px;
+    color: black;
+}
+
+.user_card_red{
+    display: block;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    font-size: 60px;
+    color: darkred;
 }
 
 .game_buttons{
