@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201118035821) do
+ActiveRecord::Schema.define(version: 20201130021459) do
 
   create_table "cardgames", force: :cascade do |t|
     t.integer "game_id"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20201118035821) do
     t.string  "discard_ids"
     t.string  "hand_ids"
     t.boolean "started"
+    t.integer "hand_size"
   end
 
   create_table "decks", force: :cascade do |t|
