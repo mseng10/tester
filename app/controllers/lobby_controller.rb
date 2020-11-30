@@ -23,6 +23,11 @@ class LobbyController < ApplicationController
 
     # Initialize unique game ID
     game_id = SecureRandom.random_number(9000) + 1000
+    user_id = @current_user.select(:id).first.attributes.values[0]
+
+    if Hand.exists?(user_id: user_id)
+      Hand.where(user_id: user_id).destroy_all
+    end
 
     # Verifies unique game id
     while Cardgame.exists?(game_id: game_id)
@@ -30,7 +35,6 @@ class LobbyController < ApplicationController
     end
 
     User.where(id: @current_user.select(:id).first.attributes.values[0]).update_all(current_game: game_id)
-    user_id = @current_user.select(:id).first.attributes.values[0]  # Gets the user id from current user
     deck_ids = Deck.create_decks(params[:deck], params[:shuffle],params[:jokers])
     discard_ids = Deck.create_sinks(params[:sink])
     hand_ids = Hand.create_hand(params[:hand_size].to_i, deck_ids, user_id)
@@ -66,10 +70,9 @@ class LobbyController < ApplicationController
       old_users = Cardgame.user_ids(game_id)
       Cardgame.where(game_id: game_id).update_all(user_ids: old_users.append(user_id))
 
-      # Add new hand to the database
-      # TODO: Check to see if user currently has a hand, if so delete that entry
+
       if Hand.exists?(user_id: user_id)
-        Hand.delete.where(user_id: user_id)
+        Hand.where(user_id: user_id).destroy_all
       end
 
       hand = Hand.create_hand(Cardgame.where(game_id: game_id).first[:hand_size], Cardgame.deck_ids(game_id)[0], user_id)
