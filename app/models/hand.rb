@@ -5,8 +5,12 @@ class Hand < ActiveRecord::Base
     hand_id = []
     hands_cards = []
     for card in 1..number do
-      card = cards.pop
-      hands_cards.append(card)
+      if cards.length > 0
+        card = cards.pop
+        hands_cards.append(card)
+      else
+        flash[:notice] = 'Cannot create a hand of set size because the deck is out of cards'
+      end
     end
     Deck.where(id: deck_id).update_all(cards: cards.join(','))
     hand = create!({:user_id => user_id, :cards => hands_cards.join(',')})
