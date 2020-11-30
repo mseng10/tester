@@ -95,7 +95,7 @@ class GameSessionController < ApplicationController
     @user_id_list = @current_game.user_ids
     @user_cards_hash = {}
     @user_id_list.each do |other_user_id|
-      username = User.where(id: other_user_id).pluck(:username)
+      username = User.where(id: other_user_id).pluck(:username)[0]
       cards = hash_return(Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1].split(','))
       @user_cards_hash[other_user_id] = { :username => username, :cards => cards }
     end
