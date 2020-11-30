@@ -53,10 +53,16 @@
         </label>
       </div>
     </div>
-    <br>
-    <b> Enter starting hand size: </b>
-    <br>
-    <%= text_field :start_hand_size, :class => 'form-control', :id => 'start_hand_id' %>
+    <div class="form-group">
+      <label for="starting_hand_size">Select starting hand size:</label>
+      <select class="form-control" name = "hand_size" id="starting_hand_size">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div>
   </div>
 <br>
 

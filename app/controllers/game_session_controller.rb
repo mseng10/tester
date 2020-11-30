@@ -91,8 +91,6 @@ class GameSessionController < ApplicationController
     deck_ids = @current_game.deck_ids
     sink_ids = @current_game.discard_ids
 
-
-
   end
 
 
