@@ -4,9 +4,9 @@
       <li class = "username"><%= value[:username] %></li>
       <% value[:cards].each do |card| %>
         <% if card[0] == "R"%>
-          <li class = "user_card_red"><%= raw(card.gsub("R",""))%></li>
+          <li class = "other_users_card_red"><%= raw(card.gsub("R",""))%></li>
         <% elsif card[0] == "B"%>
-          <li class = "user_card_black"><%= raw(card.gsub("B",""))%></li>
+          <li class = "other_users_card_black"><%= raw(card.gsub("B",""))%></li>
         <% end %>
       <% end %>
     </ul>
