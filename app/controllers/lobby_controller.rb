@@ -31,7 +31,7 @@ class LobbyController < ApplicationController
 
     User.where(id: @current_user.select(:id).first.attributes.values[0]).update_all(current_game: game_id)
     user_id = @current_user.select(:id).first.attributes.values[0]  # Gets the user id from current user
-    deck_ids = Deck.create_decks(params[:deck])
+    deck_ids = Deck.create_decks(params[:deck], params[:shuffle], params[:jokers])
     discard_ids = Deck.create_sinks(params[:sink])
     hand = Hand.create!({:user_id => user_id, :cards => "3,4,5,6"})
 
