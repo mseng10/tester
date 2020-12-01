@@ -12,5 +12,25 @@
 </table>
 </div>
 
+<div class = "game_buttons">
+  <%= button_to  'End Game', game_session_path, method: :delete, :class => 'btn btn-danger', :id => "end_game_button"%>
+</div>
+
+
+<h4 id="end game">
+<script type="text/javascript">
+    (function end_game() {
+            $.ajax({
+                url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %>,
+                type: 'GET',
+                complete: function() {
+                    setTimeout(end_game, 5000);
+                }
+            });
+    })();
+
+</script>
+</h4>
+
 
 
