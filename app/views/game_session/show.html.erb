@@ -28,23 +28,14 @@
   </div>
 </div>
 
-<!--<div style="position: fixed; left: 10%; top: 200px; transform: translate(-50%, -50%); margin: 0 auto;" , id="sinks">-->
-  <%# @user_cards_hash.each do |key, value| %>
-    <%# if key != @current_user.select(:id).first.attributes.values[0] %>
-<!--      <ul>-->
-<!--        <li class="username"><%#= value[:username] %></li>-->
-        <%# value[:cards].each do |card| %>
-          <%# if card[0] == "R" %>
-<!--            <li class="other_users_card_red"><%#= raw(card.gsub("R", "")) %></li>-->
-          <%# elsif card[0] == "B" %>
-<!--            <li class="other_users_card_black"><%#= raw(card.gsub("B", "")) %></li>-->
-          <%# end %>
-        <%# end %>
-<!--      </ul>-->
-<!--      <br>-->
-    <%# end %>
-  <%# end %>
-<!--</div>-->
+<div class="container">
+  <h3 style="position: fixed; right: 7%; top: 375px; transform: translate(-50%, -50%); margin: 0 auto;"> Discard Pile </h3>
+  <div style="position: fixed; right: 10%; top: 450px; transform: translate(-50%, -50%); margin: 0 auto;" , id="sinks">
+    <ul>
+      <li class="empty_sink"> &#127136 </li>
+    </ul>
+  </div>
+</div>
 
 <div style="position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, -50%); margin: 0 auto;", id = "testing_div">
   <ul>
