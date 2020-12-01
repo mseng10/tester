@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     if @current_user
       if @current_user.select(:current_game).first.attributes.values[1]
         id = @current_user.select(:current_game).first.attributes.values[1]
-        @current_game = Cardgame.where(game_id: id, started: true).first
+        @current_game = Cardgame.where(game_id: id, started: true)
       end
     end
   end
