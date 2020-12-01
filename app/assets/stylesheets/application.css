@@ -93,8 +93,8 @@
 #table{
     /*background-image: url(table.svg);*/
     background: url('table.svg');
-    height: 60%;
-    width: 50%;
+    height: 80%;
+    width: 60%;
     overflow: visible;
     margin: auto;
     display: inline-block;
