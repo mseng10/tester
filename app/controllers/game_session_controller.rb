@@ -67,7 +67,11 @@ class GameSessionController < ApplicationController
     }
     user_hand_card_values = []
     for i in cards
-      user_hand_card_values.append(@card_value[i.to_i])
+      if i.to_i == 53 or (i.to_i >=14 and i.to_i <= 39)
+        user_hand_card_values.append("R"+@card_value[i.to_i])
+      else
+        user_hand_card_values.append("B"+@card_value[i.to_i])
+      end
     end
 
     return user_hand_card_values
@@ -88,6 +92,13 @@ class GameSessionController < ApplicationController
     end
     user_id = @current_user.select(:id).first.attributes.values[0]
     @user_hand_card_values = hash_return(Hand.where(user_id: user_id).select(:cards).first.attributes.values[1].split(','))
+    @user_id_list = @current_game.user_ids
+    @user_cards_hash = {}
+    @user_id_list.each do |other_user_id|
+      username = User.where(id: other_user_id).pluck(:username)[0]
+      cards = hash_return(Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1].split(','))
+      @user_cards_hash[other_user_id] = { :username => username, :cards => cards }
+    end
 
     deck_ids = @current_game.deck_ids
     sink_ids = @current_game.discard_ids

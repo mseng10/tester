@@ -1,15 +1,31 @@
-<div style="position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, -50%); margin: 0 auto;", id = "testing_div">
-<table class="user_hand_cards" id="user_hand_cards">
-  <tbody>
-    <% @user_hand_card_values.each do |card| %>
-      <td>
-        <div style="height: 110px;" class = "user_card">
-          <%= raw(card) %>
-        </div>
-      </td>
+<div style="position: fixed; left: 10%; top: 200px; transform: translate(-50%, -50%); margin: 0 auto;" , id="other_user_hands">
+  <% @user_cards_hash.each do |key, value| %>
+    <% if key != @current_user.select(:id).first.attributes.values[0] %>
+      <ul>
+        <li class="username"><%= value[:username] %></li>
+        <% value[:cards].each do |card| %>
+          <% if card[0] == "R" %>
+            <li class="other_users_card_red"><%= raw(card.gsub("R", "")) %></li>
+          <% elsif card[0] == "B" %>
+            <li class="other_users_card_black"><%= raw(card.gsub("B", "")) %></li>
+          <% end %>
+        <% end %>
+      </ul>
+      <br>
     <% end %>
-  </tbody>
-</table>
+  <% end %>
+</div>
+
+<div style="position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, -50%); margin: 0 auto;", id = "testing_div">
+  <ul>
+    <% @user_hand_card_values.each do |card| %>
+      <% if card[0] == "R"%>
+        <li class = "user_card_red"><%= raw(card.gsub("R",""))%></li>
+      <% elsif card[0] == "B"%>
+        <li class = "user_card_black"><%= raw(card.gsub("B",""))%></li>
+      <% end %>
+    <% end %>
+  </ul>
 </div>
 
 <div class = "game_buttons">

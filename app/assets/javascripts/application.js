@@ -19,15 +19,3 @@ $(document).ajaxError(function(event, request) {
     var msg = request.getResponseHeader('X-Message');
     if (msg) alert(msg);
 });
-
-$(document).ready(function() {
-    var user_card = $('.user_card');
-    user_card.on("mouseover",function()
-    {
-        if($(this).hasClass('highlight') === false)
-            $(this).addClass('highlight');
-    }).on("mouseleave",function()
-    {
-        $(this).removeClass('highlight');
-    });
-});
