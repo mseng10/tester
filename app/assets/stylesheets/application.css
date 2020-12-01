@@ -14,19 +14,19 @@
  *= require_self
  */
 
-.user_card_black:hover {
+.user_card_black:hover, .other_users_card_black:hover {
     border-bottom: 2px solid deepskyblue;
 }
 
-.user_card_black:active, #user_card:focus {
+.user_card_black:active, .other_users_card_black:active, #user_card:focus {
     border-bottom: 2px solid limegreen;
 }
 
-.user_card_red:hover {
+.user_card_red:hover, .other_users_card_red:hover {
     border-bottom: 2px solid deepskyblue;
 }
 
-.user_card_red:active, #user_card:focus {
+.user_card_red:active, .other_users_card_red:active, #user_card:focus {
     border-bottom: 2px solid limegreen;
 }
 
@@ -72,4 +72,9 @@
     bottom: 0px;
     transform: translate(-50%, -50%);
     margin: 0 auto;
+}
+
+#other_user_hands{
+    height: 200px;
+    overflow-y:auto;
 }

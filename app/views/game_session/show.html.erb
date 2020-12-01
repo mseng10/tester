@@ -1,16 +1,18 @@
-<div style="position: fixed; left: 50%; transform: translate(-50%, -50%); margin: 0 auto;", id = "other_user_hands">
+<div style="position: fixed; left: 10%; top: 200px; transform: translate(-50%, -50%); margin: 0 auto;" , id="other_user_hands">
   <% @user_cards_hash.each do |key, value| %>
-    <ul>
-      <li class = "username"><%= value[:username] %></li>
-      <% value[:cards].each do |card| %>
-        <% if card[0] == "R"%>
-          <li class = "other_users_card_red"><%= raw(card.gsub("R",""))%></li>
-        <% elsif card[0] == "B"%>
-          <li class = "other_users_card_black"><%= raw(card.gsub("B",""))%></li>
+    <% if key != @current_user.select(:id).first.attributes.values[0] %>
+      <ul>
+        <li class="username"><%= value[:username] %></li>
+        <% value[:cards].each do |card| %>
+          <% if card[0] == "R" %>
+            <li class="other_users_card_red"><%= raw(card.gsub("R", "")) %></li>
+          <% elsif card[0] == "B" %>
+            <li class="other_users_card_black"><%= raw(card.gsub("B", "")) %></li>
+          <% end %>
         <% end %>
-      <% end %>
-    </ul>
-    <br>
+      </ul>
+      <br>
+    <% end %>
   <% end %>
 </div>
 
