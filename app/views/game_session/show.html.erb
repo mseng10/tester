@@ -44,14 +44,19 @@
 
 
 
-<div style="position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, -50%); margin: 0 auto;", id = "testing_div">
+<div style="position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, -50%); margin: 0 auto;" , id="testing_div">
   <ul>
     <% @user_hand_card_values.each do |card| %>
-      <% if card[0] == "R"%>
-        <li class = "user_card_red"><%= raw(card.gsub("R",""))%></li>
-      <% elsif card[0] == "B"%>
-        <li class = "user_card_black"><%= raw(card.gsub("B",""))%></li>
+      <% if card[0] == "R" %>
+        <li class="user_card_red"><%= raw(card.gsub("R", "")) %></li>
+      <% elsif card[0] == "B" %>
+        <li onclick="someFunction()" class="user_card_black"><%= raw(card.gsub("B", "")) %></li>
       <% end %>
+      <div id="myDropdown" class="dropdown-content">
+        <a href="#">Give card to player: </a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+      </div>
     <% end %>
   </ul>
 </div>
