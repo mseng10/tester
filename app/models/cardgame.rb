@@ -3,6 +3,7 @@ class Cardgame < ActiveRecord::Base
   serialize :hand_ids, JSON
   serialize :deck_ids, JSON
   serialize :discard_ids, JSON
+  serialize :table, JSON
 
   # Returns user ids in a given game as array
   def self.user_ids(game_id)
@@ -20,6 +21,10 @@ class Cardgame < ActiveRecord::Base
 
   def self.discard_ids(game_id)
     Cardgame.where(game_id: game_id).first[:discard_ids]
+  end
+
+  def self.table(game_id)
+    Cardgame.where(game_id: game_id).first[:table]
   end
 end
 

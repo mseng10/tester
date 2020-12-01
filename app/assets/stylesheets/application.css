@@ -78,3 +78,13 @@
     height: 200px;
     overflow-y:auto;
 }
+
+.empty_sink{
+    color: white;
+    margin-top:-5px;
+    margin-bottom:-5px;
+    /*border-style: solid;*/
+    border: 1px solid black;
+    box-sizing: border-box;
+    font-size: 60px;
+}
