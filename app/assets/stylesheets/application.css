@@ -26,6 +26,7 @@
     border-bottom: 2px solid deepskyblue;
 }
 
+
 .user_card_red:active, .other_users_card_red:active, #user_card:focus {
     border-bottom: 2px solid limegreen;
 }
@@ -87,4 +88,14 @@
     border: 1px solid black;
     box-sizing: border-box;
     font-size: 60px;
+}
+
+#table{
+    /*background-image: url(table.svg);*/
+    background: url('table.svg');
+    height: 80%;
+    width: 60%;
+    overflow: visible;
+    margin: auto;
+    display: inline-block;
 }
