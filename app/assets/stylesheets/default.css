@@ -48,10 +48,10 @@ form label {
     color: maroon;
 }
 
-/*ul{*/
-/*    list-style-type: none;*/
-/*    height: 40px;*/
-/*}*/
-/*li {*/
-/*    float: left;*/
-/*}*/
+ul{
+    list-style-type: none;
+    height: 40px;
+}
+li {
+    float: left;
+}
