@@ -47,13 +47,11 @@ form label {
     font-weight: bold;
     color: maroon;
 }
-table#user_hand_cards tr {
-    font-size: 100px;
-    width: 30px;
-    align: center;
+
+ul{
+    list-style-type: none;
+    height: 40px;
 }
-#user_hand_cards {
-    bottom: 20px;
-}
-#testing_div{
+li {
+    float: left;
 }

@@ -23,21 +23,26 @@ class LobbyController < ApplicationController
 
     # Initialize unique game ID
     game_id = SecureRandom.random_number(9000) + 1000
+    user_id = @current_user.select(:id).first.attributes.values[0]
+
+    if Hand.exists?(user_id: user_id)
+      Hand.where(user_id: user_id).destroy_all
+    end
 
     # Verifies unique game id
     while Cardgame.exists?(game_id: game_id)
       game_id = SecureRandom.random_number(9000) + 1000
     end
 
-    @current_user.update_all(current_game: game_id)
-    user_id = @current_user.select(:id).first.attributes.values[0]  # Gets the user id from current user
-    deck = Deck.create!({:cards => "1"})
-    discard = Deck.create!({:cards => "2"})
-    hand = Hand.create!({:user_id => user_id, :cards => "3,4,5,6"})
+    User.where(id: @current_user.select(:id).first.attributes.values[0]).update_all(current_game: game_id)
+    deck_ids = Deck.create_decks(params[:deck], params[:shuffle],params[:jokers])
+    discard_ids = Deck.create_sinks(params[:sink])
+    hand_ids = Hand.create_hand(params[:hand_size].to_i, deck_ids, user_id)
 
     Cardgame.create!({ :game_id => game_id, :user_ids => [user_id],
-                           :deck_ids => [deck.id], :discard_ids => [discard.id],
-                           :hand_ids => [hand.id], :started => false })
+                           :deck_ids => deck_ids, :discard_ids => discard_ids,
+                           :hand_ids => hand_ids, :started => false,
+                           :hand_size => params[:hand_size].to_i})
 
     redirect_to lobby_path(game_id)
   end
@@ -65,14 +70,14 @@ class LobbyController < ApplicationController
       old_users = Cardgame.user_ids(game_id)
       Cardgame.where(game_id: game_id).update_all(user_ids: old_users.append(user_id))
 
-      # Add new hand to the database
-      # TODO: Check to see if user currently has a hand, if so delete that entry
+
       if Hand.exists?(user_id: user_id)
-        Hand.delete.where(user_id: user_id)
+        Hand.where(user_id: user_id).destroy_all
       end
-      hand = Hand.create!({:user_id => user_id, :cards => "3"})
+
+      hand = Hand.create_hand(Cardgame.where(game_id: game_id).first[:hand_size], Cardgame.deck_ids(game_id)[0], user_id)
       old_hands = Cardgame.hand_ids(game_id)
-      Cardgame.where(game_id: game_id).update_all(hand_ids: old_hands.append(hand.id))
+      Cardgame.where(game_id: game_id).update_all(hand_ids: old_hands.concat(hand))
 
       redirect_to lobby_path(game_id)
 

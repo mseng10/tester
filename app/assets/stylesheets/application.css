@@ -13,3 +13,68 @@
  *= require_tree .
  *= require_self
  */
+
+.user_card_black:hover, .other_users_card_black:hover {
+    border-bottom: 2px solid deepskyblue;
+}
+
+.user_card_black:active, .other_users_card_black:active, #user_card:focus {
+    border-bottom: 2px solid limegreen;
+}
+
+.user_card_red:hover, .other_users_card_red:hover {
+    border-bottom: 2px solid deepskyblue;
+}
+
+.user_card_red:active, .other_users_card_red:active, #user_card:focus {
+    border-bottom: 2px solid limegreen;
+}
+
+.user_card_black{
+    display: block;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    font-size: 60px;
+    color: black;
+}
+
+.user_card_red{
+    display: block;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    font-size: 60px;
+    color: darkred;
+}
+
+.other_users_card_black{
+    display: block;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    font-size: 30px;
+    color: black;
+}
+
+.other_users_card_red{
+    display: block;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    font-size: 30px;
+    color: darkred;
+}
+
+.game_buttons{
+    position: fixed;
+    left: 50%;
+    bottom: 0px;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+}
+
+#other_user_hands{
+    height: 200px;
+    overflow-y:auto;
+}
