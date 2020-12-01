@@ -22,7 +22,7 @@ $(document).ajaxError(function(event, request) {
 
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
-function someFunction() {
+function toggleCardDropdown() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
 
@@ -38,4 +38,16 @@ window.onclick = function(event) {
             }
         }
     }
+}
+
+$(document).ready(function(){
+    $('.dropdown-submenu a.test').on("click", function(e){
+        $(this).next('ul').toggle();
+        e.stopPropagation();
+        e.preventDefault();
+    });
+});
+
+function moveCard(destination, card, origin){
+
 }

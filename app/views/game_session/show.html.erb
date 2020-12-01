@@ -50,13 +50,27 @@
       <% if card[0] == "R" %>
         <li class="user_card_red"><%= raw(card.gsub("R", "")) %></li>
       <% elsif card[0] == "B" %>
-        <li onclick="someFunction()" class="user_card_black"><%= raw(card.gsub("B", "")) %></li>
+        <li onclick="toggleCardDropdown()" class="user_card_black"><%= raw(card.gsub("B", "")) %></li>
       <% end %>
-      <div id="myDropdown" class="dropdown-content">
-        <a href="#">Give card to player: </a>
-        <a href="#">Link 2</a>
-        <a href="#">Link 3</a>
-      </div>
+      <ul style="bottom: 100%" id="myDropdown" class="dropdown-content">
+        <li class="dropdown-submenu">
+        <a class="test" tabindex="-1" href="#">Move card: <span class="caret"></span></a>
+          <ul style="bottom: 10%; left: 100%" class="dropdown-content">
+            <% @user_cards_hash.each do |id, nameHash| %>
+            <li> <%= nameHash[:username] %> </li>
+            <% end %>
+            <% @sinks.each do |sink|%>
+            <li> <%= raw(sink) %></li>
+            <% end %>
+            <% @decks.each do |deck| %>
+            <li> <%= raw(deck) %></li>
+            <% end %>
+            <li> Place on table </li>
+          </ul>
+        </li>
+        <li>Link 2</li>
+        <li>Link 3</li>
+      </ul>
     <% end %>
   </ul>
 </div>
