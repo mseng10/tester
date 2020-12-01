@@ -79,6 +79,7 @@ class GameSessionController < ApplicationController
     redirect_to game_session_path(game_id)
   end
 
+
   #TODO: MAKE THE WEBPAGE REFRESH
   def show
     unless @current_game
@@ -90,8 +91,6 @@ class GameSessionController < ApplicationController
 
     deck_ids = @current_game.deck_ids
     sink_ids = @current_game.discard_ids
-
-
 
   end
 
