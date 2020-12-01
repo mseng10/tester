@@ -93,11 +93,9 @@
 #table{
     /*background-image: url(table.svg);*/
     background: url('table.svg');
-    height: 420px;
-    width: 800px;
-    z-index: 1;
+    height: 60%;
+    width: 50%;
     overflow: visible;
     margin: auto;
-    display: flex;
-    justify-content: center;
+    display: inline-block;
 }
