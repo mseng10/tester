@@ -96,6 +96,10 @@ class GameSessionController < ApplicationController
       return
     end
     @sinks = @current_game.select(:discard_ids).first.attributes.values[1]
+    @sinkHashes = []
+    @sinks.each do |sink|
+      @sinkHashes.append(hash_return(Deck.where(id: sink).pluck(:cards)[0]))
+    end
     @decks = @current_game.select(:deck_ids).first.attributes.values[1]
     user_id = @current_user.select(:id).first.attributes.values[0]
     @user_hand_card_values = hash_return(Hand.where(user_id: user_id).select(:cards).first.attributes.values[1])
