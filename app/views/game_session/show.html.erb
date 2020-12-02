@@ -1,15 +1,34 @@
+<script type="text/javascript">
+
+    function moveCard(destination, card){
+        console.log("dest: " + destination + "   card: " + card)
+        $.ajax({
+            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=moveCard&dest='+destination+'&card='+card,
+            type: 'PUT',
+            success: function() {
+                // console.log("HELLO")
+            },
+            complete: function() {
+                location.reload();
+            }
+        });
+    }
+
+</script>
+
+
 <div class="container">
   <h3 style="position: fixed; left: 11%; top: 175px; transform: translate(-50%, -50%); margin: 0 auto;"> Players </h3>
   <div style="position: fixed; left: 10%; top: 300px; transform: translate(-50%, -50%); margin: 0 auto;" , id="other_user_hands">
     <% @user_cards_hash.each do |key, value| %>
       <% if key != @current_user.select(:id).first.attributes.values[0] %>
-        <ul>
+        <ul class="cards">
           <li class="username"><%= value[:username] %></li>
-          <% value[:cards].each do |card| %>
-            <% if card[0] == "R" %>
-              <li class="other_users_card_red"><%= raw(card.gsub("R", "")) %></li>
-            <% elsif card[0] == "B" %>
-              <li class="other_users_card_black"><%= raw(card.gsub("B", "")) %></li>
+          <% value[:cards].each do |card_id, unicode| %>
+            <% if unicode[0] == "R" %>
+              <li class="other_users_card_red"><%= raw(unicode.gsub("R", "")) %></li>
+            <% elsif unicode[0] == "B" %>
+              <li class="other_users_card_black"><%= raw(unicode.gsub("B", "")) %></li>
             <% end %>
           <% end %>
         </ul>
@@ -22,7 +41,7 @@
 <div class="container">
   <h3 style="position: fixed; right: 8%; top: 150px; transform: translate(-50%, -50%); margin: 0 auto;"> Draw Pile </h3>
   <div style="position: fixed; right: 10%; top: 200px; transform: translate(-50%, -50%); margin: 0 auto; font-size: 60px;" , id="decks">
-    <ul>
+    <ul class="cards">
       <li> &#127136 </li>
     </ul>
   </div>
@@ -31,7 +50,7 @@
 <div class="container">
   <h3 style="position: fixed; right: 7%; top: 375px; transform: translate(-50%, -50%); margin: 0 auto;"> Discard Pile </h3>
   <div style="position: fixed; right: 10%; top: 450px; transform: translate(-50%, -50%); margin: 0 auto;" , id="sinks">
-    <ul>
+    <ul class="cards">
       <li class="empty_sink"> &#127136 </li>
     </ul>
   </div>
@@ -44,14 +63,33 @@
 
 
 
-<div style="position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, -50%); margin: 0 auto;", id = "testing_div">
-  <ul>
-    <% @user_hand_card_values.each do |card| %>
-      <% if card[0] == "R"%>
-        <li class = "user_card_red"><%= raw(card.gsub("R",""))%></li>
-      <% elsif card[0] == "B"%>
-        <li class = "user_card_black"><%= raw(card.gsub("B",""))%></li>
+<div style="position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, -50%); margin: 0 auto;" , id="testing_div">
+  <ul class="cards">
+    <% @user_hand_card_values.each do |card_id,unicode| %>
+      <% if unicode[0] == "R" %>
+        <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red"><%= raw(unicode.gsub("R", "")) %></li>
+      <% elsif unicode[0] == "B" %>
+        <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black"><%= raw(unicode.gsub("B", "")) %></li>
       <% end %>
+      <ul style="bottom: 100%" id="dropdown_<%=card_id%>" class="dropdown-content">
+        <li class="dropdown-submenu">
+        <a class="test" tabindex="-1" href="">Move card: <span class="caret"></span></a>
+          <ul style="bottom: 10%; left: 100%" class="dropdown-content">
+            <% @user_cards_hash.each do |id, nameHash| %>
+              <li onclick="moveCard('<%=raw(nameHash[:username])%>', '<%=card_id%>')"> <%=nameHash[:username]%> </li>
+            <% end %>
+            <% @sinks.each do |sink|%>
+              <li> <%= raw(sink) %></li>
+            <% end %>
+            <% @decks.each do |deck| %>
+              <li> <%= raw(deck) %></li>
+            <% end %>
+            <li> Place on table </li>
+          </ul>
+        </li>
+        <li>Link 2</li>
+        <li>Link 3</li>
+      </ul>
     <% end %>
   </ul>
 </div>
@@ -61,20 +99,19 @@
 </div>
 
 
-<h4 id="end game">
-<script type="text/javascript">
-    (function end_game() {
-            $.ajax({
-                url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %>,
-                type: 'GET',
-                complete: function() {
-                    setTimeout(end_game, 5000);
-                }
-            });
-    })();
+<!--<script type="text/javascript">-->
+<!--    (function end_game() {-->
+<!--            $.ajax({-->
+<!--                url: '/game_session/'+ <%#= request.original_url.split(//).last(4).join.to_i %>,-->
+<!--                type: 'GET',-->
+<!--                complete: function() {-->
+<!--                    setTimeout(end_game, 5000);-->
+<!--                }-->
+<!--            });-->
+<!--    })();-->
+<!--</script>-->
 
-</script>
-</h4>
+
 
 
 

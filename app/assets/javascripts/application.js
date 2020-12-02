@@ -19,3 +19,32 @@ $(document).ajaxError(function(event, request) {
     var msg = request.getResponseHeader('X-Message');
     if (msg) alert(msg);
 });
+
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function toggleCardDropdown(id) {
+    document.getElementById("dropdown_"+id).classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.user_card_black')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
+
+$(document).ready(function(){
+    $('.dropdown-submenu a.test').on("click", function(e){
+        $(this).next('ul').toggle();
+        e.stopPropagation();
+        e.preventDefault();
+    });
+});
+

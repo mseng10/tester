@@ -65,14 +65,14 @@ class GameSessionController < ApplicationController
                    58 => "&#127196", #This is a knight of clubs
 
     }
-    user_hand_card_values = []
-    for i in cards
-      if i.to_i == 53 or (i.to_i >=14 and i.to_i <= 39)
-        user_hand_card_values.append("R"+@card_value[i.to_i])
-      else
-        user_hand_card_values.append("B"+@card_value[i.to_i])
+    user_hand_card_values = {}
+    cards.each do |i|
+        if i == 53 or (i >=14 and i <= 39)
+          user_hand_card_values[i] = "R"+@card_value[i]
+        else
+          user_hand_card_values[i]= "B"+@card_value[i]
+        end
       end
-    end
 
     return user_hand_card_values
   end
@@ -85,22 +85,24 @@ class GameSessionController < ApplicationController
 
   #TODO: MAKE THE WEBPAGE REFRESH
   def show
-    unless @current_game
+    unless @current_game.first
       redirect_to games_path
       return
     end
+    @sinks = @current_game.select(:discard_ids).first.attributes.values[1]
+    @decks = @current_game.select(:deck_ids).first.attributes.values[1]
     user_id = @current_user.select(:id).first.attributes.values[0]
-    @user_hand_card_values = hash_return(Hand.where(user_id: user_id).select(:cards).first.attributes.values[1].split(','))
-    @user_id_list = @current_game.user_ids
+    @user_hand_card_values = hash_return(Hand.where(user_id: user_id).select(:cards).first.attributes.values[1])
+    @user_id_list = @current_game.first.user_ids
     @user_cards_hash = {}
     @user_id_list.each do |other_user_id|
       username = User.where(id: other_user_id).pluck(:username)[0]
-      cards = hash_return(Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1].split(','))
+      cards = hash_return(Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1])
       @user_cards_hash[other_user_id] = { :username => username, :cards => cards }
     end
 
-    deck_ids = @current_game.deck_ids
-    sink_ids = @current_game.discard_ids
+    deck_ids = @current_game.first.deck_ids
+    sink_ids = @current_game.first.discard_ids
     hand_ids = Hand.where(:user_id => user_id).first[:cards]
 
   end
@@ -108,7 +110,7 @@ class GameSessionController < ApplicationController
 
   def destroy
     game_id = @current_user.select(:current_game).first.attributes.values[1]
-    if @current_game
+    if @current_game.first
       user_ids = Cardgame.user_ids(game_id)
       User.where(id: user_ids).update_all(current_game: 0)
       Cardgame.where(game_id: game_id).update_all(started: false )
@@ -120,4 +122,43 @@ class GameSessionController < ApplicationController
     # end
     redirect_to games_path
   end
+
+  def update
+    # TODO: logic to move card from one user to the other
+    # Need to fix the card from unicode to id
+    # Location 0 is the function. each one after that is the params
+    user_id = @current_user.select(:id).first.attributes.values[0]
+    apiHelper = ApiHelper.new(request.original_url)
+
+    if apiHelper.function == 'moveCard'
+      current_user_cards =Hand.where(user_id: user_id).select(:cards).first.attributes.values[1]
+      current_user_cards.delete(apiHelper.parameters['card'].to_i)
+      Hand.where(user_id: user_id).update_all(cards: current_user_cards)
+
+      other_user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
+      other_user_cards =Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1]
+      other_user_cards.append(apiHelper.parameters['card'].to_i)
+      Hand.where(user_id: other_user_id).update_all(cards: other_user_cards)
+
+    end
+    game_id = @current_user.select(:current_game).first.attributes.values[1]
+    redirect_to game_session_path(game_id)
+  end
 end
+
+class ApiHelper
+  attr_reader :function,:parameters
+  def initialize(url)
+    data = url.split(/([^.]+$)/)[1].split('&')
+    @function = data[0].split('=')[1]
+    @parameters = {}
+    data.each_with_index do |elem, i|
+      if i != 0
+        info = elem.split('=')
+        @parameters[info[0]] = info[1]
+      end
+    end
+  end
+end
+
+

@@ -48,10 +48,12 @@ form label {
     color: maroon;
 }
 
-ul{
+.cards{
     list-style-type: none;
     height: 40px;
 }
-li {
+
+
+.cards li{
     float: left;
 }
