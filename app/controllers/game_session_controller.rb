@@ -122,4 +122,12 @@ class GameSessionController < ApplicationController
     # end
     redirect_to games_path
   end
+
+  def update
+    # TODO: logic to move card from one user to the other
+    puts "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+    game_id = @current_user.select(:current_game).first.attributes.values[1]
+    redirect_to game_session_path(game_id)
+  end
+
 end
