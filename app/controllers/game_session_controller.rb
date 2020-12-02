@@ -77,6 +77,12 @@ class GameSessionController < ApplicationController
     return user_hand_card_values
   end
 
+  def index
+    unless @current_game.first
+      redirect_to games_path
+    end
+  end
+
   def new
     game_id = @current_user.select(:current_game).first.attributes.values[1]
     Cardgame.where(game_id: game_id).update_all(started: true)
@@ -109,17 +115,31 @@ class GameSessionController < ApplicationController
 
 
   def destroy
-    game_id = @current_user.select(:current_game).first.attributes.values[1]
-    if @current_game.first
-      user_ids = Cardgame.user_ids(game_id)
-      User.where(id: user_ids).update_all(current_game: 0)
-      Cardgame.where(game_id: game_id).update_all(started: false )
-    end
-    #TODO: Remove the game from the database.
+    # Check that the user is still in a game
+    if @current_user.select(:current_game).first.attributes.values[1] != 0
+      game_id = @current_user.select(:current_game).first.attributes.values[1]
+      row_id = @current_game.pluck(:id)
+      deck_ids = Cardgame.where(id: row_id).pluck(:deck_ids)[0].concat(Cardgame.where(id: row_id).pluck(:discard_ids)[0])
+      hand_ids = Cardgame.where(id: row_id).pluck(:hand_ids)[0]
 
-    # user_ids.each do |id|
-    #   User.where(id: id).update_all(current_game: 0)
-    # end
+      if @current_game.first
+        user_ids = Cardgame.user_ids(game_id)
+        User.where(id: user_ids).update_all(current_game: 0)
+        Cardgame.where(game_id: game_id).update_all(started: false )
+      end
+
+      Cardgame.delete(row_id)
+      deck_ids.each do |id|
+        Deck.delete(id)
+      end
+      hand_ids.each do |id|
+        Hand.delete(id)
+      end
+
+      user_ids.each do |id|
+        User.where(id: id).update_all(current_game: 0)
+      end
+    end
     redirect_to games_path
   end
 
