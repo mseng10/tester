@@ -107,9 +107,11 @@ class GameSessionController < ApplicationController
       @user_cards_hash[other_user_id] = { :username => username, :cards => cards }
     end
 
-    deck_ids = @current_game.first.deck_ids
-    sink_ids = @current_game.first.discard_ids
-    hand_ids = Hand.where(:user_id => user_id).first[:cards]
+    @table = hash_return(@current_game.pluck(:table)[0])
+
+    # deck_ids = @current_game.first.deck_ids
+    # sink_ids = @current_game.first.discard_ids
+    # hand_ids = Hand.where(:user_id => user_id).first[:cards]
 
   end
 
@@ -149,19 +151,29 @@ class GameSessionController < ApplicationController
     # Location 0 is the function. each one after that is the params
     user_id = @current_user.select(:id).first.attributes.values[0]
     apiHelper = ApiHelper.new(request.original_url)
+    game_id = @current_user.select(:current_game).first.attributes.values[1]
 
     if apiHelper.function == 'moveCard'
       current_user_cards =Hand.where(user_id: user_id).select(:cards).first.attributes.values[1]
       current_user_cards.delete(apiHelper.parameters['card'].to_i)
       Hand.where(user_id: user_id).update_all(cards: current_user_cards)
 
-      other_user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
-      other_user_cards =Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1]
-      other_user_cards.append(apiHelper.parameters['card'].to_i)
-      Hand.where(user_id: other_user_id).update_all(cards: other_user_cards)
+      # Move card to table
+      if apiHelper.parameters['dest'] == 'table'
+        table = @current_game.pluck(:table)[0]
+        table.append(apiHelper.parameters['card'].to_i)
+        Cardgame.where(game_id: game_id).update_all(table: table)
+
+      # Move Card to other users hand
+      else
+        other_user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
+        other_user_cards =Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1]
+        other_user_cards.append(apiHelper.parameters['card'].to_i)
+        Hand.where(user_id: other_user_id).update_all(cards: other_user_cards)
+      end
 
     end
-    game_id = @current_user.select(:current_game).first.attributes.values[1]
+
     redirect_to game_session_path(game_id)
   end
 end
