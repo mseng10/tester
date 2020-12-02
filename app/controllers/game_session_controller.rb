@@ -137,7 +137,7 @@ class GameSessionController < ApplicationController
       puts user_id
       puts " USER ID"
       current_user_cards =Hand.where(user_id: user_id).select(:cards).first.attributes.values[1]
-      current_user_cards.delete(apiHelper.parameters[:card].to_i)
+      current_user_cards.delete(apiHelper.parameters['card'].to_i)
       Hand.where(user_id: user_id).update_all(cards: current_user_cards)
 
       puts apiHelper.parameters['dest']
@@ -146,7 +146,7 @@ class GameSessionController < ApplicationController
       puts other_user_id
       puts " other user id"
       other_user_cards =Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1]
-      other_user_cards.append(apiHelper.parameters[:card].to_i)
+      other_user_cards.append(apiHelper.parameters['card'].to_i)
       Hand.where(user_id: other_user_id).update_all(cards: other_user_cards)
 
     end

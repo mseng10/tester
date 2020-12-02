@@ -1,7 +1,7 @@
 <script type="text/javascript">
 
     function moveCard(destination, card){
-        console.log("HELLO")
+        console.log("dest: " + destination + "   card: " + card)
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=moveCard&dest='+destination+'&card='+card,
             type: 'PUT',
@@ -9,7 +9,7 @@
                 // console.log("HELLO")
             },
             complete: function() {
-
+                location.reload();
             }
         });
     }
@@ -67,22 +67,22 @@
   <ul class="cards">
     <% @user_hand_card_values.each do |card_id,unicode| %>
       <% if unicode[0] == "R" %>
-        <li class="user_card_red"><%= raw(unicode.gsub("R", "")) %></li>
+        <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red"><%= raw(unicode.gsub("R", "")) %></li>
       <% elsif unicode[0] == "B" %>
-        <li onclick="toggleCardDropdown()" class="user_card_black"><%= raw(unicode.gsub("B", "")) %></li>
+        <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black"><%= raw(unicode.gsub("B", "")) %></li>
       <% end %>
-      <ul style="bottom: 100%" id="myDropdown" class="dropdown-content">
+      <ul style="bottom: 100%" id="dropdown_<%=card_id%>" class="dropdown-content">
         <li class="dropdown-submenu">
-        <a class="test" tabindex="-1" href="#">Move card: <span class="caret"></span></a>
+        <a class="test" tabindex="-1" href="">Move card: <span class="caret"></span></a>
           <ul style="bottom: 10%; left: 100%" class="dropdown-content">
             <% @user_cards_hash.each do |id, nameHash| %>
-            <li onclick="moveCard('<%=raw(nameHash[:username])%>', '<%=card_id%>')"> <%=nameHash[:username]%> </li>
+              <li onclick="moveCard('<%=raw(nameHash[:username])%>', '<%=card_id%>')"> <%=nameHash[:username]%> <%=card_id %> <%= unicode %> </li>
             <% end %>
             <% @sinks.each do |sink|%>
-            <li> <%= raw(sink) %></li>
+              <li> <%= raw(sink) %></li>
             <% end %>
             <% @decks.each do |deck| %>
-            <li> <%= raw(deck) %></li>
+              <li> <%= raw(deck) %></li>
             <% end %>
             <li> Place on table </li>
           </ul>

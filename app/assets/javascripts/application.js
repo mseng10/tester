@@ -22,8 +22,8 @@ $(document).ajaxError(function(event, request) {
 
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
-function toggleCardDropdown() {
-    document.getElementById("myDropdown").classList.toggle("show");
+function toggleCardDropdown(id) {
+    document.getElementById("dropdown_"+id).classList.toggle("show");
 }
 
 // Close the dropdown menu if the user clicks outside of it
