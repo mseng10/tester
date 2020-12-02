@@ -66,8 +66,6 @@ class GameSessionController < ApplicationController
 
     }
     user_hand_card_values = {}
-    puts ' HELOooooooooooooooooooooooooooooooooooooo'
-    puts cards
     cards.each do |i|
         if i == 53 or (i >=14 and i <= 39)
           user_hand_card_values[i] = "R"+@card_value[i]
@@ -131,20 +129,13 @@ class GameSessionController < ApplicationController
     # Location 0 is the function. each one after that is the params
     user_id = @current_user.select(:id).first.attributes.values[0]
     apiHelper = ApiHelper.new(request.original_url)
-    puts apiHelper.parameters
+
     if apiHelper.function == 'moveCard'
-      puts " IM HERE"
-      puts user_id
-      puts " USER ID"
       current_user_cards =Hand.where(user_id: user_id).select(:cards).first.attributes.values[1]
       current_user_cards.delete(apiHelper.parameters['card'].to_i)
       Hand.where(user_id: user_id).update_all(cards: current_user_cards)
 
-      puts apiHelper.parameters['dest']
-      puts " API INFO"
       other_user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
-      puts other_user_id
-      puts " other user id"
       other_user_cards =Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1]
       other_user_cards.append(apiHelper.parameters['card'].to_i)
       Hand.where(user_id: other_user_id).update_all(cards: other_user_cards)

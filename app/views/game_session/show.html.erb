@@ -76,7 +76,7 @@
         <a class="test" tabindex="-1" href="">Move card: <span class="caret"></span></a>
           <ul style="bottom: 10%; left: 100%" class="dropdown-content">
             <% @user_cards_hash.each do |id, nameHash| %>
-              <li onclick="moveCard('<%=raw(nameHash[:username])%>', '<%=card_id%>')"> <%=nameHash[:username]%> <%=card_id %> <%= unicode %> </li>
+              <li onclick="moveCard('<%=raw(nameHash[:username])%>', '<%=card_id%>')"> <%=nameHash[:username]%> </li>
             <% end %>
             <% @sinks.each do |sink|%>
               <li> <%= raw(sink) %></li>
