@@ -119,6 +119,9 @@ class GameSessionController < ApplicationController
     if @current_user.select(:current_game).first.attributes.values[1] != 0
       game_id = @current_user.select(:current_game).first.attributes.values[1]
       row_id = @current_game.pluck(:id)
+      deck_ids = Cardgame.where(id: row_id).pluck(:deck_ids)[0].concat(Cardgame.where(id: row_id).pluck(:discard_ids)[0])
+      hand_ids = Cardgame.where(id: row_id).pluck(:hand_ids)[0]
+
       if @current_game.first
         user_ids = Cardgame.user_ids(game_id)
         User.where(id: user_ids).update_all(current_game: 0)
@@ -126,6 +129,12 @@ class GameSessionController < ApplicationController
       end
 
       Cardgame.delete(row_id)
+      deck_ids.each do |id|
+        Deck.delete(id)
+      end
+      hand_ids.each do |id|
+        Hand.delete(id)
+      end
 
       user_ids.each do |id|
         User.where(id: id).update_all(current_game: 0)
