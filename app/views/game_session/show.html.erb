@@ -24,11 +24,11 @@
       <% if key != @current_user.select(:id).first.attributes.values[0] %>
         <ul class="cards">
           <li class="username"><%= value[:username] %></li>
-          <% value[:cards].each do |card| %>
-            <% if card[0] == "R" %>
-              <li class="other_users_card_red"><%= raw(card.gsub("R", "")) %></li>
-            <% elsif card[0] == "B" %>
-              <li class="other_users_card_black"><%= raw(card.gsub("B", "")) %></li>
+          <% value[:cards].each do |card_id, unicode| %>
+            <% if unicode[0] == "R" %>
+              <li class="other_users_card_red"><%= raw(unicode.gsub("R", "")) %></li>
+            <% elsif unicode[0] == "B" %>
+              <li class="other_users_card_black"><%= raw(unicode.gsub("B", "")) %></li>
             <% end %>
           <% end %>
         </ul>
@@ -64,19 +64,19 @@
 
 
 <div style="position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, -50%); margin: 0 auto;" , id="testing_div">
-  <ul>
-    <% @user_hand_card_values.each do |card| %>
-      <% if card[0] == "R" %>
-        <li class="user_card_red"><%= raw(card.gsub("R", "")) %></li>
-      <% elsif card[0] == "B" %>
-        <li onclick="toggleCardDropdown()" class="user_card_black"><%= raw(card.gsub("B", "")) %></li>
+  <ul class="cards">
+    <% @user_hand_card_values.each do |card_id,unicode| %>
+      <% if unicode[0] == "R" %>
+        <li class="user_card_red"><%= raw(unicode.gsub("R", "")) %></li>
+      <% elsif unicode[0] == "B" %>
+        <li onclick="toggleCardDropdown()" class="user_card_black"><%= raw(unicode.gsub("B", "")) %></li>
       <% end %>
       <ul style="bottom: 100%" id="myDropdown" class="dropdown-content">
         <li class="dropdown-submenu">
         <a class="test" tabindex="-1" href="#">Move card: <span class="caret"></span></a>
           <ul style="bottom: 10%; left: 100%" class="dropdown-content">
             <% @user_cards_hash.each do |id, nameHash| %>
-            <li onclick="moveCard('<%= raw(nameHash[:username])%>', '<%= raw(card) %>')"> <%= nameHash[:username] %> </li>
+            <li onclick="moveCard('<%=raw(nameHash[:username])%>', '<%=card_id%>')"> <%=nameHash[:username]%> </li>
             <% end %>
             <% @sinks.each do |sink|%>
             <li> <%= raw(sink) %></li>

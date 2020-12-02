@@ -32,10 +32,12 @@ class Deck < ActiveRecord::Base
     end
     return deck_ids
   end
+
+  def self.cards(id)
+    Deck.where(id: id).first[:cards]
+  end
 end
 
 
-def self.cards(id)
-  Deck.where(id: id).first[:cards]
-end
+
 
