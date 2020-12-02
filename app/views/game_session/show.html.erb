@@ -88,7 +88,7 @@
               <li onclick="moveCard('<%=raw(nameHash[:username])%>', '<%=card_id%>')"> <%=nameHash[:username]%> </li>
             <% end %>
             <% @sinks.each do |sink|%>
-              <li> <%= raw(sink) %></li>
+              <li onclick="moveCard('<%= 'sink_' + raw(sink)%>', '<%=card_id%>')"> <%= raw(sink) %></li>
             <% end %>
             <% @decks.each do |deck| %>
               <li> <%= raw(deck) %></li>

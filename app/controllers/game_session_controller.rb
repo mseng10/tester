@@ -154,6 +154,12 @@ class GameSessionController < ApplicationController
     game_id = @current_user.select(:current_game).first.attributes.values[1]
 
     if apiHelper.function == 'moveCard'
+      # TODO
+      # Right now we are assuming that the card being moved is coming from a user's hand. We need to check to see what the
+      # source of the move is and update that database table accordingly
+      # Alternative -- Just draw a card and it will append the last card of the deck to the user's hand.
+      # Further details ask Mathew
+
       current_user_cards =Hand.where(user_id: user_id).select(:cards).first.attributes.values[1]
       current_user_cards.delete(apiHelper.parameters['card'].to_i)
       Hand.where(user_id: user_id).update_all(cards: current_user_cards)
@@ -163,6 +169,13 @@ class GameSessionController < ApplicationController
         table = @current_game.pluck(:table)[0]
         table.append(apiHelper.parameters['card'].to_i)
         Cardgame.where(game_id: game_id).update_all(table: table)
+
+      # Move card to sink
+      elsif apiHelper.parameters['dest'].include?('sink')
+        sinkID = apiHelper.parameters['dest'].gsub('sink_', '')
+        current_cards_in_sink = Deck.where(id: sinkID).select(:cards).first.attributes.values[1]
+        current_cards_in_sink.append(apiHelper.parameters['card'].to_i)
+        Deck.where(id: sinkID).update_all(cards: current_cards_in_sink)
 
       # Move Card to other users hand
       else
