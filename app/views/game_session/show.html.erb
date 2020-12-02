@@ -3,7 +3,7 @@
     function moveCard(destination, card){
         console.log("HELLO")
         $.ajax({
-            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %>,
+            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=moveCard&dest='+destination+'&card='+card,
             type: 'PUT',
             success: function() {
                 // console.log("HELLO")
@@ -99,17 +99,17 @@
 </div>
 
 
-<script type="text/javascript">
-    (function end_game() {
-            $.ajax({
-                url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %>,
-                type: 'GET',
-                complete: function() {
-                    setTimeout(end_game, 5000);
-                }
-            });
-    })();
-</script>
+<!--<script type="text/javascript">-->
+<!--    (function end_game() {-->
+<!--            $.ajax({-->
+<!--                url: '/game_session/'+ <%#= request.original_url.split(//).last(4).join.to_i %>,-->
+<!--                type: 'GET',-->
+<!--                complete: function() {-->
+<!--                    setTimeout(end_game, 5000);-->
+<!--                }-->
+<!--            });-->
+<!--    })();-->
+<!--</script>-->
 
 
 

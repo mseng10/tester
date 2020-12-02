@@ -125,7 +125,9 @@ class GameSessionController < ApplicationController
 
   def update
     # TODO: logic to move card from one user to the other
-    puts "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+    # Need to fix the card from unicode to id
+    # Location 0 is the function. each one after that is the params
+    data = request.original_url.split(/([^.]+$)/)[1].split('&')
     game_id = @current_user.select(:current_game).first.attributes.values[1]
     redirect_to game_session_path(game_id)
   end
