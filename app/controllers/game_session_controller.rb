@@ -189,6 +189,28 @@ class GameSessionController < ApplicationController
         Hand.where(user_id: other_user_id).update_all(cards: other_user_cards)
       end
 
+    elsif apiHelper.function == 'moveCardDraw'
+      current_cards_from_draw = Deck.where(id: apiHelper.parameters['source']).pluck(:cards)[0]
+      current_picked_card = current_cards_from_draw.last
+      current_cards_from_draw.delete(current_cards_from_draw.last)
+
+      if apiHelper.parameters['dest'] == 'table'
+        table = @current_game.pluck(:table)[0]
+        table.append(current_picked_card)
+        Cardgame.where(game_id: game_id).update_all(table: table)
+
+      elsif apiHelper.parameters['dest'].include?('sink')
+        sinkID = apiHelper.parameters['dest'].gsub('sink_', '')
+        current_cards_in_sink = Deck.where(id: sinkID).select(:cards).first.attributes.values[1]
+        current_cards_in_sink.append(current_picked_card)
+        Deck.where(id: sinkID).update_all(cards: current_cards_in_sink)
+
+      else
+        target_user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
+        target_user_cards = Hand.where(user_id: target_user_id).select(:cards).first.attributes.values[1]
+        target_user_cards.append(current_picked_card)
+        Hand.where(user_id: target_user_id).update_all(cards: target_user_cards)
+      end
     end
 
     redirect_to game_session_path(game_id)

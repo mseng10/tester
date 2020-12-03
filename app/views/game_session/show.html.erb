@@ -14,6 +14,20 @@
         });
     }
 
+    function moveCardDraw(destination,  source){
+        console.log("dest: " + destination + "   card: " + source)
+        $.ajax({
+            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=moveCardDraw&dest='+destination+'&source='+source,
+            type: 'PUT',
+            success: function() {
+                // console.log("HELLO")
+            },
+            complete: function() {
+                location.reload();
+            }
+        });
+    }
+
 </script>
 
 
@@ -40,9 +54,29 @@
 
 <div class="container">
   <h3 style="position: fixed; right: 8%; top: 150px; transform: translate(-50%, -50%); margin: 0 auto;"> Draw Pile </h3>
-  <div style="position: fixed; right: 10%; top: 200px; transform: translate(-50%, -50%); margin: 0 auto; font-size: 60px;" , id="decks">
+  <div style="position: fixed; right: 10%; top: 200px; transform: translate(-50%, -50%); margin: 0 auto;" , id="decks">
     <ul class="cards">
-      <li> &#127136 </li>
+      <% @decks.each do |deck| %>
+          <li onclick="toggleCardDropdown('draw_<%= deck %>')" class="user_card_black">&#127136</li>
+        <ul style="bottom: 100%" id="dropdown_draw_<%= deck %>" class="dropdown-content">
+          <li class="dropdown-submenu">
+            <a class="test" tabindex="-1" href="">Move card: <span class="caret"></span></a>
+            <ul style="bottom: 10%; left: 100%" class="dropdown-content">
+              <li onclick="moveCardDraw('<%= @current_user.pluck(:username)[0]%>', <%=deck%>)">
+                <%= raw(@current_user.pluck(:username)[0]) %>
+              </li>
+<!--              onclick="moveCard('<%#= 'sink_' + raw(sink)%>', '<%#=card_id%>')"-->
+<!--              onclick="moveCard('table', '<%#=card_id%>')"-->
+              <% @sinks.each do |sink|%>
+                <li onclick="moveCardDraw('<%= 'sink_' + raw(sink)%>', '<%=deck%>')"> <%= raw(sink) %></li>
+              <% end %>
+              <li onclick="moveCardDraw('table', '<%=deck%>')"> Place on table </li>
+            </ul>
+          </li>
+<!--          <li>Link 2</li>-->
+<!--          <li>Link 3</li>-->
+        </ul>
+        <% end %>
     </ul>
   </div>
 </div>
