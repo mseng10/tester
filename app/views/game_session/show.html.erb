@@ -28,6 +28,19 @@
         });
     }
 
+    function moveCardTable(destination, card){
+        $.ajax({
+            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=moveCardTable&dest='+destination+'&card='+card,
+            type: 'PUT',
+            success: function() {
+                // console.log("HELLO")
+            },
+            complete: function() {
+                location.reload();
+            }
+        });
+    }
+
 </script>
 
 
@@ -123,10 +136,22 @@
     <ul style="margin: 50%;" class="cards">
       <% @table.each do |card_id, unicode|%>
         <% if unicode[0] == "R" %>
-          <li class="user_card_red"><%= raw(unicode.gsub("R", "")) %></li>
+          <li onclick="toggleCardDropdown('table_<%= card_id %>')" class="user_card_red"><%= raw(unicode.gsub("R", "")) %></li>
         <% elsif unicode[0] == "B" %>
-          <li class="user_card_black"><%= raw(unicode.gsub("B", "")) %></li>
+          <li onclick="toggleCardDropdown('table_<%= card_id %>')" class="user_card_black"><%= raw(unicode.gsub("B", "")) %></li>
         <% end %>
+        <ul style="bottom: 100%" id="dropdown_table_<%= card_id %>" class="dropdown-content">
+          <li class="dropdown-submenu">
+            <a class="test" tabindex="-1" href="">Move card: <span class="caret"></span></a>
+            <ul style="bottom: 10%; left: 100%" class="dropdown-content">
+              <li onclick="moveCardTable('<%= raw(@current_user.pluck(:username)[0]) %>','<%= card_id %>')"><%= raw(@current_user.pluck(:username)[0]) %></li>
+              <% @sinks.each do |sink|%>
+                <li onclick="moveCardTable('sink_<%= sink %>','<%= card_id %>')"> <%= sink %></li>
+              <% end %>
+              <li onclick=""> Place on table </li>
+            </ul>
+          </li>
+        </ul>
       <% end %>
     </ul>
   </div>
@@ -158,8 +183,6 @@
             <li onclick="moveCard('table', '<%=card_id%>')"> Place on table </li>
           </ul>
         </li>
-        <li>Link 2</li>
-        <li>Link 3</li>
       </ul>
     <% end %>
   </ul>
