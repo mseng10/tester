@@ -98,7 +98,10 @@ class GameSessionController < ApplicationController
     @sinks = @current_game.select(:discard_ids).first.attributes.values[1]
     @sinkHashes = []
     @sinks.each do |sink|
-      @sinkHashes.append(hash_return(Deck.where(id: sink).pluck(:cards)[0]))
+      hash = {}
+      hash[:id] = sink
+      hash = hash.merge(hash_return(Deck.where(id: sink).pluck(:cards)[0]))
+      @sinkHashes.append(hash)
     end
     @decks = @current_game.select(:deck_ids).first.attributes.values[1]
     user_id = @current_user.select(:id).first.attributes.values[0]
@@ -205,6 +208,14 @@ class GameSessionController < ApplicationController
         current_cards_in_sink = Deck.where(id: sinkID).select(:cards).first.attributes.values[1]
         current_cards_in_sink.append(current_picked_card)
         Deck.where(id: sinkID).update_all(cards: current_cards_in_sink)
+
+      elsif apiHelper.parameters['dest'].include?('draw')
+        draw_id = apiHelper.parameters['dest'].gsub('draw_', '')
+        puts "#############################"
+        puts draw_id
+        current_cards_in_draw = Deck.where(id: draw_id).select(:cards).first.attributes.values[1]
+        current_cards_in_draw.append(current_picked_card)
+        Deck.where(id: draw_id).update_all(cards: current_cards_in_draw)
 
       else
         target_user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
