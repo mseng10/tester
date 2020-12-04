@@ -193,6 +193,7 @@ class GameSessionController < ApplicationController
       current_cards_from_draw = Deck.where(id: apiHelper.parameters['source']).pluck(:cards)[0]
       current_picked_card = current_cards_from_draw.last
       current_cards_from_draw.delete(current_cards_from_draw.last)
+      Deck.where(id: apiHelper.parameters['source']).update_all(cards: current_cards_from_draw)
 
       if apiHelper.parameters['dest'] == 'table'
         table = @current_game.pluck(:table)[0]
