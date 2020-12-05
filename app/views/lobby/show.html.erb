@@ -1,33 +1,41 @@
-<h1> Lobby </h1>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-box my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">Lobby</h5>
+          <%= button_to  'Start Game', new_game_session_path, method: :get, :class => 'btn btn-lg btn-success btn-block text-uppercase', :id => 'start_game_button'%>
+          <h3 class="card-title text-center"><%= 'Game ID = ' + request.original_url.split(//).last(4).join %></h3>
+          <h3 class="card-title text-center">Players:</h3>
+          <h4 class="card-title text-center" id="usernames">
+            <script type="text/javascript">
 
-<!-- TODO: Check the implementation of this -->
-<%= button_to  'Start Game', new_game_session_path, method: :get, :class => 'btn btn-success', :id => 'start_game_button'%>
-<h3><%= 'Game ID = ' + request.original_url.split(//).last(4).join %></h3>
-<br><h3>Players:</h3>
-<h4 id="usernames">
-  <script type="text/javascript">
+                document.getElementById("usernames").innerHTML =
+                    '<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>';
 
-      document.getElementById("usernames").innerHTML =
-          '<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>';
+                (function refresh_usernames() {
+                    let started = <%= Cardgame.where(game_id: request.original_url.split(//).last(4).join.to_i).pluck(:started)[0] %>
+                    if (started) {
+                        document.getElementById("start_game_button").click();
+                    }
+                    else {
+                        $.ajax({
+                            url: '/lobby',
+                            type: 'POST',
+                            success: function() {
+                                $('#usernames').html('<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>')
+                            },
+                            complete: function() {
+                                setTimeout(refresh_usernames, 5000);
+                            }
+                        });
+                    }
+                })();
 
-      (function refresh_usernames() {
-          let started = <%= Cardgame.where(game_id: request.original_url.split(//).last(4).join.to_i).pluck(:started)[0] %>
-          if (started) {
-              document.getElementById("start_game_button").click();
-          }
-          else {
-              $.ajax({
-                  url: '/lobby',
-                  type: 'POST',
-                  success: function() {
-                      $('#usernames').html('<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>')
-                  },
-                  complete: function() {
-                      setTimeout(refresh_usernames, 5000);
-                  }
-              });
-          }
-      })();
-
-  </script>
-</h4>
+            </script>
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

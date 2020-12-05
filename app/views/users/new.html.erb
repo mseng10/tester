@@ -1,14 +1,45 @@
-<h2>Sign-up</h2>
-
-<%= form_tag users_path, :class => 'form' do %>
-  <%= label :user, :username, 'User ID', :class => 'col-form-label' %>
-  <%= text_field :user, 'username', :class => 'form-control', :id =>'signupUser' %>
-  <%= label :user, :email, 'Email', :class => 'col-form-label' %>
-  <%= text_field :user, 'email', :class => 'form-control', :id =>'signupEmail' %>
-  <%= label :user, :password, 'Password', :class => 'col-form-label' %>
-  <%= password_field :user, 'password', :class=> 'form-control', :id =>'signupPassword' %>
-  <%= label :user, :password, 'Password Confirmation', :class => 'col-form-label' %>
-  <%= password_field :user, 'password2', :class=> 'form-control', :id =>'signuppasswordConfirmation' %>
-  <br/>
-  <%= submit_tag 'Create my account', :class => 'btn btn-primary' , :id => 'signupCreate'%>
-<% end %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-box my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">Sign Up</h5>
+          <%= form_tag users_path, :class => 'form box' do %>
+            <div class="form-label-group">
+              <%= text_field :user, 'username', :class => 'form-control',placeholder: "Username", :id => 'signupUser' %>
+            </div>
+            <div class="form-label-group">
+              <%= text_field :user, 'email', :class => 'form-control', placeholder: "Email", :id =>'signupEmail' %>
+            </div>
+            <table style="left: 50%">
+              <tr>
+                <td id = 'length'>&#10060;</td>
+                <td id = 'lengthtext'>Contains atleast 8 characters</td>
+              </tr>
+              <tr>
+                <td id = 'special'>&#10060;</td>
+                <td id = 'specialtext'>Contains atleast 1 special character</td>
+              </tr>
+              <tr>
+                <td id = 'number'>&#10060;</td>
+                <td id = 'numbertext'>Contains atleast 1 number</td>
+              </tr>
+              <tr>
+                <td id = 'match'>&#10060;</td>
+                <td id = 'matchtext'>Passwords match</td>
+              </tr>
+            </table>
+            <div class="form-label-group">
+              <%= password_field :user, 'password', :class=> 'form-control' , placeholder: "Password",onkeyup: "pass()", :id => 'signupPassword' %>
+            </div>
+            <div class="form-label-group" id = "backup">
+              <%= password_field :user, 'password2', :class=> 'form-control', placeholder: "Password Confirmation",onkeyup: "check_pass()",:id =>'signuppasswordConfirmation' %>
+            </div>
+            <%= submit_tag 'Create my account', :class => 'btn btn-lg btn-success btn-block text-uppercase',  :id => 'signupCreate'%>
+            <hr class="my-4">
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
