@@ -82,6 +82,14 @@
     margin: 0 auto;
 }
 
+.reset_buttons{
+    position: fixed;
+    left: 78%;
+    bottom: 0px;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+}
+
 #other_user_hands{
     height: 200px;
     overflow-y:auto;
