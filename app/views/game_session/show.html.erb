@@ -48,6 +48,19 @@
         });
     }
 
+    function shuffle(deck) {
+        $.ajax({
+            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=shuffle&deck='+deck,
+            type: 'PUT',
+            success: function() {
+                // console.log("HELLO")
+            },
+            complete: function() {
+                location.reload();
+            }
+        });
+    }
+
 </script>
 
 
@@ -93,7 +106,7 @@
               <li onclick="moveCardDraw('table', '<%=deck%>')"> Place on table </li>
             </ul>
           </li>
-<!--          <li>Link 2</li>-->
+          <li onclick="shuffle('<%= deck %>')">Shuffle Deck</li>
 <!--          <li>Link 3</li>-->
         </ul>
         <% end %>

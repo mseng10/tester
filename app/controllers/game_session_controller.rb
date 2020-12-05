@@ -262,6 +262,13 @@ class GameSessionController < ApplicationController
       else
         flash[:notice] = 'Please discard the cards in your hand to leave the game'
       end
+
+    elsif apiHelper.function == 'shuffle'
+      deck_id = apiHelper.parameters['deck'].to_i
+      deck = Deck.where(id: deck_id).pluck(:cards)[0]
+      deck = deck.shuffle
+      Deck.where(id: deck_id).update_all(cards: deck)
+
     end
 
     redirect_to game_session_path(game_id)
