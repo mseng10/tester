@@ -11,13 +11,6 @@
             }
         });
     }
-    function leaveGame(){
-        $.ajax({
-            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=leaveGame',
-            type: 'PUT',
-            complete: function() {}
-        });
-    }
 
     function moveCardDraw(destination,  source){
         $.ajax({
@@ -52,6 +45,22 @@
             complete: function() {
                 location.reload();
             }
+        });
+    }
+
+    function leaveGame(){
+        $.ajax({
+            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=leaveGame',
+            type: 'PUT',
+            complete: function() {}
+        });
+    }
+
+    function resetGame(){
+        $.ajax({
+            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=resetGame',
+            type: 'PUT',
+            complete: function() {}
         });
     }
 
@@ -209,5 +218,5 @@
   <% end %>
 </div>
 <div class = "end_buttons">
-  <%= button_to  'End Game', game_session_path, method: :delete, :class => 'btn btn-danger', :id => "end_game_button"%>
+  <%= button_to  raw('&#10005;')+' End Game', game_session_path, method: :delete, :class => 'btn btn-danger', :id => "end_game_button"%>
 </div>

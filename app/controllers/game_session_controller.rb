@@ -263,6 +263,9 @@ class GameSessionController < ApplicationController
         flash[:notice] = 'Please discard the cards in your hand to leave the game'
       end
 
+    elsif apiHelper.function == 'resetGame'
+      # TODO: Reset the game to random initial state
+
     elsif apiHelper.function == 'shuffle'
       deck_id = apiHelper.parameters['deck'].to_i
       deck = Deck.where(id: deck_id).pluck(:cards)[0]
