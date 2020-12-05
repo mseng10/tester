@@ -93,7 +93,7 @@
         <li onclick="toggleCardDropdown('draw_<%= deck %>')" class="user_card_black">&#127136</li>
         <ul style="bottom: 100%" id="dropdown_draw_<%= deck %>" class="dropdown-content">
           <li class="dropdown-submenu">
-            <a class="test" tabindex="-1" href="">Move card: <span class="caret"></span></a>
+            <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
             <ul style="bottom: 10%; left: 100%" class="dropdown-content">
               <li onclick="moveCardDraw('<%= @current_user.pluck(:username)[0]%>', <%=deck%>)">
                 <%= raw(@current_user.pluck(:username)[0]) %>
@@ -103,7 +103,7 @@
               <% @sinks.each do |sink|%>
                 <li onclick="moveCardDraw('<%= 'sink_' + raw(sink)%>', '<%=deck%>')"> <%= raw(sink) %></li>
               <% end %>
-              <li onclick="moveCardDraw('table', '<%=deck%>')"> Place on table </li>
+              <li onclick="moveCardDraw('table', '<%=deck%>')"> Place on table</li>
             </ul>
           </li>
           <li onclick="shuffle('<%= deck %>')">&#x21ba; Shuffle</li>
@@ -129,13 +129,11 @@
           <% end %>
           <ul style="bottom: 100%" id="dropdown_sink_<%= hash[:id] %>" class="dropdown-content">
             <li class="dropdown-submenu">
-              <a class="test" tabindex="-1" href="">Move card: <span class="caret"></span></a>
+              <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
               <ul style="bottom: 10%; left: 100%" class="dropdown-content">
                 <li onclick="moveCardDraw('<%= @current_user.pluck(:username)[0]%>', '<%=hash[:id]%>')">
                   <%= raw(@current_user.pluck(:username)[0]) %>
                 </li>
-                <!--              onclick="moveCard('<%#= 'sink_' + raw(sink)%>', '<%#=card_id%>')"-->
-                <!--              onclick="moveCard('table', '<%#=card_id%>')"-->
                 <% @sinks.each do |sink|%>
                   <% if hash[:id] != sink %>
                     <li onclick="moveCardDraw('<%= 'sink_' + raw(sink)%>', '<%=hash[:id]%>')"> <%= sink %></li>
@@ -162,7 +160,7 @@
         <% end %>
         <ul style="bottom: 100%" id="dropdown_table_<%= card_id %>" class="dropdown-content">
           <li class="dropdown-submenu">
-            <a class="test" tabindex="-1" href="">Move card: <span class="caret"></span></a>
+            <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
             <ul style="bottom: 10%; left: 100%" class="dropdown-content">
               <li onclick="moveCardTable('<%= raw(@current_user.pluck(:username)[0]) %>','<%= card_id %>')"><%= raw(@current_user.pluck(:username)[0]) %></li>
               <% @sinks.each do |sink|%>
@@ -189,7 +187,7 @@
       <% end %>
       <ul style="bottom: 100%" id="dropdown_<%=card_id%>" class="dropdown-content">
         <li class="dropdown-submenu">
-        <a class="test" tabindex="-1" href="">Move card: <span class="caret"></span></a>
+        <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
           <ul style="bottom: 10%; left: 100%" class="dropdown-content">
             <% @user_cards_hash.each do |id, nameHash| %>
               <li onclick="moveCard('<%=raw(nameHash[:username])%>', '<%=card_id%>')"> <%=nameHash[:username]%> </li>
