@@ -157,6 +157,7 @@ class GameSessionController < ApplicationController
     # Need to fix the card from unicode to id
     # Location 0 is the function. each one after that is the params
     user_id = @current_user.select(:id).first.attributes.values[0]
+    game_id = @current_user.select(:current_game).first.attributes.values[1]
     apiHelper = ApiHelper.new(request.original_url)
     game_id = @current_user.select(:current_game).first.attributes.values[1]
 
@@ -239,6 +240,27 @@ class GameSessionController < ApplicationController
         current_user_cards.append(apiHelper.parameters['card'].to_i)
         Hand.where(user_id: user_id).update_all(cards: current_user_cards)
 
+      end
+
+    elsif apiHelper.function == 'leaveGame'
+      current_user_cards = Hand.where(user_id: user_id).select(:cards).first.attributes.values[1]
+
+      if current_user_cards.size == 0
+        user_ids = Cardgame.user_ids(game_id)
+        hand_ids = Cardgame.hand_ids(game_id)
+        hand_id = Hand.where(user_id: user_id).select(:id).first.attributes.values[0]
+
+        user_ids.delete(user_id)
+        hand_ids.delete(hand_id)
+
+        Cardgame.where(id: @current_game.pluck(:id)).update_all(user_ids: user_ids)
+        Cardgame.where(id: @current_game.pluck(:id)).update_all(hand_ids: hand_ids)
+        Hand.delete(hand_id)
+        User.where(id: user_id).update_all(current_game: 0)
+        redirect_to games_path
+        return
+      else
+        flash[:notice] = 'Please discard the cards in your hand to leave the game'
       end
     end
 
