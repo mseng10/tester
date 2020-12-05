@@ -64,6 +64,18 @@
         });
     }
 
+    function flipCard(card) {
+        $.ajax({
+            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=flipCard&card='+card,
+            type: 'PUT',
+            success: function() {
+            },
+            complete: function() {
+                location.reload();
+            }
+        });
+    }
+
 </script>
 
 
@@ -201,6 +213,7 @@
             <li onclick="moveCard('table', '<%=card_id%>')"> Place on table </li>
           </ul>
         </li>
+        <li onclick="flipCard('<%= card_id %>')">Flip Card</li>
       </ul>
     <% end %>
   </ul>
