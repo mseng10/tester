@@ -1,12 +1,10 @@
 <script type="text/javascript">
 
     function moveCard(destination, card){
-        console.log("dest: " + destination + "   card: " + card)
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=moveCard&dest='+destination+'&card='+card,
             type: 'PUT',
             success: function() {
-                // console.log("HELLO")
             },
             complete: function() {
                 location.reload();
@@ -22,12 +20,10 @@
     }
 
     function moveCardDraw(destination,  source){
-        console.log("dest: " + destination + "   card: " + source)
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=moveCardDraw&dest='+destination+'&source='+source,
             type: 'PUT',
             success: function() {
-                // console.log("HELLO")
             },
             complete: function() {
                 location.reload();
@@ -40,7 +36,6 @@
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=moveCardTable&dest='+destination+'&card='+card,
             type: 'PUT',
             success: function() {
-                // console.log("HELLO")
             },
             complete: function() {
                 location.reload();
@@ -53,7 +48,6 @@
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=shuffle&deck='+deck,
             type: 'PUT',
             success: function() {
-                // console.log("HELLO")
             },
             complete: function() {
                 location.reload();
@@ -98,8 +92,6 @@
               <li onclick="moveCardDraw('<%= @current_user.pluck(:username)[0]%>', <%=deck%>)">
                 <%= raw(@current_user.pluck(:username)[0]) %>
               </li>
-<!--              onclick="moveCard('<%#= 'sink_' + raw(sink)%>', '<%#=card_id%>')"-->
-<!--              onclick="moveCard('table', '<%#=card_id%>')"-->
               <% @sinks.each do |sink|%>
                 <li onclick="moveCardDraw('<%= 'sink_' + raw(sink)%>', '<%=deck%>')"> <%= raw(sink) %></li>
               <% end %>
@@ -107,7 +99,6 @@
             </ul>
           </li>
           <li onclick="shuffle('<%= deck %>')">&#x21ba; Shuffle</li>
-<!--          <li>Link 3</li>-->
         </ul>
         <% end %>
     </ul>
@@ -217,22 +208,3 @@
 <div class = "end_buttons">
   <%= button_to  'End Game', game_session_path, method: :delete, :class => 'btn btn-danger', :id => "end_game_button"%>
 </div>
-
-
-
-<!--<script type="text/javascript">-->
-<!--    (function end_game() {-->
-<!--            $.ajax({-->
-<!--                url: '/game_session/'+ <%#= request.original_url.split(//).last(4).join.to_i %>,-->
-<!--                type: 'GET',-->
-<!--                complete: function() {-->
-<!--                    setTimeout(end_game, 5000);-->
-<!--                }-->
-<!--            });-->
-<!--    })();-->
-<!--</script>-->
-
-
-
-
-
