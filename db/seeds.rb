@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 #
 users = [
-    {:user_id => 0, :username => 'Dennis', :password => 'password', :email => 'email'},
+    {:user_id => 0, :username => 'Dennis', :password => BCrypt::Password.create('password'), :email => 'email'},
 ]
 
 users.each do |user|
