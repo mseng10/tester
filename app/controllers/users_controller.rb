@@ -32,6 +32,7 @@ class UsersController < ApplicationController
       return
     else
       params = user_params
+      params[:password] = BCrypt::Password.create(params[:password])
       params.delete(:password2)
     end
 

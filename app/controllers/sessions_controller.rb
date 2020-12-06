@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
       flash[:notice] = "Invalid user-id/password combination."
       redirect_to login_path and return
     else
-      stored_password= User.find_by(:username => id).password
+      stored_password= BCrypt::Password.new(User.find_by(:username => id).password)
       if stored_password != password
         flash[:notice] = "Invalid user-id/password combination."
         redirect_to login_path and return
