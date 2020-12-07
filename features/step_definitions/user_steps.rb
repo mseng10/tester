@@ -9,9 +9,9 @@ end
 Given /the following users have been added to the database:/ do |users_table|
   size = User.all.size
   users_table.hashes.each do |user|
-    User.create(:username => user[:username],
+    User.create_user({:username => user[:username],
                 :email => user[:email],
-                :password => BCrypt::Password.create(user[:password]))
+                :password => BCrypt::Password.create(user[:password])})
   end
   expect(User.all.size).to equal(size+1)
 end
@@ -75,7 +75,7 @@ Then /^my account should not be successfully logged in$/ do
 end
 
 When /^I have opted to Logout my account$/ do
-  click_button 'Login'
+  click_button 'Log Out'
 end
 
 Then /^my account should be successfully logged out$/ do
