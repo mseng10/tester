@@ -13,6 +13,11 @@ div#main {
 div#content {
     font-size: 100px;
 }
+
+.navbar{
+    height: 50%; /* Just an example height*/
+}
+
 a {
     background: transparent;
     color: maroon;
@@ -36,6 +41,15 @@ h1.title {
     font-size: 2em;
     font-style: normal;
 }
+
+h2#title{
+    height: 40px;
+}
+
+#signupLogin{
+
+}
+
 #notice #warning {
     background: rosybrown;
     margin: 1em 0;
