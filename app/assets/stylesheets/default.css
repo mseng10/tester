@@ -42,6 +42,15 @@ h1.title {
     font-style: normal;
 }
 
+#login{
+    padding-right: 4px;
+    color: #D3D3D3;
+}
+
+#loginButton{
+    color: #D3D3D3;
+}
+
 h2#title{
     height: 40px;
 }

@@ -10,12 +10,17 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
   <div class="container">
-    <h2 class="text-success" id = "title"> &#9829; &#9824; Selt2020G7Cardgameproject &#9827; &#9830;</h2>
+    <h2 class="text-success" id = "title"> <span class = "red">&#9829;</span> &#9824; Selt2020G7Cardgameproject <span class = "red">&#9827;</span> &#9830;</h2>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
+        <% if !(@current_user) %>
+          <li class="nav-item" id = "login">
+            <%= button_to'Login', login_path,:class => "btn btn-outline-secondary" ,method: :get, id: 'loginButton'%>
+          </li>
+        <% end %>
         <li class="nav-item">
           <% if !(@current_user) %>
-            <%= button_to'Sign up/Login', login_path,:class => "btn btn-outline-success" ,method: :get, id: 'signupLogin'%>
+            <%= button_to'Sign up', new_user_path,:class => "btn btn-outline-success" ,method: :get, id: 'signupLogin'%>
           <% else %>
             <%= button_to'Log Out', logout_path,:class => "btn btn-outline-danger", method: :delete, id: 'logout'%>
           <% end %>
