@@ -11,7 +11,7 @@ Given /the following users have been added to the database:/ do |users_table|
   users_table.hashes.each do |user|
     User.create(:username => user[:username],
                 :email => user[:email],
-                :password => user[:password])
+                :password => BCrypt::Password.create(user[:password]))
   end
   expect(User.all.size).to equal(size+1)
 end
