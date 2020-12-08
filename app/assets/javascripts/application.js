@@ -119,7 +119,7 @@ function check_email() {
         document.getElementById('valid_email').innerHTML = '&#10060;'
         document.getElementById('valid_email_text').style.color = "red";
     }
-    else if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(document.getElementById('signupEmail').value)) {
+    else if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(document.getElementById('signupEmail').value)) {
         document.getElementById('signupCreate').disabled = false;
         document.getElementById('valid_email').innerHTML = '&#9989;'
         document.getElementById('valid_email_text').style.color = "green";
