@@ -48,3 +48,95 @@ $(document).ready(function(){
     });
 });
 
+function pass() {
+    let valid = true;
+    if (document.getElementById('signupPassword').value.length > 7) {
+        document.getElementById('length').innerHTML = '&#9989;'
+        document.getElementById('lengthtext').style.color = "green";
+
+    }
+    else {
+        document.getElementById('length').innerHTML = '&#10060;'
+        document.getElementById('lengthtext').style.color = "black";
+        valid = false;
+    }
+    if(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(document.getElementById('signupPassword').value)){
+        document.getElementById('special').innerHTML = '&#9989;'
+        document.getElementById('specialtext').style.color = "green";
+    }
+    else{
+        document.getElementById('special').innerHTML = '&#10060;'
+        document.getElementById('specialtext').style.color = "black";
+        valid = false;
+    }
+    if(/\d/.test(document.getElementById('signupPassword').value)){
+        document.getElementById('number').innerHTML = '&#9989;'
+        document.getElementById('numbertext').style.color = "green";
+
+    }
+    else{
+        document.getElementById('number').innerHTML = '&#10060;'
+        document.getElementById('numbertext').style.color = "black";
+        valid = false;
+    }
+    if(valid){
+        document.getElementById('signupPassword').style.color = "green";
+    }
+    else{
+        document.getElementById('signupPassword').style.color = "red";
+    }
+}
+
+function check_pass() {
+    if (document.getElementById('signupPassword').value ==
+        document.getElementById('signuppasswordConfirmation').value) {
+        document.getElementById('match').innerHTML = '&#9989;'
+        document.getElementById('matchtext').style.color = "green";
+        document.getElementById('signuppasswordConfirmation').style.color = "green";
+        check_blank();
+    } else {
+        document.getElementById('signuppasswordConfirmation').style.color = "red";
+        document.getElementById('match').innerHTML = '&#10060;'
+        document.getElementById('matchtext').style.color = "black";
+    }
+}
+
+function check_blank() {
+    if (document.getElementById('signupPassword').value.length == 0 ||
+        document.getElementById('signuppasswordConfirmation').value.length == 0 ||
+        document.getElementById('signupUser').value.length == 0 ||
+        document.getElementById('signupEmail').value.length == 0) {
+        document.getElementById('signupCreate').disabled = true;
+    } else {
+        document.getElementById('signupCreate').disabled = false;
+    }
+}
+
+function check_email() {
+    /* Regex pulled from https://www.w3resource.com/javascript/form/email-validation.php */
+    if (document.getElementById('signupEmail').value.length == 0) {
+        document.getElementById('signupCreate').disabled = true;
+        document.getElementById('valid_email').innerHTML = '&#10060;'
+        document.getElementById('valid_email_text').style.color = "red";
+    }
+    else if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(document.getElementById('signupEmail').value)) {
+        document.getElementById('signupCreate').disabled = false;
+        document.getElementById('valid_email').innerHTML = '&#9989;'
+        document.getElementById('valid_email_text').style.color = "green";
+        check_blank();
+    } else {
+        document.getElementById('signupCreate').disabled = true;
+        document.getElementById('valid_email').innerHTML = '&#10060;'
+        document.getElementById('valid_email_text').style.color = "red";
+    }
+}
+
+function check_username() {
+    if (document.getElementById('signupUser').value.length == 0) {
+        document.getElementById('signupCreate').disabled = true;
+    }
+    else {
+        check_blank();
+    }
+}
+

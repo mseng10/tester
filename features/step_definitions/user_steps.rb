@@ -35,11 +35,11 @@ Given /^I am on the login page$/ do
 end
 
 When /^I have clicked on the Sign Up button$/ do
-  click_on 'Sign-up for an account'
+  click_on 'Sign-up'
 end
 
 Then /^I should be on the Sign Up Page$/ do
-  expect(page).to have_content('Sign-up')
+  expect(page).to have_content('Sign Up')
 end
 
 When /^I have opted to Sign-up with username "(.+)", email "(.+)" password "(.+)" and password confirmation "(.+)"$/ do |username, email, password, password2|

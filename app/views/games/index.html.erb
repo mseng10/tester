@@ -1,12 +1,19 @@
-<h1>Welcome! Please join or create a game.</h1>
-
-<div class="create_or_join_game">
-  <%= button_to 'Create Game', games_path, :class =>"btn btn-primary", method: :post, :id => 'create_game'%>
-
-  <!--  TODO: Change games_path to games_create-->
-  <%= form_tag lobby_join_path, method: :get, :class => 'form' do %>
-    <%= text_field :game, 'game_id', :placeholder => "Enter Game ID" , :id => 'join_game_textbox'%>
-    <%= button_to 'Join Game!', games_path ,:class => "btn btn-secondary",:id => 'join_game_button'%>
-  <% end %>
-
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-box my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">Welcome! Please join or create a game.</h5>
+          <%= form_tag lobby_join_path, method: :get, :class => 'form box' do %>
+            <div class="form-label-group">
+              <%= text_field :game, 'game_id', :class=> 'form-control', :placeholder => "Enter Game ID" , :id => 'join_game_textbox'%>
+            </div>
+            <%= button_to 'Join Game!', games_path ,:class => "btn btn-lg btn-outline-info btn-block text-uppercase",:id => 'join_game_button'%>
+            <hr class="my-4">
+          <% end %>
+          <%= button_to 'Create Game', games_path, :class =>"btn btn-lg btn-success btn-block text-uppercase", method: :post, :id => 'create_game'%>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -97,8 +97,7 @@
 
 .empty_sink{
     color: white;
-    margin-top:-5px;
-    margin-bottom:-5px;
+    padding: 1px;
     /*border-style: solid;*/
     border: 1px solid black;
     box-sizing: border-box;
@@ -151,3 +150,64 @@
 .dropdown-submenu {
     position: relative;
 }
+
+
+/*------------------------------*/
+:root {
+    --input-padding-x: 1.5rem;
+    --input-padding-y: .75rem;
+}
+
+.card-box {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-box .card-title {
+    margin-bottom: 2rem;
+    font-weight: 300;
+    font-size: 1.5rem;
+}
+
+.card-box .card-body {
+    padding: 2rem;
+}
+
+.form-box {
+    width: 100%;
+}
+
+.form-label-group {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.form-label-group input {
+    height: auto;
+    border-radius: 2rem;
+}
+
+.form-label-group>input,
+.form-label-group>label {
+    padding: var(--input-padding-y) var(--input-padding-x);
+}
+
+.form-label-group input::-moz-placeholder {
+    color: lightslategrey;
+}
+
+.form-label-group input::placeholder {
+    color: lightslategrey;
+}
+/*#other_user_hands{*/
+/*    transition: transform .2s;*/
+/*    display: block;*/
+/*    transform-origin: left top;*/
+/*}*/
+/*#other_user_hands:active{*/
+/*    transform: scale(2.0);*/
+/*    z-index: 1;*/
+/*}*/
+
+/*&#8634; unicode for reset button*/
