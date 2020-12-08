@@ -8,7 +8,7 @@
             <div class="form-label-group">
               <%= text_field :game, 'game_id', :class=> 'form-control', :placeholder => "Enter Game ID" , :id => 'join_game_textbox'%>
             </div>
-            <%= button_to 'Join Game!', games_path ,:class => "btn btn-lg btn-primary btn-block text-uppercase",:id => 'join_game_button'%>
+            <%= button_to 'Join Game!', games_path ,:class => "btn btn-lg btn-outline-info btn-block text-uppercase",:id => 'join_game_button'%>
             <hr class="my-4">
           <% end %>
           <%= button_to 'Create Game', games_path, :class =>"btn btn-lg btn-success btn-block text-uppercase", method: :post, :id => 'create_game'%>
