@@ -6,7 +6,7 @@
           <h5 class="card-title text-center">Sign Up</h5>
           <%= form_tag users_path, :class => 'form box' do %>
             <div class="form-label-group">
-              <%= text_field :user, 'username', :class => 'form-control',placeholder: "Username", :id => 'signupUser' %>
+              <%= text_field :user, 'username', :class => 'form-control',placeholder: "Username", onkeyup: "check_username()",:id => 'signupUser' %>
             </div>
             <table style="left: 50%">
               <tr>

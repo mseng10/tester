@@ -131,3 +131,12 @@ function check_email() {
     }
 }
 
+function check_username() {
+    if (document.getElementById('signupUser').value.length == 0) {
+        document.getElementById('signupCreate').disabled = true;
+    }
+    else {
+        check_blank();
+    }
+}
+
