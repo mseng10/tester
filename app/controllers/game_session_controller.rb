@@ -111,8 +111,6 @@ class GameSessionController < ApplicationController
       @sinkHashes.append(hash)
     end
 
-    puts "MATT" + @sinkHashes.to_s
-
     @decks = @current_game.select(:deck_ids).first.attributes.values[1]
     @deckHashes = []
     @decks.each do |deck|
@@ -123,8 +121,6 @@ class GameSessionController < ApplicationController
         hash = hash.merge(hash_return(Deck.where(id: deck).pluck(:cards)[0],deck_top_card))
         @deckHashes.append(hash)
     end
-
-    puts "MATT" + @deckHashes.to_s
 
     user_id = @current_user.select(:id).first.attributes.values[0]
     @user_hand_card_values = hash_return(Hand.where(user_id: user_id).select(:cards).first.attributes.values[1],true)
@@ -137,6 +133,19 @@ class GameSessionController < ApplicationController
     end
 
     @table = hash_return(@current_game.pluck(:table)[0],true)
+    count = 0
+    table_cards_boolean = @current_game.pluck(:table_cards_shown)[0]
+    new_table_hash = {}
+    @table.each do|table|
+      value = table[1]
+      if table_cards_boolean[count] == false
+        value = "B&#127136"
+      end
+      @table.delete(table)
+      new_table_hash[count] = value
+      count = count + 1
+    end
+    @table = new_table_hash
   end
 
 
@@ -195,7 +204,9 @@ class GameSessionController < ApplicationController
         table = @current_game.pluck(:table)[0]
         table.append(apiHelper.parameters['card'].to_i)
         Cardgame.where(game_id: game_id).update_all(table: table)
-
+        table_booleans = @current_game.pluck(:table_cards_shown)[0]
+        table_booleans = table_booleans.append(true)
+        Cardgame.where(game_id: game_id).update_all(table_cards_shown: table_booleans)
       # Move card to sink
       elsif apiHelper.parameters['dest'].include?('sink')
         sinkID = apiHelper.parameters['dest'].gsub('sink_', '')
@@ -221,6 +232,9 @@ class GameSessionController < ApplicationController
         table = @current_game.pluck(:table)[0]
         table.append(current_picked_card)
         Cardgame.where(game_id: game_id).update_all(table: table)
+        table_booleans = @current_game.pluck(:table_cards_shown)[0]
+        table_booleans = table_booleans.append(true)
+        Cardgame.where(game_id: game_id).update_all(table_cards_shown: table_booleans)
 
       elsif apiHelper.parameters['dest'].include?('sink')
         sinkID = apiHelper.parameters['dest'].gsub('sink_', '')
@@ -264,7 +278,6 @@ class GameSessionController < ApplicationController
 
     elsif apiHelper.function == 'flipCard'
       current_table_cards = Cardgame.table(game_id)
-      puts "MATT"
       if apiHelper.parameters['id'].include? 'draw'
         id = apiHelper.parameters['id'].gsub("draw", "")
         opposite = !Deck.where(id: id).select(:top_card_showed).first.attributes["top_card_showed"]
@@ -273,6 +286,11 @@ class GameSessionController < ApplicationController
         id = apiHelper.parameters['id'].gsub("sink", "")
         opposite = !Deck.where(id: id).select(:top_card_showed).first.attributes["top_card_showed"]
         Deck.where(:id => id).update_all(:top_card_showed => opposite)
+      elsif apiHelper.parameters['id'].include? 'table'
+        id = apiHelper.parameters['id'].gsub("table", "")
+        table_cards_boolean = @current_game.pluck(:table_cards_shown)[0]
+        table_cards_boolean[id.to_i] = !table_cards_boolean[id.to_i]
+        Cardgame.where(game_id: game_id).update_all(table_cards_shown: table_cards_boolean)
       end
 
     elsif apiHelper.function == 'leaveGame'
