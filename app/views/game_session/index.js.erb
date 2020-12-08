@@ -1,0 +1,19 @@
+(function end_game() {
+    let started = <%= Cardgame.exists?(game_id: request.original_url.split(//).last(4).join.to_i) %>
+    console.log("HERE")
+    if(!started){
+    $.ajax({
+    url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %>,
+    type: 'GET',
+    success: function() {
+    location.reload()
+}
+});
+
+}
+    else {
+    setTimeout(end_game,1000)
+}
+
+
+})();

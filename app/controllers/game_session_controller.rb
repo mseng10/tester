@@ -150,6 +150,7 @@ class GameSessionController < ApplicationController
       end
     end
     redirect_to games_path
+    flash[:notice] = "One of the user ended the game"
   end
 
   def update

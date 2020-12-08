@@ -100,8 +100,8 @@
 </div>
 
 <div class="container">
-  <h3 style="position: fixed; right: 8%; top: 150px; transform: translate(-50%, -50%); margin: 0 auto;"> Draw Pile </h3>
-  <div style="position: fixed; right: 10%; top: 200px; transform: translate(-50%, -50%); margin: 0 auto;" , id="decks">
+  <h3 style="position: fixed; right: 8%; top: 150px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"> Draw Pile </h3>
+  <div style="position: fixed; right: 10%; top: 200px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1" , id="decks">
     <ul class="cards">
       <% @decks.each do |deck| %>
         <li onclick="toggleCardDropdown('draw_<%= deck %>')" class="user_card_black">&#127136</li>
@@ -126,8 +126,8 @@
 </div>
 
 <div class="container">
-  <h3 style="position: fixed; right: 7%; top: 375px; transform: translate(-50%, -50%); margin: 0 auto;"> Discard Pile </h3>
-  <div style="position: fixed; right: 10%; top: 450px; transform: translate(-50%, -50%); margin: 0 auto;" , id="sinks">
+  <h3 style="position: fixed; right: 7%; top: 375px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"> Discard Pile </h3>
+  <div style="position: fixed; right: 10%; top: 450px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1" , id="sinks">
     <ul class="cards">
       <% @sinkHashes.each do |hash| %>
         <% if hash.size <= 0 %>
@@ -160,6 +160,11 @@
   </div>
 </div>
 
+<div class="oval" style="position: fixed; left: 50%; top: 45%; transform: translate(-50%, -50%); margin: 0 auto;">
+
+</div>
+
+
 <div class="container">
   <div style="position: fixed; left: 50%; top: 45%; transform: translate(-50%, -50%); margin: 0 auto;" , id="table">
     <ul style="margin: 50%;" class="cards">
@@ -188,7 +193,8 @@
 
 
 
-<div style="position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, -50%); margin: 0 auto;" , id="testing_div">
+
+<div style="position: fixed; left: 46%; bottom: 150px; transform: translate(-50%, -50%); margin: 0 auto;" , id="testing_div">
   <ul class="cards">
     <% @user_hand_card_values.each do |card_id,unicode| %>
       <% if unicode[0] == "R" %>
