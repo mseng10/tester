@@ -49,12 +49,12 @@
               </tr>
             </table>
             <div class="form-label-group">
-              <%= password_field :user, 'password', :class=> 'form-control' , placeholder: "Password",onkeyup: "pass()", :id => 'resetPassword' %>
+              <%= password_field :user, 'password', :class=> 'form-control' , placeholder: "Password",onkeyup: "pass2()", :id => 'resetPassword' %>
             </div>
             <div class="form-label-group" id = "backup">
-              <%= password_field :user, 'password2', :class=> 'form-control', placeholder: "Password Confirmation",onkeyup: "check_pass()",:id =>'resetPasswordConfirmation' %>
+              <%= password_field :user, 'password2', :class=> 'form-control', placeholder: "Password Confirmation",onkeyup: "check_pass2()",:id =>'resetPasswordConfirmation' %>
             </div>
-            <%= submit_tag 'Change Password', :class => 'btn btn-lg btn-success btn-block text-uppercase', onclick: "check_blank()", :id => 'resetPasswordButton'%>
+            <%= submit_tag 'Change Password', :class => 'btn btn-lg btn-success btn-block text-uppercase', onclick: "check_blank2()", :id => 'resetPasswordButton'%>
             <hr class="my-4">
           <% end %>
           </div>
