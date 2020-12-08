@@ -193,7 +193,8 @@
 
 
 
-<div style="position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, -50%); margin: 0 auto;" , id="testing_div">
+
+<div style="position: fixed; left: 46%; bottom: 150px; transform: translate(-50%, -50%); margin: 0 auto;" , id="testing_div">
   <ul class="cards">
     <% @user_hand_card_values.each do |card_id,unicode| %>
       <% if unicode[0] == "R" %>
@@ -236,4 +237,3 @@
 <div class = "end_buttons">
   <%= button_to  raw('&#10005;')+' End Game', game_session_path, method: :delete, :class => 'btn btn-danger', :id => "end_game_button"%>
 </div>
-
