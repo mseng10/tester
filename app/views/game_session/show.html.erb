@@ -66,7 +66,7 @@
 
     function flipCard(card) {
         $.ajax({
-            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=flipCard&card='+card,
+            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=flipCard&id='+card,
             type: 'PUT',
             success: function() {
             },
@@ -126,6 +126,7 @@
               </ul>
             </li>
             <li onclick="shuffle('<%= hash[:id] %>')">&#x21ba; Shuffle</li>
+            <li onclick="flipCard('deck<%= hash[:id] %>')">Flip Top Card</li>
           </ul>
         <% end %>
       <% end %>

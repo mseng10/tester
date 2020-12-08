@@ -115,7 +115,8 @@ class GameSessionController < ApplicationController
     @decks = @current_game.select(:deck_ids).first.attributes.values[1]
     @deckHashes = []
     @decks.each do |deck|
-        deck_top_card = Deck.where(id: deck).pluck(:top_card_showed)[1]
+        deck_top_card = Deck.where(id: deck).select(:top_card_showed).first.attributes["top_card_showed"]
+        puts deck_top_card.to_s
         hash = {}
         hash[:id] = deck
         hash = hash.merge(hash_return(Deck.where(id: deck).pluck(:cards)[0],deck_top_card))
@@ -239,6 +240,8 @@ class GameSessionController < ApplicationController
         Hand.where(user_id: target_user_id).update_all(cards: target_user_cards)
       end
 
+      Deck.where(:id => id).update_all(:top_card_showed => false)
+
     elsif apiHelper.function == 'moveCardTable'
       current_table_cards = Cardgame.table(game_id)
       current_table_cards.delete(apiHelper.parameters['card'].to_i)
@@ -256,6 +259,15 @@ class GameSessionController < ApplicationController
         current_user_cards.append(apiHelper.parameters['card'].to_i)
         Hand.where(user_id: user_id).update_all(cards: current_user_cards)
 
+      end
+
+    elsif apiHelper.function == 'flipCard'
+      current_table_cards = Cardgame.table(game_id)
+      puts "MATT"
+      if apiHelper.parameters['id'].include? 'deck'
+        id = apiHelper.parameters['id'].gsub("deck", "")
+        opposite = !Deck.where(id: id).select(:top_card_showed).first.attributes["top_card_showed"]
+        Deck.where(:id => id).update_all(:top_card_showed => opposite)
       end
 
     elsif apiHelper.function == 'leaveGame'
