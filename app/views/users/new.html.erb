@@ -8,8 +8,14 @@
             <div class="form-label-group">
               <%= text_field :user, 'username', :class => 'form-control',placeholder: "Username", :id => 'signupUser' %>
             </div>
+            <table style="left: 50%">
+              <tr>
+                <td id = 'valid_email'>&#10060;</td>
+                <td id = 'valid_email_text'>Valid email</td>
+              </tr>
+            </table>
             <div class="form-label-group">
-              <%= text_field :user, 'email', :class => 'form-control', placeholder: "Email", :id =>'signupEmail' %>
+              <%= text_field :user, 'email', :class => 'form-control', placeholder: "Email", onkeyup: "check_email()",:id =>'signupEmail' %>
             </div>
             <table style="left: 50%">
               <tr>
