@@ -12,7 +12,10 @@ class SessionsController < ApplicationController
     id= user_params[:username]
     password= user_params[:password]
 
-    if User.where(:username => id).empty?
+    if id == '' or password == '' or id == nil or password == nil
+      flash[:notice] = "Username and/or password fields are blank."
+      redirect_to login_path and return
+    elsif User.where(:username => id).empty?
       flash[:notice] = "Invalid user-id/password combination."
       redirect_to login_path and return
     else
