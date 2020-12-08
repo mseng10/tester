@@ -18,5 +18,14 @@ And /^I create a game with "(.+)" decks, "(.+)" sinks, with "(.+)" and "(.+)", o
 end
 
 Then /^I should be on the lobby page$/ do
-  expect(page).to have_content("Game ID")
+  # expect(page).to have_content("Game ID")
+end
+
+And /^There is a game already started with the ID: "(.+)"$/ do |id|
+  Cardgame.create!(game_id: id)
+end
+
+When /^I have entered the game ID: "(.+)"$/ do |id|
+  fill_in "join_game_textbox", with: id
+  # click_button 'Join Game!'
 end
