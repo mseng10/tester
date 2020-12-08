@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :users
   resources :lobby
   resources :game_session
+  resources :password_reset
   match '/lobby_join', to: 'lobby#join', via: :get
   match '/login', to: 'sessions#new', via: :get
   match '/login_create', to: 'sessions#create', via: :post
