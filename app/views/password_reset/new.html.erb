@@ -10,7 +10,7 @@
             <div class="form-label-group">
               <%= text_field :user, 'email', :class => 'form-control',placeholder: "email", :id => 'ResetPasswordEmail' %>
             </div>
-              <input id="Reset password" type="button" value="Reset Password" onclick="switchVisible();"/>            <hr class="my-4">
+              <input id="Reset password" type="button" class = 'btn btn-lg btn-success btn-block text-uppercase' value="Reset Password" onclick="switchVisible() "/>            <hr class="my-4">
           <% end %>
           </div>
         </div>
@@ -46,12 +46,12 @@
               </tr>
             </table>
             <div class="form-label-group">
-              <%= password_field :user, 'password', :class=> 'form-control' , placeholder: "Password",onkeyup: "pass()", :id => 'signupPassword' %>
+              <%= password_field :user, 'password', :class=> 'form-control' , placeholder: "Password",onkeyup: "pass()", :id => 'resetPassword' %>
             </div>
             <div class="form-label-group" id = "backup">
-              <%= password_field :user, 'password2', :class=> 'form-control', placeholder: "Password Confirmation",onkeyup: "check_pass()",:id =>'signuppasswordConfirmation' %>
+              <%= password_field :user, 'password2', :class=> 'form-control', placeholder: "Password Confirmation",onkeyup: "check_pass()",:id =>'resetPasswordConfirmation' %>
             </div>
-            <%= submit_tag 'Create my account', :class => 'btn btn-lg btn-success btn-block text-uppercase', onclick: "check_blank()", :id => 'signupCreate'%>
+            <%= submit_tag 'Change Password', :class => 'btn btn-lg btn-success btn-block text-uppercase', onclick: "check_blank()", :id => 'ResetPassword'%>
             <hr class="my-4">
           <% end %>
           </div>
