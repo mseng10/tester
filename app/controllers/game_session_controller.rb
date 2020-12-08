@@ -264,8 +264,8 @@ class GameSessionController < ApplicationController
     elsif apiHelper.function == 'flipCard'
       current_table_cards = Cardgame.table(game_id)
       puts "MATT"
-      if apiHelper.parameters['id'].include? 'deck'
-        id = apiHelper.parameters['id'].gsub("deck", "")
+      if apiHelper.parameters['id'].include? 'draw'
+        id = apiHelper.parameters['id'].gsub("draw", "")
         opposite = !Deck.where(id: id).select(:top_card_showed).first.attributes["top_card_showed"]
         Deck.where(:id => id).update_all(:top_card_showed => opposite)
       end

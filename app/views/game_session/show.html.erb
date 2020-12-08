@@ -108,11 +108,11 @@
           <li class="empty_sink">&#127137</li>
         <% else %>
           <% if hash.values.last[0] == "R" %>
-            <li onclick="toggleCardDropdown('deck_<%= hash[:id] %>')" class="user_card_red"><%= raw(hash.values.last.gsub("R", "")) %></li>
+            <li onclick="toggleCardDropdown('draw_<%= hash[:id] %>')" class="user_card_red"><%= raw(hash.values.last.gsub("R", "")) %></li>
           <% elsif hash.values.last[0] == "B" %>
-            <li onclick="toggleCardDropdown('deck_<%= hash[:id] %>')" class="user_card_black"><%= raw(hash.values.last.gsub("B", "")) %></li>
+            <li onclick="toggleCardDropdown('draw_<%= hash[:id] %>')" class="user_card_black"><%= raw(hash.values.last.gsub("B", "")) %></li>
           <% end %>
-          <ul style="bottom: 100%" id="dropdown_deck_<%= hash[:id] %>" class="dropdown-content">
+          <ul style="bottom: 100%" id="dropdown_draw_<%= hash[:id] %>" class="dropdown-content">
             <li class="dropdown-submenu">
               <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
               <ul style="bottom: 10%; left: 100%" class="dropdown-content">
@@ -126,7 +126,7 @@
               </ul>
             </li>
             <li onclick="shuffle('<%= hash[:id] %>')">&#x21ba; Shuffle</li>
-            <li onclick="flipCard('deck<%= hash[:id] %>')">Flip Top Card</li>
+            <li onclick="flipCard('draw<%= hash[:id] %>')">Flip Top Card</li>
           </ul>
         <% end %>
       <% end %>
@@ -160,6 +160,7 @@
                   <% end %>
                 <% end %>
                 <li onclick="moveCardDraw('table', '<%=hash[:id]%>')"> Place on table </li>
+                <li onclick="flipCard('sink<%= hash[:id] %>')">Flip Top Card</li>
               </ul>
             </li>
           </ul>
