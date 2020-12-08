@@ -6,10 +6,14 @@ class PasswordResetController < ApplicationController
   def edit
     @id = User.where(email: user_params[:email]).pluck(:id)[0]
   end
+
   def create
-    @id = User.where(email: user_params[:email]).pluck(:id)[0]
-    render :edit
+    @id = User.find_by_email(user_params[:email])
+    if @id == nil
+      redirect_to new_password_reset_path
+    end
   end
+
   def new
 
   end
