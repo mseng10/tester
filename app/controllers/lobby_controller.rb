@@ -48,7 +48,8 @@ class LobbyController < ApplicationController
                       :hand_ids => hand_ids, :started => false,
                       :hand_size => params[:hand_size].to_i,
                       :table => [],
-                      :show_discard => show_discard
+                      :show_discard => show_discard,
+                      :table_cards_shown => []
                      })
 
     redirect_to lobby_path(game_id)
