@@ -1,7 +1,9 @@
 class GameSessionController < ApplicationController
 
-  def hash_return(cards)
-    @card_value = {#Spades
+  def hash_return(cards,shown)
+    @card_value = {#Back of card
+                   0 => "&#127136",
+                   #Spades
                    1 => "&#127137",
                    2 => "&#127138",
                    3 => "&#127139",
@@ -67,12 +69,16 @@ class GameSessionController < ApplicationController
     }
     user_hand_card_values = {}
     cards.each do |i|
+      if shown
         if i == 53 or (i >=14 and i <= 39)
           user_hand_card_values[i] = "R"+@card_value[i]
         else
           user_hand_card_values[i]= "B"+@card_value[i]
         end
+      else
+        user_hand_card_values[i]= "B"+@card_value[0]
       end
+    end
 
     return user_hand_card_values
   end
@@ -100,26 +106,35 @@ class GameSessionController < ApplicationController
     @sinks.each do |sink|
       hash = {}
       hash[:id] = sink
-      hash = hash.merge(hash_return(Deck.where(id: sink).pluck(:cards)[0]))
+      hash = hash.merge(hash_return(Deck.where(id: sink).pluck(:cards)[0],true))
       @sinkHashes.append(hash)
     end
+
+    puts "MATT" + @sinkHashes.to_s
+
     @decks = @current_game.select(:deck_ids).first.attributes.values[1]
+    @deckHashes = []
+    @decks.each do |deck|
+        deck_top_card = Deck.where(id: deck).pluck(:top_card_showed)[1]
+        hash = {}
+        hash[:id] = deck
+        hash = hash.merge(hash_return(Deck.where(id: deck).pluck(:cards)[0],deck_top_card))
+        @deckHashes.append(hash)
+    end
+
+    puts "MATT" + @deckHashes.to_s
+
     user_id = @current_user.select(:id).first.attributes.values[0]
-    @user_hand_card_values = hash_return(Hand.where(user_id: user_id).select(:cards).first.attributes.values[1])
+    @user_hand_card_values = hash_return(Hand.where(user_id: user_id).select(:cards).first.attributes.values[1],true)
     @user_id_list = @current_game.first.user_ids
     @user_cards_hash = {}
     @user_id_list.each do |other_user_id|
       username = User.where(id: other_user_id).pluck(:username)[0]
-      cards = hash_return(Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1])
+      cards = hash_return(Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1],true)
       @user_cards_hash[other_user_id] = { :username => username, :cards => cards }
     end
 
-    @table = hash_return(@current_game.pluck(:table)[0])
-
-    # deck_ids = @current_game.first.deck_ids
-    # sink_ids = @current_game.first.discard_ids
-    # hand_ids = Hand.where(:user_id => user_id).first[:cards]
-
+    @table = hash_return(@current_game.pluck(:table)[0],true)
   end
 
 
