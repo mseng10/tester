@@ -153,3 +153,66 @@ function switchVisible() {
         }
     }
 }
+
+
+function pass() {
+    let valid = true;
+    if (document.getElementById('resetPassword').value.length > 7) {
+        document.getElementById('length').innerHTML = '&#9989;'
+        document.getElementById('lengthtext').style.color = "green";
+
+    }
+    else {
+        document.getElementById('length').innerHTML = '&#10060;'
+        document.getElementById('lengthtext').style.color = "black";
+        valid = false;
+    }
+    if(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(document.getElementById('resetPassword').value)){
+        document.getElementById('special').innerHTML = '&#9989;'
+        document.getElementById('specialtext').style.color = "green";
+    }
+    else{
+        document.getElementById('special').innerHTML = '&#10060;'
+        document.getElementById('specialtext').style.color = "black";
+        valid = false;
+    }
+    if(/\d/.test(document.getElementById('resetPassword').value)){
+        document.getElementById('number').innerHTML = '&#9989;'
+        document.getElementById('numbertext').style.color = "green";
+
+    }
+    else{
+        document.getElementById('number').innerHTML = '&#10060;'
+        document.getElementById('numbertext').style.color = "black";
+        valid = false;
+    }
+    if(valid){
+        document.getElementById('resetPassword').style.color = "green";
+    }
+    else{
+        document.getElementById('resetPassword').style.color = "red";
+    }
+}
+
+function check_pass() {
+    if (document.getElementById('resetPassword').value ==
+        document.getElementById('resetPasswordConfirmation').value) {
+        document.getElementById('match').innerHTML = '&#9989;'
+        document.getElementById('matchtext').style.color = "green";
+        document.getElementById('resetPasswordConfirmation').style.color = "green";
+        check_blank();
+    } else {
+        document.getElementById('resetPasswordConfirmation').style.color = "red";
+        document.getElementById('match').innerHTML = '&#10060;'
+        document.getElementById('matchtext').style.color = "black";
+    }
+}
+
+function check_blank() {
+    if (document.getElementById('resetPassword').value.length == 0 ||
+        document.getElementById('resetPasswordConfirmation').value.length == 0 ) {
+        document.getElementById('resetPasswordButton').disabled = true;
+    } else {
+        document.getElementById('resetPasswordButton').disabled = false;
+    }
+}
