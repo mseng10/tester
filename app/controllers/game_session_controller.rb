@@ -259,20 +259,23 @@ class GameSessionController < ApplicationController
 
     elsif apiHelper.function == 'moveCardTable'
       current_table_cards = Cardgame.table(game_id)
-      current_table_cards.delete(apiHelper.parameters['card'].to_i)
+      puts current_table_cards.to_s
+      card_id_helper = current_table_cards[apiHelper.parameters['card'].to_i]
+      current_table_cards.slice!(apiHelper.parameters['card'].to_i)
       Cardgame.where(game_id: game_id).update_all(table: current_table_cards)
+      Cardgame.where(game_id: game_id).update_all(table_cards_shown: current_table_cards)
 
       if apiHelper.parameters['dest'].include?('sink')
         sink_id = apiHelper.parameters['dest'].gsub('sink_', '')
         current_cards_in_sink = Deck.where(id: sink_id).select(:cards).first.attributes.values[1]
-        current_cards_in_sink.append(apiHelper.parameters['card'].to_i)
+        current_cards_in_sink.append(card_id_helper)
         Deck.where(id: sink_id).update_all(cards: current_cards_in_sink)
 
         Deck.where(:id => sink_id).update_all(:top_card_showed => Deck.where(id: sink_id).select(:top_card_showed).first.attributes["top_card_showed"])
       else
         user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
         current_user_cards = Hand.where(user_id: user_id).select(:cards).pluck(:cards)[0]
-        current_user_cards.append(apiHelper.parameters['card'].to_i)
+        current_user_cards.append(card_id_helper)
         Hand.where(user_id: user_id).update_all(cards: current_user_cards)
       end
 
