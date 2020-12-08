@@ -38,12 +38,18 @@ class LobbyController < ApplicationController
     deck_ids = Deck.create_decks(params[:deck], params[:shuffle],params[:jokers])
     discard_ids = Deck.create_sinks(params[:sink])
     hand_ids = Hand.create_hand(params[:hand_size].to_i, deck_ids, user_id)
+    show_discard = true
+
+    if params[:show_discards] = "off"
+      show_discard= false
+    end
 
     Cardgame.create!({:game_id => game_id, :user_ids => [user_id],
                       :deck_ids => deck_ids, :discard_ids => discard_ids,
                       :hand_ids => hand_ids, :started => false,
                       :hand_size => params[:hand_size].to_i,
-                      :table => []
+                      :table => [],
+                      :show_discard => show_discard
                      })
 
     redirect_to lobby_path(game_id)
