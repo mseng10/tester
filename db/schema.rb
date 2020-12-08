@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201208061504) do
+ActiveRecord::Schema.define(version: 20201208072658) do
 
   create_table "cardgames", force: :cascade do |t|
     t.integer "game_id"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20201208061504) do
   create_table "decks", force: :cascade do |t|
     t.integer "deck_id"
     t.string  "cards"
+    t.boolean "top_card_showed"
   end
 
   create_table "hands", force: :cascade do |t|
