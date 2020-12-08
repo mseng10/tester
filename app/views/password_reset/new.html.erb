@@ -6,7 +6,7 @@
       <div class="card card-box my-5">
         <div class="card-body">
           <h5 class="card-title text-center">Reset Password</h5>
-          <%= form_for '/password_reset', :class => 'form box', :method => :post do %>
+          <%= form_for '/password_reset', :url => '/password_reset',:class => 'form box', :method => :post do %>
             <div class="form-label-group">
               <%= text_field :user, 'email', :class => 'form-control',placeholder: "email", :id => 'ResetPasswordEmail' %>
             </div>
