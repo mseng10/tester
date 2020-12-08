@@ -35,7 +35,7 @@
             <div class="form-label-group" id = "backup">
               <%= password_field :user, 'password2', :class=> 'form-control', placeholder: "Password Confirmation",onkeyup: "check_pass()",:id =>'signuppasswordConfirmation' %>
             </div>
-            <%= submit_tag 'Create my account', :class => 'btn btn-lg btn-success btn-block text-uppercase',  :id => 'signupCreate'%>
+            <%= submit_tag 'Create my account', :class => 'btn btn-lg btn-success btn-block text-uppercase', onclick: "check_blank()", :id => 'signupCreate'%>
             <hr class="my-4">
           <% end %>
         </div>

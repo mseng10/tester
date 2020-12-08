@@ -93,10 +93,22 @@ function check_pass() {
         document.getElementById('match').innerHTML = '&#9989;'
         document.getElementById('matchtext').style.color = "green";
         document.getElementById('signuppasswordConfirmation').style.color = "green";
+        check_blank();
     } else {
         document.getElementById('signuppasswordConfirmation').style.color = "red";
         document.getElementById('match').innerHTML = '&#10060;'
         document.getElementById('matchtext').style.color = "black";
+    }
+}
+
+function check_blank() {
+    if (document.getElementById('signupPassword').value.length == 0 ||
+        document.getElementById('signuppasswordConfirmation').value.length == 0 ||
+        document.getElementById('signupUser').value.length == 0 ||
+        document.getElementById('signupEmail').value.length == 0) {
+        document.getElementById('signupCreate').disabled = true;
+    } else {
+        document.getElementById('signupCreate').disabled = false;
     }
 }
 
