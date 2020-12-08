@@ -49,6 +49,7 @@ $(document).ready(function(){
 });
 
 function pass() {
+    console.log("Here")
     let valid = true;
     if (document.getElementById('signupPassword').value.length > 7) {
         document.getElementById('length').innerHTML = '&#9989;'
@@ -155,7 +156,7 @@ function switchVisible() {
 }
 
 
-function pass() {
+function pass2() {
     let valid = true;
     if (document.getElementById('resetPassword').value.length > 7) {
         document.getElementById('length').innerHTML = '&#9989;'
@@ -194,7 +195,7 @@ function pass() {
     }
 }
 
-function check_pass() {
+function check_pass2() {
     if (document.getElementById('resetPassword').value ==
         document.getElementById('resetPasswordConfirmation').value) {
         document.getElementById('match').innerHTML = '&#9989;'
@@ -208,7 +209,7 @@ function check_pass() {
     }
 }
 
-function check_blank() {
+function check_blank2() {
     if (document.getElementById('resetPassword').value.length == 0 ||
         document.getElementById('resetPasswordConfirmation').value.length == 0 ) {
         document.getElementById('resetPasswordButton').disabled = true;
@@ -216,3 +217,5 @@ function check_blank() {
         document.getElementById('resetPasswordButton').disabled = false;
     }
 }
+
+
