@@ -104,9 +104,10 @@ class GameSessionController < ApplicationController
     @sinks = @current_game.select(:discard_ids).first.attributes.values[1]
     @sinkHashes = []
     @sinks.each do |sink|
+      sink_top_card = Deck.where(id: sink).select(:top_card_showed).first.attributes["top_card_showed"]
       hash = {}
       hash[:id] = sink
-      hash = hash.merge(hash_return(Deck.where(id: sink).pluck(:cards)[0],true))
+      hash = hash.merge(hash_return(Deck.where(id: sink).pluck(:cards)[0],sink_top_card))
       @sinkHashes.append(hash)
     end
 
@@ -240,7 +241,7 @@ class GameSessionController < ApplicationController
         Hand.where(user_id: target_user_id).update_all(cards: target_user_cards)
       end
 
-      Deck.where(:id => id).update_all(:top_card_showed => false)
+      Deck.where(:id => apiHelper.parameters['source']).update_all(:top_card_showed => false)
 
     elsif apiHelper.function == 'moveCardTable'
       current_table_cards = Cardgame.table(game_id)
@@ -253,12 +254,12 @@ class GameSessionController < ApplicationController
         current_cards_in_sink.append(apiHelper.parameters['card'].to_i)
         Deck.where(id: sink_id).update_all(cards: current_cards_in_sink)
 
+        Deck.where(:id => sink_id).update_all(:top_card_showed => Deck.where(id: sink_id).select(:top_card_showed).first.attributes["top_card_showed"])
       else
         user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
         current_user_cards = Hand.where(user_id: user_id).select(:cards).pluck(:cards)[0]
         current_user_cards.append(apiHelper.parameters['card'].to_i)
         Hand.where(user_id: user_id).update_all(cards: current_user_cards)
-
       end
 
     elsif apiHelper.function == 'flipCard'
@@ -266,6 +267,10 @@ class GameSessionController < ApplicationController
       puts "MATT"
       if apiHelper.parameters['id'].include? 'draw'
         id = apiHelper.parameters['id'].gsub("draw", "")
+        opposite = !Deck.where(id: id).select(:top_card_showed).first.attributes["top_card_showed"]
+        Deck.where(:id => id).update_all(:top_card_showed => opposite)
+      elsif apiHelper.parameters['id'].include? 'sink'
+        id = apiHelper.parameters['id'].gsub("sink", "")
         opposite = !Deck.where(id: id).select(:top_card_showed).first.attributes["top_card_showed"]
         Deck.where(:id => id).update_all(:top_card_showed => opposite)
       end

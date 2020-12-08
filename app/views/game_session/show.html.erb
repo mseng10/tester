@@ -64,7 +64,7 @@
         });
     }
 
-    function flipCard(card) {
+    function flipCard(card,user) {
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=flipCard&id='+card,
             type: 'PUT',
@@ -126,7 +126,7 @@
               </ul>
             </li>
             <li onclick="shuffle('<%= hash[:id] %>')">&#x21ba; Shuffle</li>
-            <li onclick="flipCard('draw<%= hash[:id] %>')">Flip Top Card</li>
+            <li onclick="flipCard('draw<%= hash[:id] %>',false)">Flip Top Card</li>
           </ul>
         <% end %>
       <% end %>
@@ -160,9 +160,9 @@
                   <% end %>
                 <% end %>
                 <li onclick="moveCardDraw('table', '<%=hash[:id]%>')"> Place on table </li>
-                <li onclick="flipCard('sink<%= hash[:id] %>')">Flip Top Card</li>
               </ul>
             </li>
+            <li onclick="flipCard('sink<%= hash[:id] %>', false)">Flip Top Card</li>
           </ul>
         <% end %>
       <% end %>
@@ -208,9 +208,9 @@
   <ul class="cards">
     <% @user_hand_card_values.each do |card_id,unicode| %>
       <% if unicode[0] == "R" %>
-        <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red"><%= raw(unicode.gsub("R", "")) %></li>
+        <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red" id = "user_<%=card_id%>"><%= raw(unicode.gsub("R", "")) %></li>
       <% elsif unicode[0] == "B" %>
-        <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black"><%= raw(unicode.gsub("B", "")) %></li>
+        <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black" id = "user_<%=card_id%>"><%= raw(unicode.gsub("B", "")) %></li>
       <% end %>
       <ul style="bottom: 100%" id="dropdown_<%=card_id%>" class="dropdown-content">
         <li class="dropdown-submenu">
@@ -228,7 +228,7 @@
             <li onclick="moveCard('table', '<%=card_id%>')"> Place on table </li>
           </ul>
         </li>
-        <li onclick="flipCard('<%= card_id %>')">Flip Card</li>
+        <li onclick="flipCard('<%= card_id %>',true)">Flip Card</li>
       </ul>
     <% end %>
   </ul>
