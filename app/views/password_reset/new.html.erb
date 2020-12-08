@@ -26,7 +26,10 @@
       <div class="card card-box my-5">
         <div class="card-body">
           <h5 class="card-title text-center">Reset Password</h5>
-          <%= form_tag users_path, :class => 'form box' do %>
+          <%= form_tag '/password_reset', :class => 'form box' do %>
+            <div class="form-label-group">
+              <%= text_field :user, 'email', :class => 'form-control',placeholder: "email", :id => 'ResetPasswordEmail' %>
+            </div>
             <table style="left: 50%">
               <tr>
                 <td id = 'length'>&#10060;</td>
@@ -51,7 +54,7 @@
             <div class="form-label-group" id = "backup">
               <%= password_field :user, 'password2', :class=> 'form-control', placeholder: "Password Confirmation",onkeyup: "check_pass()",:id =>'resetPasswordConfirmation' %>
             </div>
-            <%= submit_tag 'Change Password', :class => 'btn btn-lg btn-success btn-block text-uppercase', onclick: "check_blank()", :id => 'ResetPassword'%>
+            <%= submit_tag 'Change Password', :class => 'btn btn-lg btn-success btn-block text-uppercase', onclick: "check_blank()", :id => 'resetPasswordButton'%>
             <hr class="my-4">
           <% end %>
           </div>
