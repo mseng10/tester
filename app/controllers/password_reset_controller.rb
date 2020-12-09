@@ -7,11 +7,11 @@ class PasswordResetController < ApplicationController
     if User.exists?(email: user_params['email'])
       User.find_by_email(user_params['email']).update_attributes!(:password=> BCrypt::Password.create(user_params['password']))
       redirect_to login_path
-      flash[:notice] = "changed password"
+      flash[:notice] = "Password changed successfully!"
       return
     end
     redirect_to new_password_reset_path
-    flash[:notice] = " was not able to find the account"
+    flash[:notice] = "Could not find an account with that email."
   end
 
   def new
