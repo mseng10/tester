@@ -140,8 +140,17 @@ class GameSessionController < ApplicationController
     @user_id_list = @current_game.first.user_ids
     @user_cards_hash = {}
     @user_id_list.each do |other_user_id|
+      count = 0
       username = User.where(id: other_user_id).pluck(:username)[0]
       cards = hash_return(Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1],true)
+      flipped_other = Hand.user_cards_shown(other_user_id)
+      puts "MATT" + cards.to_s
+      cards.each do |card|
+        if flipped_other[count] == false
+          cards[card[0]] = "B&#127136"
+        end
+        count = count + 1
+      end
       @user_cards_hash[other_user_id] = { :username => username, :cards => cards }
     end
 
