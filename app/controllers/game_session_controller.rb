@@ -129,7 +129,6 @@ class GameSessionController < ApplicationController
     puts @user_hand_card_values.to_s
     @user_hand_card_values.each do |card|
       if users_hand_cards_flipped[count] == true
-        puts "MATT"
         @user_hand_card_values[card[0]] = "F" + card[1]
       end
       count = count + 1
@@ -144,7 +143,6 @@ class GameSessionController < ApplicationController
       username = User.where(id: other_user_id).pluck(:username)[0]
       cards = hash_return(Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1],true)
       flipped_other = Hand.user_cards_shown(other_user_id)
-      puts "MATT" + cards.to_s
       cards.each do |card|
         if flipped_other[count] == false
           cards[card[0]] = "B&#127136"
@@ -303,27 +301,33 @@ class GameSessionController < ApplicationController
         Hand.where(user_id: user_id).update_all(cards: current_user_cards)
       end
 
+    #If the user elects to flip a card
     elsif apiHelper.function == 'flipCard'
-      current_table_cards = Cardgame.table(game_id)
+
+      #flips top card of draw card pile
       if apiHelper.parameters['id'].include? 'draw'
         id = apiHelper.parameters['id'].gsub("draw", "")
         opposite = !Deck.where(id: id).select(:top_card_showed).first.attributes["top_card_showed"]
         Deck.where(:id => id).update_all(:top_card_showed => opposite)
+
+      #flips top card of discard card pile
       elsif apiHelper.parameters['id'].include? 'sink'
         id = apiHelper.parameters['id'].gsub("sink", "")
         opposite = !Deck.where(id: id).select(:top_card_showed).first.attributes["top_card_showed"]
         Deck.where(:id => id).update_all(:top_card_showed => opposite)
+
+      #flips selected card on table
       elsif apiHelper.parameters['id'].include? 'table'
         id = apiHelper.parameters['id'].gsub("table", "")
         table_cards_boolean = @current_game.pluck(:table_cards_shown)[0]
         table_cards_boolean[id.to_i] = !table_cards_boolean[id.to_i]
         Cardgame.where(game_id: game_id).update_all(table_cards_shown: table_cards_boolean)
+
+      #flips user's card
       elsif apiHelper.parameters['id'].include? 'user'
         id = apiHelper.parameters['id'].gsub("user", "")
         table_cards_boolean = Hand.where(user_id: user_id).select(:cards).pluck(:user_cards_shown)[0]
-        puts "MATT" + table_cards_boolean.to_s
         table_cards_boolean[apiHelper.parameters['index'].to_i] = !table_cards_boolean[apiHelper.parameters['index'].to_i]
-        puts "MATT" + table_cards_boolean.to_s
         Hand.where(user_id: user_id).update_all(user_cards_shown: table_cards_boolean)
       end
 

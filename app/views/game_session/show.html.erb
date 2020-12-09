@@ -68,8 +68,6 @@
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=flipCard&id='+card+'&index='+user,
             type: 'PUT',
-            success: function() {
-            },
             complete: function() {
                 location.reload();
             }
