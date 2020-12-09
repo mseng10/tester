@@ -14,21 +14,41 @@
  *= require_self
  */
 
-.user_card_black:hover, .other_users_card_black:hover {
+.user_card_black:hover,.user_card_black_shown:hover, .other_users_card_black:hover {
     border-bottom: 2px solid deepskyblue;
 }
 
-.user_card_black:active, .other_users_card_black:active, #user_card:focus {
+.user_card_black:active,.user_card_black_shown:active, .other_users_card_black:active, #user_card:focus {
     border-bottom: 2px solid limegreen;
 }
 
-.user_card_red:hover, .other_users_card_red:hover {
+.user_card_red:hover,.user_card_red_shown:hover, .other_users_card_red:hover {
     border-bottom: 2px solid deepskyblue;
 }
 
 
-.user_card_red:active, .other_users_card_red:active, #user_card:focus {
+.user_card_red:active, .user_card_red_shown:active, .other_users_card_red:active, #user_card:focus {
     border-bottom: 2px solid limegreen;
+}
+
+.user_card_red_shown{
+    display: block;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    font-size: 60px;
+    color: darkred;
+    border-top: 2px solid red;
+}
+
+.user_card_black_shown{
+    display: block;
+    text-align: center;
+    padding: 0px;
+    margin: 0px;
+    font-size: 60px;
+    color: black;
+    border-top: 2px solid red;
 }
 
 .user_card_black{

@@ -28,7 +28,7 @@ function toggleCardDropdown(id) {
 
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
-    if (!(event.target.matches('.user_card_black') || event.target.matches('.user_card_red'))) {
+    if (!(event.target.matches('.user_card_black') || event.target.matches('.user_card_red')|| event.target.matches('.user_card_red_shown')||event.target.matches('.user_card_black_shown'))) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
         var i;
         for (i = 0; i < dropdowns.length; i++) {

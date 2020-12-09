@@ -28,7 +28,7 @@ class Hand < ActiveRecord::Base
   end
 
   def self.user_cards_shown(id)
-    Hand.where(id: id).first[:user_cards_shown]
+    Hand.where(user_id: id).first[:user_cards_shown]
   end
 
 end

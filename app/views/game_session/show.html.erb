@@ -66,7 +66,7 @@
 
     function flipCard(card,user) {
         $.ajax({
-            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=flipCard&id='+card,
+            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=flipCard&id='+card+'&index='+user,
             type: 'PUT',
             success: function() {
             },
@@ -207,11 +207,20 @@
 
 <div style="position: fixed; left: 46%; bottom: 150px; transform: translate(-50%, -50%); margin: 0 auto;" , id="testing_div">
   <ul class="cards">
+    <% count = 0 %>
     <% @user_hand_card_values.each do |card_id,unicode| %>
-      <% if unicode[0] == "R" %>
-        <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red" id = "user_<%=card_id%>"><%= raw(unicode.gsub("R", "")) %></li>
-      <% elsif unicode[0] == "B" %>
-        <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black" id = "user_<%=card_id%>"><%= raw(unicode.gsub("B", "")) %></li>
+      <% if unicode[0] == "F" %>
+        <% if unicode[1] == "R" %>
+          <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red_shown" id = "user_<%=card_id%>"><%= raw(unicode.gsub("FR", "")) %></li>
+        <% elsif unicode[1] == "B" %>
+          <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black_shown" id = "user_<%=card_id%>"><%= raw(unicode.gsub("FB", "")) %></li>
+        <% end %>
+      <% else %>
+        <% if unicode[0] == "R" %>
+          <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red" id = "user_<%=card_id%>"><%= raw(unicode.gsub("R", "")) %></li>
+        <% elsif unicode[0] == "B" %>
+          <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black" id = "user_<%=card_id%>"><%= raw(unicode.gsub("B", "")) %></li>
+        <% end %>
       <% end %>
       <ul style="bottom: 100%" id="dropdown_<%=card_id%>" class="dropdown-content">
         <li class="dropdown-submenu">
@@ -229,8 +238,9 @@
             <li onclick="moveCard('table', '<%=card_id%>')"> Place on table </li>
           </ul>
         </li>
-        <li onclick="flipCard('<%= card_id %>',true)">Flip Card</li>
+        <li onclick="flipCard('user<%= card_id %>','<%= count %>')">Flip Card</li>
       </ul>
+      <% count = count + 1 %>
     <% end %>
   </ul>
 </div>

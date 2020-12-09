@@ -124,6 +124,19 @@ class GameSessionController < ApplicationController
 
     user_id = @current_user.select(:id).first.attributes.values[0]
     @user_hand_card_values = hash_return(Hand.where(user_id: user_id).select(:cards).first.attributes.values[1],true)
+    count = 0
+    users_hand_cards_flipped = Hand.user_cards_shown(user_id)
+    puts @user_hand_card_values.to_s
+    @user_hand_card_values.each do |card|
+      if users_hand_cards_flipped[count] == true
+        puts "MATT"
+        @user_hand_card_values[card[0]] = "F" + card[1]
+      end
+      count = count + 1
+    end
+
+    puts @user_hand_card_values
+
     @user_id_list = @current_game.first.user_ids
     @user_cards_hash = {}
     @user_id_list.each do |other_user_id|
@@ -259,11 +272,13 @@ class GameSessionController < ApplicationController
 
     elsif apiHelper.function == 'moveCardTable'
       current_table_cards = Cardgame.table(game_id)
+      current_table_cards_flipped = Cardgame.table_cards_shown(game_id)
       puts current_table_cards.to_s
       card_id_helper = current_table_cards[apiHelper.parameters['card'].to_i]
       current_table_cards.slice!(apiHelper.parameters['card'].to_i)
+      current_table_cards_flipped.slice!(apiHelper.parameters['card'].to_i)
       Cardgame.where(game_id: game_id).update_all(table: current_table_cards)
-      Cardgame.where(game_id: game_id).update_all(table_cards_shown: current_table_cards)
+      Cardgame.where(game_id: game_id).update_all(table_cards_shown: current_table_cards_flipped)
 
       if apiHelper.parameters['dest'].include?('sink')
         sink_id = apiHelper.parameters['dest'].gsub('sink_', '')
@@ -294,6 +309,13 @@ class GameSessionController < ApplicationController
         table_cards_boolean = @current_game.pluck(:table_cards_shown)[0]
         table_cards_boolean[id.to_i] = !table_cards_boolean[id.to_i]
         Cardgame.where(game_id: game_id).update_all(table_cards_shown: table_cards_boolean)
+      elsif apiHelper.parameters['id'].include? 'user'
+        id = apiHelper.parameters['id'].gsub("user", "")
+        table_cards_boolean = Hand.where(user_id: user_id).select(:cards).pluck(:user_cards_shown)[0]
+        puts "MATT" + table_cards_boolean.to_s
+        table_cards_boolean[apiHelper.parameters['index'].to_i] = !table_cards_boolean[apiHelper.parameters['index'].to_i]
+        puts "MATT" + table_cards_boolean.to_s
+        Hand.where(user_id: user_id).update_all(user_cards_shown: table_cards_boolean)
       end
 
     elsif apiHelper.function == 'leaveGame'
