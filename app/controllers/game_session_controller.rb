@@ -216,8 +216,11 @@ class GameSessionController < ApplicationController
       # Further details ask Mathew
 
       current_user_cards =Hand.where(user_id: user_id).select(:cards).first.attributes.values[1]
+      index = current_user_cards.find_index(apiHelper.parameters['card'].to_i)
       current_user_cards.delete(apiHelper.parameters['card'].to_i)
-      Hand.where(user_id: user_id).update_all(cards: current_user_cards)
+      current_user_booleans = Hand.user_cards_shown(user_id)
+      current_user_booleans.slice!(index)
+      Hand.where(user_id: user_id).update_all(cards: current_user_cards, user_cards_shown: current_user_booleans)
 
       # Move card to table
       if apiHelper.parameters['dest'] == 'table'
