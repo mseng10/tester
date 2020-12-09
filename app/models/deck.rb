@@ -15,19 +15,24 @@ class Deck < ActiveRecord::Base
         cards.append(card)
       end
       if shuffled.to_s == "on"
-        curr_deck = create!({:cards => cards.shuffle})
+        curr_deck = create!({:cards => cards.shuffle, :top_card_showed => false})
       else
-        curr_deck = create!({:cards => cards})
+        curr_deck = create!({:cards => cards, :top_card_showed => false})
       end
       deck_ids.append(curr_deck.id)
     end
     return deck_ids
   end
 
-  def Deck::create_sinks(number)
+  def Deck::create_sinks(number,show_discard)
+    show = true
+    if show_discard == "off"
+      show= false
+    end
+
     deck_ids = []
     for deck in 1..number.to_i
-      curr_deck = create!({:cards => []})
+      curr_deck = create!({:cards => [], :top_card_showed => show})
       deck_ids.append(curr_deck.id)
     end
     return deck_ids

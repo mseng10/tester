@@ -64,12 +64,10 @@
         });
     }
 
-    function flipCard(card) {
+    function flipCard(card,user) {
         $.ajax({
-            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=flipCard&card='+card,
+            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=flipCard&id='+card+'&index='+user,
             type: 'PUT',
-            success: function() {
-            },
             complete: function() {
                 location.reload();
             }
@@ -103,24 +101,33 @@
   <h3 style="position: fixed; right: 8%; top: 150px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"> Draw Pile </h3>
   <div style="position: fixed; right: 10%; top: 200px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1" , id="decks">
     <ul class="cards">
-      <% @decks.each do |deck| %>
-        <li onclick="toggleCardDropdown('draw_<%= deck %>')" class="user_card_black">&#127136</li>
-        <ul style="bottom: 100%" id="dropdown_draw_<%= deck %>" class="dropdown-content">
-          <li class="dropdown-submenu">
-            <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
-            <ul style="bottom: 10%; left: 100%" class="dropdown-content">
-              <li onclick="moveCardDraw('<%= @current_user.pluck(:username)[0]%>', <%=deck%>)">
-                <%= raw(@current_user.pluck(:username)[0]) %>
-              </li>
-              <% @sinks.each do |sink|%>
-                <li onclick="moveCardDraw('<%= 'sink_' + raw(sink)%>', '<%=deck%>')"> <%= raw(sink) %></li>
-              <% end %>
-              <li onclick="moveCardDraw('table', '<%=deck%>')"> Place on table</li>
-            </ul>
-          </li>
-          <li onclick="shuffle('<%= deck %>')">&#x21ba; Shuffle</li>
-        </ul>
+      <% @deckHashes.each do |hash| %>
+        <% if hash.size <= 0 %>
+          <li class="empty_sink">&#127137</li>
+        <% else %>
+          <% if hash.values.last[0] == "R" %>
+            <li onclick="toggleCardDropdown('draw_<%= hash[:id] %>')" class="user_card_red"><%= raw(hash.values.last.gsub("R", "")) %></li>
+          <% elsif hash.values.last[0] == "B" %>
+            <li onclick="toggleCardDropdown('draw_<%= hash[:id] %>')" class="user_card_black"><%= raw(hash.values.last.gsub("B", "")) %></li>
+          <% end %>
+          <ul style="bottom: 100%" id="dropdown_draw_<%= hash[:id] %>" class="dropdown-content">
+            <li class="dropdown-submenu">
+              <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
+              <ul style="bottom: 10%; left: 100%" class="dropdown-content">
+                <li onclick="moveCardDraw('<%= @current_user.pluck(:username)[0]%>', <%=hash[:id]%>)">
+                  <%= raw(@current_user.pluck(:username)[0]) %>
+                </li>
+                <% @sinks.each do |sink|%>
+                  <li onclick="moveCardDraw('<%= 'sink_' + raw(sink)%>', '<%=hash[:id]%>')"> <%= raw(sink) %></li>
+                <% end %>
+                <li onclick="moveCardDraw('table', '<%=hash[:id]%>')"> Place on table</li>
+              </ul>
+            </li>
+            <li onclick="shuffle('<%= hash[:id] %>')">&#x21ba; Shuffle</li>
+            <li onclick="flipCard('draw<%= hash[:id] %>',false)">Flip Top Card</li>
+          </ul>
         <% end %>
+      <% end %>
     </ul>
   </div>
 </div>
@@ -153,6 +160,7 @@
                 <li onclick="moveCardDraw('table', '<%=hash[:id]%>')"> Place on table </li>
               </ul>
             </li>
+            <li onclick="flipCard('sink<%= hash[:id] %>', false)">Flip Top Card</li>
           </ul>
         <% end %>
       <% end %>
@@ -185,6 +193,7 @@
               <li onclick=""> Place on table </li>
             </ul>
           </li>
+          <li onclick="flipCard('table<%= card_id %>', false)">Flip Card</li>
         </ul>
       <% end %>
     </ul>
@@ -196,11 +205,20 @@
 
 <div style="position: fixed; left: 46%; bottom: 150px; transform: translate(-50%, -50%); margin: 0 auto;" , id="testing_div">
   <ul class="cards">
+    <% count = 0 %>
     <% @user_hand_card_values.each do |card_id,unicode| %>
-      <% if unicode[0] == "R" %>
-        <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red"><%= raw(unicode.gsub("R", "")) %></li>
-      <% elsif unicode[0] == "B" %>
-        <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black"><%= raw(unicode.gsub("B", "")) %></li>
+      <% if unicode[0] == "F" %>
+        <% if unicode[1] == "R" %>
+          <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red_shown" id = "user_<%=card_id%>"><%= raw(unicode.gsub("FR", "")) %></li>
+        <% elsif unicode[1] == "B" %>
+          <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black_shown" id = "user_<%=card_id%>"><%= raw(unicode.gsub("FB", "")) %></li>
+        <% end %>
+      <% else %>
+        <% if unicode[0] == "R" %>
+          <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red" id = "user_<%=card_id%>"><%= raw(unicode.gsub("R", "")) %></li>
+        <% elsif unicode[0] == "B" %>
+          <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black" id = "user_<%=card_id%>"><%= raw(unicode.gsub("B", "")) %></li>
+        <% end %>
       <% end %>
       <ul style="bottom: 100%" id="dropdown_<%=card_id%>" class="dropdown-content">
         <li class="dropdown-submenu">
@@ -218,8 +236,9 @@
             <li onclick="moveCard('table', '<%=card_id%>')"> Place on table </li>
           </ul>
         </li>
-        <li onclick="flipCard('<%= card_id %>')">Flip Card</li>
+        <li onclick="flipCard('user<%= card_id %>','<%= count %>')">Flip Card</li>
       </ul>
+      <% count = count + 1 %>
     <% end %>
   </ul>
 </div>
