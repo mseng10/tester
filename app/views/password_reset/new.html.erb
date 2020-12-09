@@ -8,7 +8,7 @@
           <h5 class="card-title text-center">Reset Password</h5>
           <%= form_for '/password_reset', :url => '/password_reset',:class => 'form box', :method => :post do %>
             <div class="form-label-group">
-              <%= text_field :user, 'email', :class => 'form-control',placeholder: "email", :id => 'ResetPasswordEmail' %>
+              <%= text_field :user, 'email', :class => 'form-control',placeholder: "email", :id => 'ResetPasswordEmail1' %>
             </div>
               <input id="Reset password" type="button" class = 'btn btn-lg btn-success btn-block text-uppercase' value="Reset Password" onclick="switchVisible() "/>            <hr class="my-4">
           <% end %>
@@ -28,7 +28,7 @@
           <h5 class="card-title text-center">Reset Password</h5>
           <%= form_tag '/password_reset', :class => 'form box' do %>
             <div class="form-label-group">
-              <%= text_field :user, 'email', :class => 'form-control',placeholder: "email", :id => 'ResetPasswordEmail' %>
+              <%= text_field :user, 'email', :class => 'form-control',placeholder: "email", :id => 'ResetPasswordEmail2' %>
             </div>
             <table style="left: 50%">
               <tr>
