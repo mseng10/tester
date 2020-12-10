@@ -174,8 +174,8 @@
 
 
 <div class="container">
-  <div style="position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%); margin: 0 auto;" , id="table">
-    <ul style="margin: 50%;" class="cards">
+  <div style="position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%); margin: 0 auto; display: inline;" , id="table">
+    <ul class="cards">
       <% @table.each do |card_id, unicode|%>
         <% if unicode[0] == "R" %>
           <li onclick="toggleCardDropdown('table_<%= card_id %>')" class="user_card_red"><%= raw(unicode.gsub("R", "")) %></li>
@@ -247,7 +247,7 @@
   <% if 1 == Cardgame.user_ids(@current_user.select(:current_game).first.attributes.values[1]).size %>
     <%= button_to  'Leave Game', game_session_path, method: :delete, :class => 'btn btn-warning', :id => "end_game_button"%>
   <% else %>
-    <button type="button" class="btn btn-warning" onclick="leaveGame()">Leave Game</button>
+    <button type="button" class="btn btn-warning" onclick="leaveGame()">&#x2190; Leave Game</button>
   <% end %>
 </div>
 <div class = "end_buttons">
