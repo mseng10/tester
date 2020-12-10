@@ -26,7 +26,8 @@ describe LobbyController do
   context 'Joining a game' do
     it 'should redirect to the lobby page' do
       redirect_to(games_path)
-      get :join, { :game => {:game_id => 1234}}
+      get :join, { :game => { :game_id => 1234 }}
+      expect(response.body).to include("http://test.host/lobby/1234")
     end
   end
 end
