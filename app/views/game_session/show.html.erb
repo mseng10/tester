@@ -4,10 +4,10 @@
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=moveCard&dest='+destination+'&card='+card,
             type: 'PUT',
+            id: '#update',
             success: function() {
             },
             complete: function() {
-                location.reload();
             }
         });
     }
@@ -16,10 +16,10 @@
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=moveCardDraw&dest='+destination+'&source='+source,
             type: 'PUT',
+            id: '#update',
             success: function() {
             },
             complete: function() {
-                location.reload();
             }
         });
     }
@@ -28,10 +28,10 @@
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=moveCardTable&dest='+destination+'&card='+card,
             type: 'PUT',
+            id: '#update',
             success: function() {
             },
             complete: function() {
-                location.reload();
             }
         });
     }
@@ -40,10 +40,10 @@
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=shuffle&deck='+deck,
             type: 'PUT',
+            id: '#update',
             success: function() {
             },
             complete: function() {
-                location.reload();
             }
         });
     }
@@ -52,6 +52,7 @@
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=leaveGame',
             type: 'PUT',
+            id: '#update',
             complete: function() {}
         });
     }
@@ -60,6 +61,7 @@
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=resetGame',
             type: 'PUT',
+            id: '#update',
             complete: function() {}
         });
     }
@@ -68,8 +70,8 @@
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=flipCard&id='+card+'&index='+user,
             type: 'PUT',
+            id: '#update',
             complete: function() {
-                location.reload();
             }
         });
     }

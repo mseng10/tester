@@ -459,7 +459,7 @@ class GameSessionController < ApplicationController
       Deck.where(id: deck_id).update_all(cards: deck)
     end
 
-    redirect_to game_session_path(game_id)
+    Cardgame.where(:game_id => game_id).first.notify_pusher
   end
 end
 

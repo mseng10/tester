@@ -1,0 +1,14 @@
+update = (data) ->
+  location.reload()
+  return
+
+$ ->
+  console.log("MATT")
+  pusher = new Pusher('<%= ENV["PUSHER_KEY"] %>',
+    cluster: '<%= ENV["PUSHER_CLUSTER"] %>',
+    encrypted: true)
+  channel = pusher.subscribe('update')
+  channel.bind 'up', (data) ->
+    update data
+    return
+  return
