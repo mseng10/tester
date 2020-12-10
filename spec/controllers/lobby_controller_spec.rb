@@ -8,12 +8,9 @@ SimpleCov.start
 describe LobbyController do
   include AuthenticationHelpers
 
-  before(:each) do
+  before do
     session_token = User.find_by(username: "cat").session_token
     request.session[:session_token] = session_token
-  end
-  after(:each) do
-    request.session[:session_token] = nil
   end
   context 'Creating a game' do
     it 'should redirect to the lobby page' do
@@ -29,5 +26,8 @@ describe LobbyController do
       get :join, { :game => { :game_id => 1234 }}
       expect(response.body).to include("http://test.host/lobby/1234")
     end
+  end
+  after do
+    request.session[:session_token] = nil
   end
 end
