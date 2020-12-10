@@ -22,7 +22,6 @@ ActiveRecord::Schema.define(version: 20201211053501) do
     t.boolean "started"
     t.integer "hand_size"
     t.string  "table"
-    t.boolean "updated"
     t.boolean "show_discard"
     t.string  "table_cards_shown"
     t.boolean "jokers"
