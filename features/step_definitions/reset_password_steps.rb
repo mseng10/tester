@@ -21,9 +21,5 @@ end
 And /^I have entered the password: "(.+)"$/ do |password|
   fill_in "resetPassword", with: password
   fill_in "resetPasswordConfirmation", with: password
-  # page.fill_in :placeholder => 'Password', with: password
-  # page.fill_in :placeholder => 'Password Confirmation', with: password
-  # find('resetPassword').set(password)
-  # find('resetPasswordConfirmation').set(password)
   click_button 'Change Password'
 end
