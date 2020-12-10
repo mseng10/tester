@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'rails_helper'
+require "factory_bot"
 
 describe User do
   describe 'When a user does a successful login' do
