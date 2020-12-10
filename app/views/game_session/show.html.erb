@@ -98,8 +98,8 @@
 </div>
 
 <div class="container">
-  <h3 style="position: fixed; right: 8%; top: 150px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"> Draw Pile </h3>
-  <div style="position: fixed; right: 10%; top: 200px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1" , id="decks">
+  <h3 style="position: absolute; right: 8%; top: 150px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"> Draw Pile </h3>
+  <div style="position: absolute; right: 5%; top: 200px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1" , id="decks">
     <ul class="cards">
       <% @deckHashes.each do |hash| %>
         <% if hash.size <= 0 %>
@@ -110,10 +110,10 @@
           <% elsif hash.values.last[0] == "B" %>
             <li onclick="toggleCardDropdown('draw_<%= hash[:id] %>')" class="user_card_black"><%= raw(hash.values.last.gsub("B", "")) %></li>
           <% end %>
-          <ul style="bottom: 100%" id="dropdown_draw_<%= hash[:id] %>" class="dropdown-content">
+          <ul style="bottom: -100%" id="dropdown_draw_<%= hash[:id] %>" class="dropdown-content">
             <li class="dropdown-submenu">
               <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
-              <ul style="bottom: 10%; left: 100%" class="dropdown-content">
+              <ul style="bottom: 10%; left: -100%" class="dropdown-content">
                 <li onclick="moveCardDraw('<%= @current_user.pluck(:username)[0]%>', <%=hash[:id]%>)">
                   <%= raw(@current_user.pluck(:username)[0]) %>
                 </li>
@@ -133,8 +133,8 @@
 </div>
 
 <div class="container">
-  <h3 style="position: fixed; right: 7%; top: 375px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"> Discard Pile </h3>
-  <div style="position: fixed; right: 10%; top: 450px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1" , id="sinks">
+  <h3 style="position: absolute; right: 6%; top: 375px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"> Discard Pile </h3>
+  <div style="position: absolute; right: 5%; top: 430px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1" , id="sinks">
     <ul class="cards">
       <% @sinkHashes.each do |hash| %>
         <% if hash.size <= 0 %>
@@ -145,10 +145,10 @@
           <% elsif hash.values.last[0] == "B" %>
             <li onclick="toggleCardDropdown('sink_<%= hash[:id] %>')" class="user_card_black"><%= raw(hash.values.last.gsub("B", "")) %></li>
           <% end %>
-          <ul style="bottom: 100%" id="dropdown_sink_<%= hash[:id] %>" class="dropdown-content">
+          <ul style="bottom: -100%" id="dropdown_sink_<%= hash[:id] %>" class="dropdown-content">
             <li class="dropdown-submenu">
               <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
-              <ul style="bottom: 10%; left: 100%" class="dropdown-content">
+              <ul style="bottom: 10%; left: -100%" class="dropdown-content">
                 <li onclick="moveCardDraw('<%= @current_user.pluck(:username)[0]%>', '<%=hash[:id]%>')">
                   <%= raw(@current_user.pluck(:username)[0]) %>
                 </li>
@@ -174,7 +174,7 @@
 
 
 <div class="container">
-  <div style="position: fixed; left: 50%; top: 45%; transform: translate(-50%, -50%); margin: 0 auto;" , id="table">
+  <div style="position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%); margin: 0 auto;" , id="table">
     <ul style="margin: 50%;" class="cards">
       <% @table.each do |card_id, unicode|%>
         <% if unicode[0] == "R" %>
@@ -203,7 +203,7 @@
 
 
 
-<div style="position: fixed; left: 46%; bottom: 150px; transform: translate(-50%, -50%); margin: 0 auto;" , id="testing_div">
+<div style="position: absolute; left: 50%; bottom: 5%; transform: translate(-50%, -50%); margin: 0 auto;" , id="testing_div">
   <ul class="cards">
     <% count = 0 %>
     <% @user_hand_card_values.each do |card_id,unicode| %>
