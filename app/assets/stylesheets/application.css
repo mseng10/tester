@@ -88,18 +88,20 @@
 }
 
 .end_buttons{
-    position: fixed;
-    left: 90%;
+    position:absolute;
+    left: 86%;
     bottom: 0px;
-    transform: translate(-50%, -50%);
-    margin: 0 auto;
+    /*transform: translate(-50%, -50%);*/
+    /*margin: 0 auto;*/
+    padding: 5%;
 }
 .leave_buttons{
-    position: fixed;
-    left: 84%;
+    position: absolute;
+    left: 76%;
     bottom: 0px;
-    transform: translate(-50%, -50%);
-    margin: 0 auto;
+    /*transform: translate(-50%, -50%);*/
+    /*margin: 0 auto;*/
+    padding: 5%
 }
 
 
