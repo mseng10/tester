@@ -107,6 +107,9 @@
     height: 200px;
     overflow-y:auto;
     position:absolute;
+    transition: transform;
+    display: block;
+    transform-origin: left top;
 }
 
 .empty_sink{
@@ -135,6 +138,7 @@
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 100;
+
 }
 
 /* Links inside the dropdown */
@@ -155,6 +159,7 @@
 .dropdown-submenu {
     position: relative;
     z-index: 100;
+
 }
 
 .oval {
@@ -231,10 +236,10 @@
 /*    display: block;*/
 /*    transform-origin: left top;*/
 /*}*/
-/*#other_user_hands:active{*/
-/*    transform: scale(2.0);*/
-/*    z-index: 1;*/
-/*}*/
+#other_user_hands:hover{
+    transform: scale(2.0);
+    z-index: 1;
+}
 
 /*&#8634; unicode for reset button*/
 

@@ -114,15 +114,15 @@
               <li id="<%= hash[:id] %>" onclick="toggleCardDropdown('draw_<%= hash[:id] %>')" class="user_card_black"><%= raw(hash.values.last.gsub("B", "")) %></li>
           <% end %>
             </div>
-          <ul style="bottom: -100%" id="dropdown_draw_<%= hash[:id] %>" class="dropdown-content">
+          <ul style="bottom: -100% " id="dropdown_draw_<%= hash[:id] %>" class="dropdown-content">
             <li class="dropdown-submenu">
               <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
-              <ul style="bottom: 10%; left: -100%" class="dropdown-content">
+              <ul style="bottom: 10%; left: -100% ; overflow-y: auto; height: 330%;" class="dropdown-content">
                 <li onclick="moveCardDraw('<%= @current_user.pluck(:username)[0]%>', <%=hash[:id]%>)">
-                  <%= raw(@current_user.pluck(:username)[0]) %>
+                  <%=raw(@current_user.pluck(:username)[0]) %>
                 </li>
                 <% @sinks.each do |sink|%>
-                  <li onclick="moveCardDraw('<%= 'sink_' + raw(sink)%>', '<%=hash[:id]%>')"> <%= raw(sink) %></li>
+                  <li onclick="moveCardDraw('<%= 'sink_' + raw(sink)%>', '<%=hash[:id]%>')"> <%= 'Sink '+raw(sink) %></li>
                 <% end %>
                 <li onclick="moveCardDraw('table', '<%=hash[:id]%>')"> Place on table</li>
               </ul>
@@ -137,7 +137,7 @@
 </div>
 
 <div class="container">
-  <h3 style="position: absolute; right: 6%; top: 375px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"> Discard Pile </h3>
+  <h3 style="position: absolute; right: 6%; top: 375px; transform: translate(-50%, -50%); margin: 0 auto;"> Discard Pile </h3>
   <div style="position: absolute; right: 1%; top: 450px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"  id="sinks">
     <ul class="cards">
       <% @sinkHashes.each do |hash| %>
@@ -156,13 +156,13 @@
           <ul style="bottom: -100%" id="dropdown_sink_<%= hash[:id] %>" class="dropdown-content">
             <li class="dropdown-submenu">
               <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
-              <ul style="bottom: 10%; left: -100%" class="dropdown-content">
+              <ul style="bottom: 10%; left: -100%; overflow-y: auto; height: 330%;" class="dropdown-content">
                 <li onclick="moveCardDraw('<%= @current_user.pluck(:username)[0]%>', '<%=hash[:id]%>')">
                   <%= raw(@current_user.pluck(:username)[0]) %>
                 </li>
                 <% @sinks.each do |sink|%>
                   <% if hash[:id] != sink %>
-                    <li onclick="moveCardDraw('<%= 'sink_' + raw(sink)%>', '<%=hash[:id]%>')"> <%= sink %></li>
+                    <li onclick="moveCardDraw('<%= 'sink_' + raw(sink)%>', '<%=hash[:id]%>')"> <%= 'Sink '+raw(sink) %></li>
                   <% end %>
                 <% end %>
                 <li onclick="moveCardDraw('table', '<%=hash[:id]%>')"> Place on table </li>
@@ -193,10 +193,10 @@
         <ul style="bottom: 100%" id="dropdown_table_<%= card_id %>" class="dropdown-content">
           <li class="dropdown-submenu">
             <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
-            <ul style="bottom: 10%; left: 100%" class="dropdown-content">
+            <ul style="bottom: 10%; left: 100%; overflow-y: auto; height: 230%;" class="dropdown-content">
               <li onclick="moveCardTable('<%= raw(@current_user.pluck(:username)[0]) %>','<%= card_id %>')"><%= raw(@current_user.pluck(:username)[0]) %></li>
               <% @sinks.each do |sink|%>
-                <li onclick="moveCardTable('sink_<%= sink %>','<%= card_id %>')"> <%= sink %></li>
+                <li onclick="moveCardTable('sink_<%= sink %>','<%= card_id %>')"> <%= 'Sink '+raw(sink) %></li>
               <% end %>
               <li onclick=""> Place on table </li>
             </ul>
@@ -231,15 +231,15 @@
       <ul style="bottom: 100%" id="dropdown_<%=card_id%>" class="dropdown-content">
         <li class="dropdown-submenu">
         <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
-          <ul style="bottom: 10%; left: 100%" class="dropdown-content">
+          <ul style="bottom: 10%; left: 100%; overflow-y: auto; height: 600%;" class="dropdown-content">
             <% @user_cards_hash.each do |id, nameHash| %>
               <li onclick="moveCard('<%=raw(nameHash[:username])%>', '<%=card_id%>')"> <%=nameHash[:username]%> </li>
             <% end %>
             <% @sinks.each do |sink|%>
-              <li onclick="moveCard('<%= 'sink_' + raw(sink)%>', '<%=card_id%>')"> <%= raw(sink) %></li>
+              <li onclick="moveCard('<%= 'sink_' + raw(sink)%>', '<%=card_id%>')"> <%='Sink ' + raw(sink) %></li>
             <% end %>
             <% @decks.each do |deck| %>
-              <li> <%= raw(deck) %></li>
+              <li> <%= 'Deck '+ raw(deck) %></li>
             <% end %>
             <li onclick="moveCard('table', '<%=card_id%>')"> Place on table </li>
           </ul>
