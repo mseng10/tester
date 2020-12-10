@@ -242,7 +242,9 @@ class GameSessionController < ApplicationController
         other_user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
         other_user_cards =Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1]
         other_user_cards.append(apiHelper.parameters['card'].to_i)
-        Hand.where(user_id: other_user_id).update_all(cards: other_user_cards)
+        other_user_booleans = Hand.user_cards_shown(other_user_id)
+        other_user_booleans.append(false )
+        Hand.where(user_id: other_user_id).update_all(cards: other_user_cards, user_cards_shown: other_user_booleans)
       end
 
     elsif apiHelper.function == 'moveCardDraw'
