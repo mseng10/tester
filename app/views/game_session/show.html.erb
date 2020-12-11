@@ -117,7 +117,7 @@
           <ul style="bottom: -100% " id="dropdown_draw_<%= hash[:id] %>" class="dropdown-content">
             <li class="dropdown-submenu">
               <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
-              <ul style="bottom: 10%; left: -100% ; overflow-y: auto; height: 330%;" class="dropdown-content">
+              <ul style="bottom: 10%; left: -150% ; overflow-y: auto; height: 330%;" class="dropdown-content">
                 <li onclick="moveCardDraw('<%= @current_user.pluck(:username)[0]%>', <%=hash[:id]%>)">
                   <%=raw(@current_user.pluck(:username)[0]) %>
                 </li>
@@ -156,7 +156,7 @@
           <ul style="bottom: -100%" id="dropdown_sink_<%= hash[:id] %>" class="dropdown-content">
             <li class="dropdown-submenu">
               <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
-              <ul style="bottom: 10%; left: -100%; overflow-y: auto; height: 330%;" class="dropdown-content">
+              <ul style="bottom: 10%; left: -150%; overflow-y: auto; height: 330%;" class="dropdown-content">
                 <li onclick="moveCardDraw('<%= @current_user.pluck(:username)[0]%>', '<%=hash[:id]%>')">
                   <%= raw(@current_user.pluck(:username)[0]) %>
                 </li>
