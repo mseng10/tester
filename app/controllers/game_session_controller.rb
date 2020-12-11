@@ -1,7 +1,7 @@
 class GameSessionController < ApplicationController
 
   def hash_return(cards,shown)
-    @card_value = {#Back of card
+    @card_valu = {#Back of card
                    0 => "&#127136",
                    #Spades
                    1 => "&#127137",
@@ -71,12 +71,12 @@ class GameSessionController < ApplicationController
     cards.each do |i|
       if shown
         if i == 53 or (i >=14 and i <= 39)
-          user_hand_card_values[i] = "R"+@card_value[i]
+          user_hand_card_values[i] = "R"+@card_valu[i]
         else
-          user_hand_card_values[i]= "B"+@card_value[i]
+          user_hand_card_values[i]= "B"+@card_valu[i]
         end
       else
-        user_hand_card_values[i]= "B"+@card_value[0]
+        user_hand_card_values[i]= "B"+@card_valu[0]
       end
     end
 
@@ -160,6 +160,7 @@ class GameSessionController < ApplicationController
     end
 
     @table = hash_return(@current_game.pluck(:table)[0],true)
+    table_cards = @current_game.pluck(:table)[0]
     count = 0
     table_cards_boolean = @current_game.pluck(:table_cards_shown)[0]
     new_table_hash = {}
@@ -262,6 +263,7 @@ class GameSessionController < ApplicationController
         Hand.where(user_id: other_user_id).update_all(cards: other_user_cards, user_cards_shown: other_user_booleans)
       end
 
+    #GOOOD
     elsif apiHelper.function == 'moveCardDraw'
       #GOOD
       current_cards_from_draw = Deck.where(id: apiHelper.parameters['source']).pluck(:cards)[0]
@@ -389,7 +391,6 @@ class GameSessionController < ApplicationController
       deck = Deck.where(id: deck_id).pluck(:cards)[0]
       deck = deck.shuffle
       Deck.where(id: deck_id).update_all(cards: deck)
-
     end
 
     redirect_to game_session_path(game_id)
