@@ -194,18 +194,6 @@ class GameSessionController < ApplicationController
     end
     @table = @new_table_hash
 
-    puts "MATTT\n\n"
-    puts "Sinks" + @sinkHashes.to_s
-    puts "\n"
-    puts "Decks" + @deckHashes.to_s
-    puts "\n"
-    puts "Table" + @table.to_s
-    puts "\n"
-    puts "Our cards" + @user_hand_card_values.to_s
-    puts "\n"
-    puts "Other Users" + @user_cards_hash.to_s
-    puts "\n\n"
-
   end
 
 
