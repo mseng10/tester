@@ -391,8 +391,7 @@ class GameSessionController < ApplicationController
         user_ids.delete(user_id)
         hand_ids.delete(hand_id)
 
-        Cardgame.where(id: @current_game.pluck(:id)).update_all(user_ids: user_ids)
-        Cardgame.where(id: @current_game.pluck(:id)).update_all(hand_ids: hand_ids)
+        Cardgame.where(id: @current_game.pluck(:id)).update_all(user_ids: user_ids, hand_ids: hand_ids)
         Hand.delete(hand_id)
         User.where(id: user_id).update_all(current_game: 0)
         redirect_to games_path
@@ -444,9 +443,8 @@ class GameSessionController < ApplicationController
         hand_ids.append(Hand.create_hand(hand_size, deck_ids[0], user)[0])
       end
 
-      Cardgame.where(id: @current_game.pluck(:id)).update_all(deck_ids: deck_ids, discard_ids: discard_ids, hand_ids: hand_ids)
-      Cardgame.where(id: @current_game.pluck(:id)).update_all(table: [])
-      Cardgame.where(id: @current_game.pluck(:id)).update_all(table_cards_shown: [])
+      Cardgame.where(id: @current_game.pluck(:id)).update_all(deck_ids: deck_ids, discard_ids: discard_ids, hand_ids: hand_ids, table: [], table_cards_shown: [])
+
     elsif apiHelper.function == 'shuffle'
       deck_id = apiHelper.parameters['deck'].to_i
       deck = Deck.where(id: deck_id).pluck(:cards)[0]
