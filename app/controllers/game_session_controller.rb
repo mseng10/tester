@@ -1,7 +1,7 @@
 class GameSessionController < ApplicationController
 
   def hash_return(cards,shown)
-    @card_value = {#Back of card
+    @card_valu = {#Back of card
                    0 => "&#127136",
                    #Spades
                    1 => "&#127137",
@@ -71,12 +71,12 @@ class GameSessionController < ApplicationController
     cards.each do |i|
       if shown
         if i == 53 or (i >=14 and i <= 39)
-          user_hand_card_values[i] = "R"+@card_value[i]
+          user_hand_card_values[i] = "R"+@card_valu[i]
         else
-          user_hand_card_values[i]= "B"+@card_value[i]
+          user_hand_card_values[i]= "B"+@card_valu[i]
         end
       else
-        user_hand_card_values[i]= "B"+@card_value[0]
+        user_hand_card_values[i]= "B"+@card_valu[0]
       end
     end
 
@@ -101,71 +101,99 @@ class GameSessionController < ApplicationController
       redirect_to games_path
       return
     end
+    #GOOD
     @sinks = @current_game.select(:discard_ids).first.attributes.values[1]
     @sinkHashes = []
     @sinks.each do |sink|
       sink_top_card = Deck.where(id: sink).select(:top_card_showed).first.attributes["top_card_showed"]
       hash = {}
       hash[:id] = sink
-      hash = hash.merge(hash_return(Deck.where(id: sink).pluck(:cards)[0],sink_top_card))
+      list = Deck.where(id: sink).pluck(:cards)[0]
+      if list.size > 0
+        hash = hash.merge(hash_return([Deck.where(id: sink).pluck(:cards)[0].last],sink_top_card))
+      end
       @sinkHashes.append(hash)
     end
 
+    #GOOD
     @decks = @current_game.select(:deck_ids).first.attributes.values[1]
     @deckHashes = []
     @decks.each do |deck|
         deck_top_card = Deck.where(id: deck).select(:top_card_showed).first.attributes["top_card_showed"]
-        puts deck_top_card.to_s
         hash = {}
         hash[:id] = deck
-        hash = hash.merge(hash_return(Deck.where(id: deck).pluck(:cards)[0],deck_top_card))
+        list = Deck.where(id: deck).pluck(:cards)[0]
+        if list.size > 0
+          hash = hash.merge(hash_return([Deck.where(id: deck).pluck(:cards)[0].last],deck_top_card))
+        end
         @deckHashes.append(hash)
     end
 
     user_id = @current_user.select(:id).first.attributes.values[0]
-    @user_hand_card_values = hash_return(Hand.where(user_id: user_id).select(:cards).first.attributes.values[1],true)
+    @user_hand_card_value = Hand.where(user_id: user_id).select(:cards).first.attributes.values[1]
     count = 0
     users_hand_cards_flipped = Hand.user_cards_shown(user_id)
-    puts @user_hand_card_values.to_s
-    @user_hand_card_values.each do |card|
-      if users_hand_cards_flipped[count] == true
-        @user_hand_card_values[card[0]] = "F" + card[1]
+    @new_user_hash = {}
+    @user_hand_card_value.each do |card|
+      value = @card_value[card.to_i]
+      if card.to_i == 53 or (card.to_i >=14 and card.to_i <= 39)
+        value = "R"+value
+      else
+        value = "B"+value
       end
+      if users_hand_cards_flipped[count] == true
+        value = "F" + value
+      end
+      @new_user_hash[count] = value
       count = count + 1
     end
+    @user_hand_card_values = @new_user_hash
 
-    puts @user_hand_card_values
 
     @user_id_list = @current_game.first.user_ids
     @user_cards_hash = {}
     @user_id_list.each do |other_user_id|
       count = 0
       username = User.where(id: other_user_id).pluck(:username)[0]
-      cards = hash_return(Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1],true)
+      card_ids = Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1]
       flipped_other = Hand.user_cards_shown(other_user_id)
-      cards.each do |card|
+      temp_hash = {}
+      card_ids.each do |card|
+        value = @card_value[card.to_i]
         if flipped_other[count] == false
-          cards[card[0]] = "B&#127136"
+          value = "B&#127136"
+        else
+          if card.to_i == 53 or (card.to_i >=14 and card.to_i <= 39)
+            value = "R"+value
+          else
+            value = "B"+value
+          end
         end
+        temp_hash[count] = value
         count = count + 1
       end
-      @user_cards_hash[other_user_id] = { :username => username, :cards => cards }
+      @user_cards_hash[other_user_id] = { :username => username, :cards => temp_hash }
     end
 
-    @table = hash_return(@current_game.pluck(:table)[0],true)
+    #table
+    table_cards = @current_game.pluck(:table)[0]
     count = 0
     table_cards_boolean = @current_game.pluck(:table_cards_shown)[0]
-    new_table_hash = {}
-    @table.each do|table|
-      value = table[1]
+    @new_table_hash = {}
+    table_cards.each do|table|
+      value = @card_value[table.to_i]
       if table_cards_boolean[count] == false
         value = "B&#127136"
+      elsif table.to_i == 53 or (table.to_i >=14 and table.to_i <= 39)
+        value = "R"+value
+      else
+        value = "B"+value
       end
-      @table.delete(table)
-      new_table_hash[count] = value
+      @new_table_hash[count] = value
       count = count + 1
     end
-    @table = new_table_hash
+    @table = @new_table_hash
+
   end
 
 
@@ -209,50 +237,52 @@ class GameSessionController < ApplicationController
     game_id = @current_user.select(:current_game).first.attributes.values[1]
 
     if apiHelper.function == 'moveCard'
-      # TODO
-      # Right now we are assuming that the card being moved is coming from a user's hand. We need to check to see what the
-      # source of the move is and update that database table accordingly
-      # Alternative -- Just draw a card and it will append the last card of the deck to the user's hand.
-      # Further details ask Mathew
 
       current_user_cards =Hand.where(user_id: user_id).select(:cards).first.attributes.values[1]
-      index = current_user_cards.find_index(apiHelper.parameters['card'].to_i)
-      current_user_cards.delete(apiHelper.parameters['card'].to_i)
+      value = current_user_cards[apiHelper.parameters['card'].to_i]
+      current_user_cards.slice!(apiHelper.parameters['card'].to_i)
       current_user_booleans = Hand.user_cards_shown(user_id)
-      current_user_booleans.slice!(index)
+      current_user_booleans.slice!(apiHelper.parameters['card'].to_i)
       Hand.where(user_id: user_id).update_all(cards: current_user_cards, user_cards_shown: current_user_booleans)
 
       # Move card to table
+      # #good
       if apiHelper.parameters['dest'] == 'table'
         table = @current_game.pluck(:table)[0]
-        table.append(apiHelper.parameters['card'].to_i)
+        table.append(value)
         Cardgame.where(game_id: game_id).update_all(table: table)
         table_booleans = @current_game.pluck(:table_cards_shown)[0]
         table_booleans = table_booleans.append(true)
         Cardgame.where(game_id: game_id).update_all(table_cards_shown: table_booleans)
+
       # Move card to sink
+      # #good
       elsif apiHelper.parameters['dest'].include?('sink')
         sinkID = apiHelper.parameters['dest'].gsub('sink_', '')
         current_cards_in_sink = Deck.where(id: sinkID).select(:cards).first.attributes.values[1]
-        current_cards_in_sink.append(apiHelper.parameters['card'].to_i)
-        Deck.where(id: sinkID).update_all(cards: current_cards_in_sink)
+        current_cards_in_sink.append(value)
+        Deck.where(id: sinkID).update_all(cards: current_cards_in_sink, top_card_showed: true)
 
       # Move Card to other users hand
+      # #Good
       else
         other_user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
         other_user_cards =Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1]
-        other_user_cards.append(apiHelper.parameters['card'].to_i)
+        other_user_cards.append(value)
         other_user_booleans = Hand.user_cards_shown(other_user_id)
-        other_user_booleans.append(false )
+        other_user_booleans.append(false)
         Hand.where(user_id: other_user_id).update_all(cards: other_user_cards, user_cards_shown: other_user_booleans)
       end
 
+    #GOOOD
     elsif apiHelper.function == 'moveCardDraw'
+      #GOOD
       current_cards_from_draw = Deck.where(id: apiHelper.parameters['source']).pluck(:cards)[0]
       current_picked_card = current_cards_from_draw.last
-      current_cards_from_draw.delete(current_cards_from_draw.last)
+      current_cards_from_draw.pop
       Deck.where(id: apiHelper.parameters['source']).update_all(cards: current_cards_from_draw)
 
+      #GOOD
       if apiHelper.parameters['dest'] == 'table'
         table = @current_game.pluck(:table)[0]
         table.append(current_picked_card)
@@ -261,49 +291,63 @@ class GameSessionController < ApplicationController
         table_booleans = table_booleans.append(true)
         Cardgame.where(game_id: game_id).update_all(table_cards_shown: table_booleans)
 
+      #GOOD
       elsif apiHelper.parameters['dest'].include?('sink')
         sinkID = apiHelper.parameters['dest'].gsub('sink_', '')
         current_cards_in_sink = Deck.where(id: sinkID).select(:cards).first.attributes.values[1]
         current_cards_in_sink.append(current_picked_card)
         Deck.where(id: sinkID).update_all(cards: current_cards_in_sink)
 
+      #IDK
       elsif apiHelper.parameters['dest'].include?('draw')
         draw_id = apiHelper.parameters['dest'].gsub('draw_', '')
         current_cards_in_draw = Deck.where(id: draw_id).select(:cards).first.attributes.values[1]
         current_cards_in_draw.append(current_picked_card)
         Deck.where(id: draw_id).update_all(cards: current_cards_in_draw)
 
+        #GOOD
       else
         target_user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
         target_user_cards = Hand.where(user_id: target_user_id).select(:cards).first.attributes.values[1]
         target_user_cards.append(current_picked_card)
         Hand.where(user_id: target_user_id).update_all(cards: target_user_cards)
       end
+      #GOOD
+      decks = @current_game.select(:deck_ids).first.attributes.values[1]
+      if decks.include? apiHelper.parameters['source'].to_i
+        Deck.where(:id => apiHelper.parameters['source']).update_all(:top_card_showed => false)
+      else
+        boolean = @current_game.select(:show_discard).first.attributes["show_discard"]
+        Deck.where(:id => apiHelper.parameters['source']).update_all(:top_card_showed => boolean)
+      end
 
-      Deck.where(:id => apiHelper.parameters['source']).update_all(:top_card_showed => false)
-
+    #good
     elsif apiHelper.function == 'moveCardTable'
       current_table_cards = Cardgame.table(game_id)
       current_table_cards_flipped = Cardgame.table_cards_shown(game_id)
-      puts current_table_cards.to_s
+
       card_id_helper = current_table_cards[apiHelper.parameters['card'].to_i]
       current_table_cards.slice!(apiHelper.parameters['card'].to_i)
       current_table_cards_flipped.slice!(apiHelper.parameters['card'].to_i)
-      Cardgame.where(game_id: game_id).update_all(table: current_table_cards)
-      Cardgame.where(game_id: game_id).update_all(table_cards_shown: current_table_cards_flipped)
+      Cardgame.where(game_id: game_id).update_all(table: current_table_cards, table_cards_shown: current_table_cards_flipped)
 
+      #good
       if apiHelper.parameters['dest'].include?('sink')
         sink_id = apiHelper.parameters['dest'].gsub('sink_', '')
         current_cards_in_sink = Deck.where(id: sink_id).select(:cards).first.attributes.values[1]
         current_cards_in_sink.append(card_id_helper)
         Deck.where(id: sink_id).update_all(cards: current_cards_in_sink)
+        Deck.where(:id => sink_id).update_all(:top_card_showed => @current_game.select(:show_discard).first.attributes["show_discard"])
 
-        Deck.where(:id => sink_id).update_all(:top_card_showed => Deck.where(id: sink_id).select(:top_card_showed).first.attributes["top_card_showed"])
+      #good
       else
         user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
         current_user_cards = Hand.where(user_id: user_id).select(:cards).pluck(:cards)[0]
         current_user_cards.append(card_id_helper)
+        current_user_cards_shown = Hand.where(user_id: user_id).select(:user_cards_shown).pluck(:user_cards_shown)[0]
+        current_user_cards_shown.append(false)
         Hand.where(user_id: user_id).update_all(cards: current_user_cards)
+        Hand.where(user_id: user_id).update_all(user_cards_shown: current_user_cards_shown)
       end
 
     #If the user elects to flip a card
@@ -365,7 +409,6 @@ class GameSessionController < ApplicationController
       deck = Deck.where(id: deck_id).pluck(:cards)[0]
       deck = deck.shuffle
       Deck.where(id: deck_id).update_all(cards: deck)
-
     end
 
     redirect_to game_session_path(game_id)
