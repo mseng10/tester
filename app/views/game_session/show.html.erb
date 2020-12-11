@@ -1,5 +1,10 @@
 <script type="text/javascript">
 
+    let started = <%= Cardgame.where(game_id: request.original_url.split(//).last(4).join.to_i).pluck(:started)[0] %>
+    if (!started) {
+        document.getElementById("end_game_button").click();
+    }
+
     function moveCard(destination, card){
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=moveCard&dest='+destination+'&card='+card,
