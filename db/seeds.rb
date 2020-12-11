@@ -8,6 +8,7 @@
 #
 users = [
     {:user_id => 0, :username => 'Dennis1', :password => BCrypt::Password.create('password'), :email => 'email', :current_game => 0},
+    {:user_id => 0, :username => 'cat', :password => BCrypt::Password.create('password'), :email => 'meow', :session_token => '/CsEYHnPGIgOOobqDkwAqg==', :current_game => 0}
 ]
 
 users.each do |user|
@@ -16,6 +17,7 @@ end
 
 card_games = [
     {:game_id => 0, :user_ids => '1', :deck_ids => '1', :discard_ids => '2', :hand_ids => '1'},
+    {:game_id => 1234, :user_ids => [1], :deck_ids => [1], :discard_ids => [2], :hand_ids => [1], :hand_size => 1},
 ]
 
 card_games.each do |game|
@@ -23,8 +25,8 @@ card_games.each do |game|
 end
 
 decks = [
-    {:deck_id => 1, :cards => '1,2,3'},
-    {:deck_id => 2, :cards => '4,5,6'},
+    {:deck_id => 1, :cards => [1,2,3]},
+    {:deck_id => 2, :cards => [4,5,6]},
 ]
 
 decks.each do |deck|
@@ -32,7 +34,7 @@ decks.each do |deck|
 end
 
 hands = [
-    {:hand_id => 1, :user_id => 1, :cards => '7,8,9'},
+    {:hand_id => 1, :user_id => 1, :cards => [7,8,9]},
 ]
 
 hands.each do |hand|

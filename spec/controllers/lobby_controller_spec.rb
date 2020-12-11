@@ -16,7 +16,7 @@ describe LobbyController do
     it 'should redirect to the lobby page' do
       test_size = Cardgame.all.size
       redirect_to(new_game_path)
-      post :create, { :deck => "1", :shuffle => "on", :jokers => "on", :sink => "1", :show_discards => "on", :hand_size => "4" }
+      post :create, { :deck => "1", :shuffle => "on", :jokers => "on", :sink => "1", :show_discards => "on", :hand_size => "1" }
       expect(Cardgame.all.size).to equal(test_size + 1)
     end
   end
