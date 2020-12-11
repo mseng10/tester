@@ -1,5 +1,7 @@
 require 'spec_helper'
 require 'rails_helper'
+require 'simplecov'
+SimpleCov.start
 
 describe User do
   describe 'When a user does a successful login' do
