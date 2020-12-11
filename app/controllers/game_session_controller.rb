@@ -391,8 +391,7 @@ class GameSessionController < ApplicationController
         user_ids.delete(user_id)
         hand_ids.delete(hand_id)
 
-        Cardgame.where(id: @current_game.pluck(:id)).update_all(user_ids: user_ids)
-        Cardgame.where(id: @current_game.pluck(:id)).update_all(hand_ids: hand_ids)
+        Cardgame.where(id: @current_game.pluck(:id)).update_all(user_ids: user_ids, hand_ids: hand_ids)
         Hand.delete(hand_id)
         User.where(id: user_id).update_all(current_game: 0)
         redirect_to games_path
@@ -402,7 +401,49 @@ class GameSessionController < ApplicationController
       end
 
     elsif apiHelper.function == 'resetGame'
-      # TODO: Reset the game to random initial state
+      jokers = @current_game.select(:jokers).first.attributes["jokers"]
+      shuffle = @current_game.select(:shuffle).first.attributes["shuffle"]
+      hand_size = @current_game.select(:hand_size).first.attributes["hand_size"]
+      show_discard = @current_game.select(:show_discard).first.attributes["show_discard"]
+
+      row_id = @current_game.pluck(:id)
+      deck_ids = Cardgame.where(id: row_id).pluck(:deck_ids)[0]
+      sink_ids = Cardgame.where(id: row_id).pluck(:discard_ids)[0]
+      hand_ids = Cardgame.where(id: row_id).pluck(:hand_ids)[0]
+      user_ids = Cardgame.where(id: row_id).pluck(:user_ids)[0]
+
+      deck_ids.each do |id|
+        Deck.delete(id)
+      end
+      sink_ids.each do |id|
+        Deck.delete(id)
+      end
+      hand_ids.each do |id|
+        Hand.delete(id)
+      end
+
+      jokers_string = "off"
+      if jokers
+        jokers_string = "on"
+      end
+      shuffle_string = "off"
+      if shuffle
+        shuffle_string = "on"
+      end
+      show_discard_string = "off"
+      if show_discard
+        show_discard_string= "on"
+      end
+
+      deck_ids = Deck.create_decks(deck_ids.size, shuffle_string,jokers_string)
+      discard_ids = Deck.create_sinks(sink_ids.size,show_discard_string)
+
+      hand_ids = []
+      user_ids.each do |user|
+        hand_ids.append(Hand.create_hand(hand_size, deck_ids[0], user)[0])
+      end
+
+      Cardgame.where(id: @current_game.pluck(:id)).update_all(deck_ids: deck_ids, discard_ids: discard_ids, hand_ids: hand_ids, table: [], table_cards_shown: [])
 
     elsif apiHelper.function == 'shuffle'
       deck_id = apiHelper.parameters['deck'].to_i

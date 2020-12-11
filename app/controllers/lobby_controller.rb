@@ -36,6 +36,16 @@ class LobbyController < ApplicationController
 
     User.where(id: @current_user.select(:id).first.attributes.values[0]).update_all(current_game: game_id)
     deck_ids = Deck.create_decks(params[:deck], params[:shuffle],params[:jokers])
+    jokers = true
+    if params[:show_discards] == "off"
+      jokers= false
+    end
+
+    shuffle = true
+    if params[:show_discards] == "off"
+      shuffle= false
+    end
+
     show_discard = true
     if params[:show_discards] == "off"
       show_discard= false
@@ -49,7 +59,9 @@ class LobbyController < ApplicationController
                       :hand_size => params[:hand_size].to_i,
                       :table => [],
                       :show_discard => show_discard,
-                      :table_cards_shown => []
+                      :table_cards_shown => [],
+                      :jokers => jokers,
+                      :shuffle => shuffle
                      })
 
     redirect_to lobby_path(game_id)
