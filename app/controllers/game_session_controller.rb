@@ -107,7 +107,10 @@ class GameSessionController < ApplicationController
       sink_top_card = Deck.where(id: sink).select(:top_card_showed).first.attributes["top_card_showed"]
       hash = {}
       hash[:id] = sink
-      hash = hash.merge(hash_return(Deck.where(id: sink).pluck(:cards)[0],sink_top_card))
+      list = Deck.where(id: sink).pluck(:cards)[0]
+      if list.size > 0
+        hash = hash.merge(hash_return([Deck.where(id: sink).pluck(:cards)[0].last],sink_top_card))
+      end
       @sinkHashes.append(hash)
     end
 
@@ -115,10 +118,12 @@ class GameSessionController < ApplicationController
     @deckHashes = []
     @decks.each do |deck|
         deck_top_card = Deck.where(id: deck).select(:top_card_showed).first.attributes["top_card_showed"]
-        puts deck_top_card.to_s
         hash = {}
         hash[:id] = deck
-        hash = hash.merge(hash_return(Deck.where(id: deck).pluck(:cards)[0],deck_top_card))
+        list = Deck.where(id: deck).pluck(:cards)[0]
+        if list.size > 0
+          hash = hash.merge(hash_return([Deck.where(id: deck).pluck(:cards)[0].last],deck_top_card))
+        end
         @deckHashes.append(hash)
     end
 
