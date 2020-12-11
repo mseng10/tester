@@ -130,15 +130,24 @@ class GameSessionController < ApplicationController
     end
 
     user_id = @current_user.select(:id).first.attributes.values[0]
-    @user_hand_card_values = hash_return(Hand.where(user_id: user_id).select(:cards).first.attributes.values[1],true)
+    @user_hand_card_value = Hand.where(user_id: user_id).select(:cards).first.attributes.values[1]
     count = 0
     users_hand_cards_flipped = Hand.user_cards_shown(user_id)
-    @user_hand_card_values.each do |card|
-      if users_hand_cards_flipped[count] == true
-        @user_hand_card_values[card[0]] = "F" + card[1]
+    @new_user_hash = {}
+    @user_hand_card_value.each do |card|
+      value = @card_value[card.to_i]
+      if card.to_i == 53 or (card.to_i >=14 and card.to_i <= 39)
+        value = "R"+value
+      else
+        value = "B"+value
       end
+      if users_hand_cards_flipped[count] == true
+        value = "F" + value
+      end
+      @new_user_hash[count] = value
       count = count + 1
     end
+    @user_hand_card_values = @new_user_hash
 
 
     @user_id_list = @current_game.first.user_ids
@@ -168,7 +177,7 @@ class GameSessionController < ApplicationController
         value = "B&#127136"
       elsif table.to_i == 53 or (table.to_i >=14 and table.to_i <= 39)
         value = "R"+value
-      elsif
+      else
         value = "B"+value
       end
       @new_table_hash[count] = value
@@ -312,6 +321,7 @@ class GameSessionController < ApplicationController
         Deck.where(:id => apiHelper.parameters['source']).update_all(:top_card_showed => boolean)
       end
 
+    #good
     elsif apiHelper.function == 'moveCardTable'
       current_table_cards = Cardgame.table(game_id)
       current_table_cards_flipped = Cardgame.table_cards_shown(game_id)
