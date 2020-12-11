@@ -242,35 +242,38 @@ class GameSessionController < ApplicationController
     if apiHelper.function == 'moveCard'
 
       current_user_cards =Hand.where(user_id: user_id).select(:cards).first.attributes.values[1]
-      index = current_user_cards.find_index(apiHelper.parameters['card'].to_i)
-      current_user_cards.delete(apiHelper.parameters['card'].to_i)
+      value = current_user_cards[apiHelper.parameters['card'].to_i]
+      current_user_cards.slice!(apiHelper.parameters['card'].to_i)
       current_user_booleans = Hand.user_cards_shown(user_id)
-      current_user_booleans.slice!(index)
+      current_user_booleans.slice!(apiHelper.parameters['card'].to_i)
       Hand.where(user_id: user_id).update_all(cards: current_user_cards, user_cards_shown: current_user_booleans)
 
       # Move card to table
+      # #good
       if apiHelper.parameters['dest'] == 'table'
         table = @current_game.pluck(:table)[0]
-        table.append(apiHelper.parameters['card'].to_i)
+        table.append(value)
         Cardgame.where(game_id: game_id).update_all(table: table)
         table_booleans = @current_game.pluck(:table_cards_shown)[0]
         table_booleans = table_booleans.append(true)
         Cardgame.where(game_id: game_id).update_all(table_cards_shown: table_booleans)
 
       # Move card to sink
+      # #good
       elsif apiHelper.parameters['dest'].include?('sink')
         sinkID = apiHelper.parameters['dest'].gsub('sink_', '')
         current_cards_in_sink = Deck.where(id: sinkID).select(:cards).first.attributes.values[1]
-        current_cards_in_sink.append(apiHelper.parameters['card'].to_i)
-        Deck.where(id: sinkID).update_all(cards: current_cards_in_sink)
+        current_cards_in_sink.append(value)
+        Deck.where(id: sinkID).update_all(cards: current_cards_in_sink, top_card_showed: true)
 
       # Move Card to other users hand
+      # #Good
       else
         other_user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
         other_user_cards =Hand.where(user_id: other_user_id).select(:cards).first.attributes.values[1]
-        other_user_cards.append(apiHelper.parameters['card'].to_i)
+        other_user_cards.append(value)
         other_user_booleans = Hand.user_cards_shown(other_user_id)
-        other_user_booleans.append(false )
+        other_user_booleans.append(false)
         Hand.where(user_id: other_user_id).update_all(cards: other_user_cards, user_cards_shown: other_user_booleans)
       end
 
