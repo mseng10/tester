@@ -101,6 +101,7 @@ class GameSessionController < ApplicationController
       redirect_to games_path
       return
     end
+    #GOOD
     @sinks = @current_game.select(:discard_ids).first.attributes.values[1]
     @sinkHashes = []
     @sinks.each do |sink|
@@ -114,6 +115,7 @@ class GameSessionController < ApplicationController
       @sinkHashes.append(hash)
     end
 
+    #GOOD
     @decks = @current_game.select(:deck_ids).first.attributes.values[1]
     @deckHashes = []
     @decks.each do |deck|
@@ -297,12 +299,12 @@ class GameSessionController < ApplicationController
         target_user_cards.append(current_picked_card)
         Hand.where(user_id: target_user_id).update_all(cards: target_user_cards)
       end
-      #good
+      #GOOD
       decks = @current_game.select(:deck_ids).first.attributes.values[1]
-      if decks.include? apiHelper.parameters['source']
+      if decks.include? apiHelper.parameters['source'].to_i
         Deck.where(:id => apiHelper.parameters['source']).update_all(:top_card_showed => false)
       else
-        boolean = Deck.where(id: apiHelper.parameters['source']).select(:top_card_showed).first.attributes["top_card_showed"]
+        boolean = @current_game.select(:show_discard).first.attributes["show_discard"]
         Deck.where(:id => apiHelper.parameters['source']).update_all(:top_card_showed => boolean)
       end
 
