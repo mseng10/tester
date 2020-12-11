@@ -2,7 +2,8 @@
   "GROUP": "G007",
   "ALL_SPRINTS": {
     "SPRINT1_URL": "https://selt2020-g007-cardgameproject.herokuapp.com/",
-    "SPRINT2_URL": "https://selt2020-g007-cardgameproj-s2.herokuapp.com/"
+    "SPRINT2_URL": "https://selt2020-g007-cardgameproj-s2.herokuapp.com/",
+    "SPRINT3_URL": "https://selt2020-g007-cardgameproj-s3.herokuapp.com/"
   }
 
 }

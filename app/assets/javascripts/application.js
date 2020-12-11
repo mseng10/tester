@@ -50,7 +50,7 @@ $(document).ready(function(){
 
 function pass() {
     console.log("Here")
-    let valid = true;
+    var valid = true;
     if (document.getElementById('signupPassword').value.length > 7) {
         document.getElementById('length').innerHTML = '&#9989;'
         document.getElementById('lengthtext').style.color = "green";
@@ -157,7 +157,7 @@ function switchVisible() {
 
 
 function pass2() {
-    let valid = true;
+    var valid = true;
     if (document.getElementById('resetPassword').value.length > 7) {
         document.getElementById('length').innerHTML = '&#9989;'
         document.getElementById('lengthtext').style.color = "green";

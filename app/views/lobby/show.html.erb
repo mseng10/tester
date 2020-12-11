@@ -14,7 +14,7 @@
                     '<%= User.players_in_game(request.original_url.split(//).last(4).join.to_i) %>';
 
                 (function refresh_usernames() {
-                    let started = <%= Cardgame.where(game_id: request.original_url.split(//).last(4).join.to_i).pluck(:started)[0] %>
+                    var started = <%= Cardgame.where(game_id: request.original_url.split(//).last(4).join.to_i).pluck(:started)[0] %>
                     if (started) {
                         document.getElementById("start_game_button").click();
                     }
