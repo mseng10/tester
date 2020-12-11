@@ -262,6 +262,7 @@
 
 } /* Green */
 
+
 .reset_buttons{
     position: absolute;
     left: 70%;
@@ -269,4 +270,18 @@
     /*transform: translate(-50%, -50%);*/
     /*margin: 0 auto;*/
     padding: 5%
+}
+
+#counttable{
+    width: 15%;
+    height: 8%;
+    margin: 0 auto;
+    left: 20%;
+    bottom: 0%;
+    float: left;
+}
+
+#tablec{
+    bottom: 0%;
+    position: absolute;
 }

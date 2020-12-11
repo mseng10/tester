@@ -194,6 +194,14 @@ class GameSessionController < ApplicationController
     end
     @table = @new_table_hash
 
+    @deck_sizes = {}
+    @decks.each do |deck|
+      @deck_sizes[deck] = Deck.cards(deck).size
+    end
+    @sink_sizes = {}
+    @sinks.each do |sink|
+      @sink_sizes[sink] = Deck.cards(sink).size
+    end
   end
 
 
