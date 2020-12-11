@@ -8,7 +8,8 @@
 #
 users = [
     {:user_id => 0, :username => 'Dennis', :password => BCrypt::Password.create('password'), :email => 'email', :current_game => 0},
-    {:user_id => 0, :username => 'cat', :password => BCrypt::Password.create('password'), :email => 'meow', :session_token => '/CsEYHnPGIgOOobqDkwAqg==', :current_game => 0}
+    {:user_id => 0, :username => 'cat', :password => BCrypt::Password.create('password'), :email => 'meow', :session_token => '/CsEYHnPGIgOOobqDkwAqg==', :current_game => 0},
+    {:user_id => 0, :username => 'dog', :password => BCrypt::Password.create('password'), :email => 'woof', :session_token => 'Q37a09zTDmH+D/zXQP/ymA==', :current_game => 1235}
 ]
 
 users.each do |user|

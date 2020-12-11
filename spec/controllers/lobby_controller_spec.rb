@@ -29,6 +29,14 @@ describe LobbyController do
       get :join, { :game => { :game_id => 1234 }}
       expect(response.body).to include("http://test.host/lobby/1234")
     end
+    it 'should redirect to the games page if the user is already in a game' do
+      request.session[:session_token] = nil
+      session_token = User.find_by(username: "dog").session_token
+      request.session[:session_token] = session_token
+      redirect_to(games_path)
+      get :join, { :game => { :game_id => 1234 }}
+      expect(response.body).to include("http://test.host/lobby/1235")
+    end
   end
   after do
     request.session[:session_token] = nil

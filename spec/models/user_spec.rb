@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'rails_helper'
-require "factory_bot"
+require 'simplecov'
+SimpleCov.start
 
 describe User do
   describe 'When a user does a successful login' do
