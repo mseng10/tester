@@ -194,6 +194,14 @@ class GameSessionController < ApplicationController
     end
     @table = @new_table_hash
 
+    @deck_sizes = {}
+    @decks.each do |deck|
+      @deck_sizes[deck] = Deck.cards(deck).size
+    end
+    @sink_sizes = {}
+    @sinks.each do |sink|
+      @sink_sizes[sink] = Deck.cards(sink).size
+    end
   end
 
 
@@ -406,11 +414,10 @@ class GameSessionController < ApplicationController
       hand_size = @current_game.select(:hand_size).first.attributes["hand_size"]
       show_discard = @current_game.select(:show_discard).first.attributes["show_discard"]
 
-      row_id = @current_game.pluck(:id)
-      deck_ids = Cardgame.where(id: row_id).pluck(:deck_ids)[0]
-      sink_ids = Cardgame.where(id: row_id).pluck(:discard_ids)[0]
-      hand_ids = Cardgame.where(id: row_id).pluck(:hand_ids)[0]
-      user_ids = Cardgame.where(id: row_id).pluck(:user_ids)[0]
+      deck_ids = Cardgame.where(game_id: game_id).pluck(:deck_ids)[0]
+      sink_ids = Cardgame.where(game_id: game_id).pluck(:discard_ids)[0]
+      hand_ids = Cardgame.where(game_id: game_id).pluck(:hand_ids)[0]
+      user_ids = Cardgame.where(game_id: game_id).pluck(:user_ids)[0]
 
       deck_ids.each do |id|
         Deck.delete(id)

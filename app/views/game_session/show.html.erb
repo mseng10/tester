@@ -255,6 +255,42 @@
   <button type="button" class="btn btn-secondary" onclick="resetGame()">&#x21ba; Reset Game</button>
 </div>
 
+<div class = "contain" id = "tablec">
+  <table class="table" id = "counttable">
+    <thead>
+    <tr>
+      <th scope="col">Deck ID</th>
+      <th scope="col">Size</th>
+    </tr>
+    </thead>
+    <tbody>
+      <% @deck_sizes.each do |card_id,unicode| %>
+      <tr>
+        <th scope="row"><%= card_id%></th>
+        <td><%= unicode%></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <table class="table" id = "counttable">
+    <thead>
+    <tr>
+      <th scope="col">Sink ID</th>
+      <th scope="col">Size</th>
+    </tr>
+    </thead>
+    <tbody>
+      <% @sink_sizes.each do |card_id,unicode| %>
+      <tr>
+        <th scope="row"><%= card_id%></th>
+        <td><%= unicode%></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
 <div class = "leave_buttons">
   <% if 1 == Cardgame.user_ids(@current_user.select(:current_game).first.attributes.values[1]).size %>
     <%= button_to  raw('&#x2190;')+' Leave Game', game_session_path, method: :delete, :class => 'btn btn-warning', :id => "end_game_button"%>
