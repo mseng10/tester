@@ -166,6 +166,19 @@ class GameSessionController < ApplicationController
       count = count + 1
     end
     @table = new_table_hash
+
+    puts "MATTT\n\n"
+    puts "Sinks" + @sinkHashes.to_s
+    puts "\n"
+    puts "Decks" + @deckHashes.to_s
+    puts "\n"
+    puts "Table" + @table.to_s
+    puts "\n"
+    puts "Our cards" + @user_hand_card_values.to_s
+    puts "\n"
+    puts "Other Users" + @user_cards_hash.to_s
+    puts "\n\n"
+
   end
 
 
@@ -209,11 +222,6 @@ class GameSessionController < ApplicationController
     game_id = @current_user.select(:current_game).first.attributes.values[1]
 
     if apiHelper.function == 'moveCard'
-      # TODO
-      # Right now we are assuming that the card being moved is coming from a user's hand. We need to check to see what the
-      # source of the move is and update that database table accordingly
-      # Alternative -- Just draw a card and it will append the last card of the deck to the user's hand.
-      # Further details ask Mathew
 
       current_user_cards =Hand.where(user_id: user_id).select(:cards).first.attributes.values[1]
       index = current_user_cards.find_index(apiHelper.parameters['card'].to_i)
@@ -248,11 +256,13 @@ class GameSessionController < ApplicationController
       end
 
     elsif apiHelper.function == 'moveCardDraw'
+      #GOOD
       current_cards_from_draw = Deck.where(id: apiHelper.parameters['source']).pluck(:cards)[0]
       current_picked_card = current_cards_from_draw.last
-      current_cards_from_draw.delete(current_cards_from_draw.last)
+      current_cards_from_draw.pop
       Deck.where(id: apiHelper.parameters['source']).update_all(cards: current_cards_from_draw)
 
+      #GOOD
       if apiHelper.parameters['dest'] == 'table'
         table = @current_game.pluck(:table)[0]
         table.append(current_picked_card)
@@ -261,36 +271,43 @@ class GameSessionController < ApplicationController
         table_booleans = table_booleans.append(true)
         Cardgame.where(game_id: game_id).update_all(table_cards_shown: table_booleans)
 
+      #GOOD
       elsif apiHelper.parameters['dest'].include?('sink')
         sinkID = apiHelper.parameters['dest'].gsub('sink_', '')
         current_cards_in_sink = Deck.where(id: sinkID).select(:cards).first.attributes.values[1]
         current_cards_in_sink.append(current_picked_card)
         Deck.where(id: sinkID).update_all(cards: current_cards_in_sink)
 
+      #IDK
       elsif apiHelper.parameters['dest'].include?('draw')
         draw_id = apiHelper.parameters['dest'].gsub('draw_', '')
         current_cards_in_draw = Deck.where(id: draw_id).select(:cards).first.attributes.values[1]
         current_cards_in_draw.append(current_picked_card)
         Deck.where(id: draw_id).update_all(cards: current_cards_in_draw)
 
+        #GOOD
       else
         target_user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
         target_user_cards = Hand.where(user_id: target_user_id).select(:cards).first.attributes.values[1]
         target_user_cards.append(current_picked_card)
         Hand.where(user_id: target_user_id).update_all(cards: target_user_cards)
       end
-
-      Deck.where(:id => apiHelper.parameters['source']).update_all(:top_card_showed => false)
+      #good
+      decks = @current_game.select(:deck_ids).first.attributes.values[1]
+      if decks.include? apiHelper.parameters['source']
+        Deck.where(:id => apiHelper.parameters['source']).update_all(:top_card_showed => false)
+      else
+        boolean = Deck.where(id: apiHelper.parameters['source']).select(:top_card_showed).first.attributes["top_card_showed"]
+        Deck.where(:id => apiHelper.parameters['source']).update_all(:top_card_showed => boolean)
+      end
 
     elsif apiHelper.function == 'moveCardTable'
       current_table_cards = Cardgame.table(game_id)
       current_table_cards_flipped = Cardgame.table_cards_shown(game_id)
-      puts current_table_cards.to_s
       card_id_helper = current_table_cards[apiHelper.parameters['card'].to_i]
       current_table_cards.slice!(apiHelper.parameters['card'].to_i)
       current_table_cards_flipped.slice!(apiHelper.parameters['card'].to_i)
-      Cardgame.where(game_id: game_id).update_all(table: current_table_cards)
-      Cardgame.where(game_id: game_id).update_all(table_cards_shown: current_table_cards_flipped)
+      Cardgame.where(game_id: game_id).update_all(table: current_table_cards, table_cards_shown: current_table_cards_flipped)
 
       if apiHelper.parameters['dest'].include?('sink')
         sink_id = apiHelper.parameters['dest'].gsub('sink_', '')
