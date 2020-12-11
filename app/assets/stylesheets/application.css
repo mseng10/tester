@@ -89,7 +89,7 @@
 
 .end_buttons{
     position:absolute;
-    left: 86%;
+    left: 82%;
     bottom: 0px;
     /*transform: translate(-50%, -50%);*/
     /*margin: 0 auto;*/
@@ -261,3 +261,12 @@
     top: 400px;
 
 } /* Green */
+
+.reset_buttons{
+    position: absolute;
+    left: 70%;
+    bottom: 0px;
+    /*transform: translate(-50%, -50%);*/
+    /*margin: 0 auto;*/
+    padding: 5%
+}

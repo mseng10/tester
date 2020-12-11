@@ -251,6 +251,10 @@
   </ul>
 </div>
 
+<div class = "reset_buttons">
+  <button type="button" class="btn btn-secondary" onclick="resetGame()">Reset Game</button>
+</div>
+
 <div class = "leave_buttons">
   <% if 1 == Cardgame.user_ids(@current_user.select(:current_game).first.attributes.values[1]).size %>
     <%= button_to  'Leave Game', game_session_path, method: :delete, :class => 'btn btn-warning', :id => "end_game_button"%>
