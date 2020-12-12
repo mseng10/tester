@@ -29,3 +29,19 @@ When /^I have entered the game ID: "(.+)"$/ do |id|
   fill_in "join_game_textbox", with: id
   # click_button 'Join Game!'
 end
+
+When /^I select the start game button$/ do
+  click_button 'Start Game'
+end
+
+Then /^I should be on the started game page$/ do
+  expect(page).to_not have_content("Game ID")
+end
+
+When /^I select the end game button$/ do
+  click_button "end_game_button", visible: true
+end
+
+When /^I select the reset game button$/ do
+  click_button "end_game_button", visible: true
+end
