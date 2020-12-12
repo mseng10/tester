@@ -99,6 +99,54 @@
         });
     }
 
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev, data) {
+        ev.dataTransfer.setData("text", data);
+    }
+
+    function drop(ev, dest) {
+        ev.preventDefault();
+        var source_data = ev.dataTransfer.getData("text").split('&');
+        // Dest: dest=...&dest_data=...
+        var dest_data = dest.split('&');
+
+        // User: source=...&username=...&card_id=...
+        var source = source_data[0].replace(/.+=/i, '')
+        if (source === "user") {
+            if (dest_data[0].replace(/.+=/i, '') === 'table') {
+                moveCard('table', source_data[2].replace(/.+=/i, ''))
+
+            } else if (dest_data[0].replace(/.+=/i, '') === 'sink') {
+                moveCard(dest_data[1].replace(/.+=/i, ''), source_data[2].replace(/.+=/i, ''))
+
+            } else if (dest_data[0].replace(/.+=/i, '') === 'other_user') {
+                moveCard(dest_data[1].replace(/.+=/i, ''), source_data[2].replace(/.+=/i, ''))
+            }
+
+        } else if (source === 'table') {
+            if (dest_data[0].replace(/.+=/i, '') === 'user') {
+                moveCardTable(dest_data[1].replace(/.+=/i, ''), source_data[1].replace(/.+=/i, ''))
+
+            } else if (dest_data[0].replace(/.+=/i, '') === 'sink') {
+                moveCardTable(dest_data[1].replace(/.+=/i, ''), source_data[1].replace(/.+=/i, ''))
+            }
+
+        } else if (source === 'pile') {
+            if (dest_data[0].replace(/.+=/i, '') === 'user') {
+                moveCardDraw(dest_data[1].replace(/.+=/i, ''), source_data[1].replace(/.+=/i, ''))
+
+            } else if (dest_data[0].replace(/.+=/i, '') === 'sink') {
+                moveCardDraw(dest_data[1].replace(/.+=/i, ''), source_data[1].replace(/.+=/i, ''))
+
+            } else if (dest_data[0].replace(/.+=/i, '') === 'table') {
+                moveCardDraw('table', source_data[1].replace(/.+=/i, ''))
+            }
+        }
+    }
+
 </script>
 
 
@@ -106,8 +154,9 @@
   <h3 style="position: fixed; left: 5%; top: 30%; margin: 0 auto;"> Players </h3>
   <div style="position: fixed; left: 0%; top: 35%; margin: 0 auto;" , id="other_user_hands">
     <% @user_cards_hash.each do |key, value| %>
+      <% drop_info = "dest=other_user&username=#{value[:username]}" %>
       <% if key != @current_user.select(:id).first.attributes.values[0] %>
-        <ul class="cards">
+        <ul ondrop="drop(event, '<%= drop_info %>')" ondragover="allowDrop(event)" class="cards">
           <li class="username"><%= value[:username] %></li>
           <% value[:cards].each do |card_id, unicode| %>
             <% if unicode[0] == "R" %>
@@ -127,7 +176,8 @@
   <div style="position: absolute; right: 1%; top: 230px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"  id="decks">
     <ul class="cards">
       <% @deckHashes.each do |hash| %>
-        <div style="width: 33%; float: left">
+        <% drag_info = "source=pile&pile_id=#{hash[:id]}" %>
+        <div draggable="true" ondragstart="drag(event, '<%= drag_info %>')" style="width: 33%; float: left">
         <% if hash.size <= 0 %>
             <li id="<%= hash[:id] %>" class="empty_sink">&#127137</li>
         <% else %>
@@ -166,18 +216,20 @@
   <div style="position: absolute; right: 1%; top: 450px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"  id="sinks">
     <ul class="cards">
       <% @sinkHashes.each do |hash| %>
-        <div style="width: 33%; float: left">
-        <% if hash.size <= 0 %>
+        <% drag_info = "source=pile&pile_id=#{hash[:id]}" %>
+        <% drop_info = "dest=sink&sink_id=sink_#{hash[:id]}" %>
+        <div draggable="true" ondragstart="drag(event, '<%= drag_info %>')" ondrop="drop(event, '<%= drop_info %>')" ondragover="allowDrop(event)" style="width: 33%; float: left">
+          <% if hash.size <= 0 %>
             <li class="empty_sink">&#127137</li>
-        <% else %>
-          <% if hash.values.last[0] == "R" %>
-              <li><%= hash[:id] %></li>
-              <li onclick="toggleCardDropdown('sink_<%= hash[:id] %>')" class="user_card_red"><%= raw(hash.values.last.gsub("R", "")) %></li>
-          <% elsif hash.values.last[0] == "B" %>
-              <li><%= hash[:id] %></li>
-              <li onclick="toggleCardDropdown('sink_<%= hash[:id] %>')" class="user_card_black"><%= raw(hash.values.last.gsub("B", "")) %></li>
-          <% end %>
-            </div>
+          <% else %>
+            <% if hash.values.last[0] == "R" %>
+                <li><%= hash[:id] %></li>
+                <li onclick="toggleCardDropdown('sink_<%= hash[:id] %>')" class="user_card_red"><%= raw(hash.values.last.gsub("R", "")) %></li>
+            <% elsif hash.values.last[0] == "B" %>
+                <li><%= hash[:id] %></li>
+                <li onclick="toggleCardDropdown('sink_<%= hash[:id] %>')" class="user_card_black"><%= raw(hash.values.last.gsub("B", "")) %></li>
+            <% end %>
+          </div>
           <ul style="bottom: -100%" id="dropdown_sink_<%= hash[:id] %>" class="dropdown-content">
             <li class="dropdown-submenu">
               <a class="test" tabindex="-1" href="">&#x21e6; Move card: <span class="caret"></span></a>
@@ -208,12 +260,14 @@
 
 <div class="container">
   <div style="position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%); margin: 0 auto; display: inline;" id="table">
-    <ul class="cards">
+    <% drop_info = "dest=table" %>
+    <ul ondrop="drop(event, '<%= drop_info %>')" ondragover="allowDrop(event)" class="cards">
       <% @table.each do |card_id, unicode|%>
+        <% drag_info = "source=table&card_id=#{card_id}" %>
         <% if unicode[0] == "R" %>
-          <li onclick="toggleCardDropdown('table_<%= card_id %>')" class="user_card_red"><%= raw(unicode.gsub("R", "")) %></li>
+          <li draggable="true" ondragstart="drag(event, '<%= drag_info %>')" onclick="toggleCardDropdown('table_<%= card_id %>')" class="user_card_red"><%= raw(unicode.gsub("R", "")) %></li>
         <% elsif unicode[0] == "B" %>
-          <li onclick="toggleCardDropdown('table_<%= card_id %>')" class="user_card_black"><%= raw(unicode.gsub("B", "")) %></li>
+          <li draggable="true" ondragstart="drag(event, '<%= drag_info %>')" onclick="toggleCardDropdown('table_<%= card_id %>')" class="user_card_black"><%= raw(unicode.gsub("B", "")) %></li>
         <% end %>
         <ul style="bottom: 100%" id="dropdown_table_<%= card_id %>" class="dropdown-content">
           <li class="dropdown-submenu">
@@ -237,20 +291,22 @@
 
 
 <div style="position: absolute; left: 50%; bottom: 5%; transform: translate(-50%, -50%); margin: 0 auto;" , id="testing_div">
-  <ul class="cards">
+  <% drop_info = "dest=user&username=#{@current_user.pluck(:username)[0]}" %>
+  <ul ondrop="drop(event, '<%= drop_info %>')" ondragover="allowDrop(event)" class="cards">
     <% count = 0 %>
     <% @user_hand_card_values.each do |card_id,unicode| %>
+      <% drag_info = "source=user&username=#{@current_user.select(:id).first.attributes.values[0]}&card_id=#{card_id}" %>
       <% if unicode[0] == "F" %>
         <% if unicode[1] == "R" %>
-          <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red_shown" id = "user_<%=card_id%>"><%= raw(unicode.gsub("FR", "")) %></li>
+          <li draggable="true" ondragstart="drag(event, '<%= drag_info %>')" onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red_shown" id = "user_<%=card_id%>"><%= raw(unicode.gsub("FR", "")) %></li>
         <% elsif unicode[1] == "B" %>
-          <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black_shown" id = "user_<%=card_id%>"><%= raw(unicode.gsub("FB", "")) %></li>
+          <li draggable="true" ondragstart="drag(event, '<%= drag_info %>')" onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black_shown" id = "user_<%=card_id%>"><%= raw(unicode.gsub("FB", "")) %></li>
         <% end %>
       <% else %>
         <% if unicode[0] == "R" %>
-          <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red" id = "user_<%=card_id%>"><%= raw(unicode.gsub("R", "")) %></li>
+          <li draggable="true" ondragstart="drag(event, '<%= drag_info %>')" onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_red" id = "user_<%=card_id%>"><%= raw(unicode.gsub("R", "")) %></li>
         <% elsif unicode[0] == "B" %>
-          <li onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black" id = "user_<%=card_id%>"><%= raw(unicode.gsub("B", "")) %></li>
+          <li draggable="true" ondragstart="drag(event, '<%= drag_info %>')" onclick="toggleCardDropdown('<%=card_id%>')" class="user_card_black" id = "user_<%=card_id%>"><%= raw(unicode.gsub("B", "")) %></li>
         <% end %>
       <% end %>
       <ul style="bottom: 100%" id="dropdown_<%=card_id%>" class="dropdown-content">
