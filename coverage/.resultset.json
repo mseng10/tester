@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/app/controllers/games_controller.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/controllers/games_controller.rb": {
         "lines": [
           1,
           null,
@@ -19,7 +19,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/app/controllers/application_controller.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/controllers/application_controller.rb": {
         "lines": [
           1,
           1,
@@ -122,7 +122,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/spec/controllers/lobby_controller_spec.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/spec/controllers/lobby_controller_spec.rb": {
         "lines": [
           1,
           1,
@@ -132,6 +132,7 @@
           1,
           null,
           1,
+          4,
           4,
           4,
           null,
@@ -170,7 +171,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/app/controllers/lobby_controller.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/controllers/lobby_controller.rb": {
         "lines": [
           1,
           null,
@@ -286,7 +287,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/spec/controllers/password_reset_controller_spec.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/spec/controllers/password_reset_controller_spec.rb": {
         "lines": [
           1,
           1,
@@ -307,7 +308,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/app/controllers/password_reset_controller.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/controllers/password_reset_controller.rb": {
         "lines": [
           1,
           1,
@@ -333,7 +334,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/spec/controllers/sessions_controller_spec.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/spec/controllers/sessions_controller_spec.rb": {
         "lines": [
           1,
           1,
@@ -367,7 +368,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/app/controllers/sessions_controller.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/controllers/sessions_controller.rb": {
         "lines": [
           1,
           1,
@@ -412,7 +413,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/spec/controllers/users_controller_spec.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/spec/controllers/users_controller_spec.rb": {
         "lines": [
           1,
           1,
@@ -465,7 +466,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/app/controllers/users_controller.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/controllers/users_controller.rb": {
         "lines": [
           1,
           null,
@@ -528,7 +529,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/spec/models/user_spec.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/spec/models/user_spec.rb": {
         "lines": [
           1,
           1,
@@ -546,7 +547,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/app/models/user.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/models/user.rb": {
         "lines": [
           1,
           1,
@@ -564,7 +565,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/db/seeds.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/db/seeds.rb": {
         "lines": [
           null,
           null,
@@ -611,7 +612,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/app/models/cardgame.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/models/cardgame.rb": {
         "lines": [
           1,
           1,
@@ -664,7 +665,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/app/models/deck.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/models/deck.rb": {
         "lines": [
           1,
           null,
@@ -716,7 +717,7 @@
           null
         ]
       },
-      "/mnt/c/Users/andre/SELT_REPOS/Team7_SELT2020/app/models/hand.rb": {
+      "/mnt/c/Users/BL/school/SELT/project/Team7_SELT2020/app/models/hand.rb": {
         "lines": [
           1,
           null,
@@ -756,6 +757,6 @@
         ]
       }
     },
-    "timestamp": 1607808696
+    "timestamp": 1607814932
   }
 }
