@@ -110,8 +110,9 @@
     overflow-y:auto;
     position:absolute;
     transition: transform;
-    display: block;
+    /*display: block;*/
     transform-origin: left top;
+    width: 100%;
 }
 
 .empty_sink{
@@ -303,14 +304,16 @@
     bottom: 0%;
     position: absolute;
     width: 16%;
+    right: 0%;
+    margin-right: 5px;
 }
 
 .chatBox{
     /*position: fixed;*/
     /*left: 5%;*/
-    top: 45%;
+    top: 60%;
     margin-left: 5px;
-    height: 30%;
+    height: 35%;
     overflow-y: auto;
     width: 16%;
     position: absolute;
@@ -356,5 +359,5 @@
     top: 10%;
     margin-left: 5px;
     width: 16%;
-    height: 25%;
+    height: 45%;
 }
