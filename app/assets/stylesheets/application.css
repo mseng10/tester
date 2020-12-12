@@ -244,24 +244,6 @@
 
 } /* Green */
 
-.show_all_buttons{
-    position: absolute;
-    left: 44%;
-    bottom: 0px;
-    /*transform: translate(-50%, -50%);*/
-    /*margin: 0 auto;*/
-    padding: 0%
-}
-
-.hide_all_buttons{
-    position: absolute;
-    left: 52%;
-    bottom: 0px;
-    /*transform: translate(-50%, -50%);*/
-    /*margin: 0 auto;*/
-    padding: 0%
-}
-
 #counttable{
     width: 50%;
     height: 8%;
@@ -366,4 +348,17 @@
     bottom: 1%;
     right: 0%;
     margin-right: 0px;
+}
+
+.card_button{
+    float: left;
+    padding: 1px;
+}
+
+.card_buttons{
+    position: absolute;
+    left: 50%;
+    bottom: 1%;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
 }
