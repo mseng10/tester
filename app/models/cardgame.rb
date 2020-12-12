@@ -33,8 +33,8 @@ class Cardgame < ActiveRecord::Base
     Cardgame.where(game_id: game_id).first[:table_cards_shown]
   end
 
-  def notify_pusher
-    Pusher.trigger('update', 'up', "")
+  def notify_pusher(game_id)
+    Pusher.trigger('update_'+game_id.to_s, 'up', "")
   end
 
   def increment_users_pusher(usernames)
