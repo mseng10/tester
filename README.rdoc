@@ -1,32 +1,20 @@
 == README
 
-{<img src="https://github.com/UIOWAjohnsonhj/Team7_SELT2020/workflows/Rspec%20and%20Cucumber/badge.svg" alt="Code Climate">}[https://codeclimate.com/github/ruby/rdoc]
-
-Testing commit from branch -- another one -- another another one
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
 * Ruby version
-
+  * 2.4.4
+* Rails Version
+  * 4.2.10
+* Bundler Version
+  * 1.17.3 
 * System dependencies
+  * Developed on Windows subsystem for Linux
+  
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+* git clone 'https://github.com/UIOWAjohnsonhj/Team7_SELT2020.git'
+  * IDE: RubyMine would be a good one to use
+* Make sure you are using the right ruby and rails version as described above
+* Do a bundle install to get all the required gems
+  * The bundler version is mentioned above, and please be sure to use that.
+* Make sure the project is running on the windows subsystem for linux.
+* You can run the project doing a 'bundle exec rails server' in the terminal
+  * This will let you look at the project on your local computer.
