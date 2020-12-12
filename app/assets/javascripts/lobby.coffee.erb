@@ -4,9 +4,7 @@ update_users = (data) ->
   return
 
 $ ->
-  pusher = new Pusher('<%= Pusher.key %>',
-    cluster: '<%= Pusher.cluster %>',
-    encrypted: true)
+  pusher = new Pusher('<%= Pusher.key %>')
   channel = pusher.subscribe('update_users')
   channel.bind 'up_users', (data) ->
     update_users data
