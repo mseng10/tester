@@ -37,8 +37,8 @@ class Cardgame < ActiveRecord::Base
     Pusher.trigger('update_'+game_id.to_s, 'up', "")
   end
 
-  def increment_users_pusher(usernames)
-    Pusher.trigger('update_users', 'up_users', usernames.to_s)
+  def increment_users_pusher(usernames,game_id)
+    Pusher.trigger('update_users_'+game_id, 'up_users', usernames.to_s)
   end
 end
 

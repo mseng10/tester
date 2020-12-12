@@ -99,7 +99,7 @@ class LobbyController < ApplicationController
       old_hands = Cardgame.hand_ids(game_id)
       Cardgame.where(game_id: game_id).update_all(hand_ids: old_hands.concat(hand))
 
-      Cardgame.where(game_id: game_id).first.increment_users_pusher(usernames)
+      Cardgame.where(game_id: game_id).first.increment_users_pusher(usernames, game_id)
       redirect_to lobby_path(game_id)
 
     else
