@@ -8,6 +8,7 @@ describe LobbyController do
   before do
     session_token = User.find_by(username: "cat").session_token
     request.session[:session_token] = session_token
+    allow(Pusher).to receive(:trigger)
   end
   context 'Creating a game' do
     it 'should create a game in the database' do

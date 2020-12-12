@@ -1,5 +1,5 @@
 require 'knapsack_pro'
-
+require 'pusher'
 # CUSTOM_CONFIG_GOES_HERE
 
 KnapsackPro::Adapters::RSpecAdapter.bind
