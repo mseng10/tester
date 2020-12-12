@@ -209,9 +209,9 @@
   </div>
 </div>
 
-<div class="container">
-  <h3 style="position: absolute; right: 8%; top: 150px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"> Draw Pile </h3>
-  <div style="position: absolute; right: 1%; top: 230px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"  id="decks">
+<div class="drawPile">
+  <h3 id="drawHeader"> Draw Pile </h3>
+  <div id="decks">
     <ul class="cards">
       <% @deckHashes.each do |hash| %>
         <% drag_info = "source=pile&pile_id=#{hash[:id]}" %>
@@ -249,9 +249,9 @@
   </div>
 </div>
 
-<div class="container">
-  <h3 style="position: absolute; right: 6%; top: 375px; transform: translate(-50%, -50%); margin: 0 auto;"> Discard Pile </h3>
-  <div style="position: absolute; right: 1%; top: 450px; transform: translate(-50%, -50%); margin: 0 auto; z-index: 1"  id="sinks">
+<div class="sinkPile">
+  <h3 id="sinkHeader"> Discard Pile </h3>
+  <div id="sinks">
     <ul class="cards">
       <% @sinkHashes.each do |hash| %>
         <% drag_info = "source=pile&pile_id=#{hash[:id]}" %>
@@ -378,10 +378,6 @@
   <button type="button" class="btn btn-outline-danger" onclick="hideAll()">Hide All Cards</button>
 </div>
 
-<div class = "reset_buttons">
-  <button type="button" class="btn btn-secondary" onclick="resetGame()">&#x21ba; Reset Game</button>
-</div>
-
 <div class = "contain" id = "tablec">
   <table class="table" id = "counttable">
     <thead>
@@ -417,16 +413,20 @@
   </table>
 </div>
 
-
-<div class = "leave_buttons">
-  <% if 1 == Cardgame.user_ids(@current_user.select(:current_game).first.attributes.values[1]).size %>
-    <%= button_to  raw('&#x2190;')+' Leave Game', game_session_path, method: :delete, :class => 'btn btn-warning', :id => "end_game_button"%>
-  <% else %>
-    <button type="button" class="btn btn-warning" onclick="leaveGame()">&#x2190; Leave Game</button>
-  <% end %>
-</div>
-<div class = "end_buttons">
-  <%= button_to  raw('&#10005;')+' End Game', game_session_path, method: :delete, :class => 'btn btn-danger', :id => "end_game_button"%>
+<div class="game_buttons">
+  <div class = "game_button">
+    <button type="button" class="btn btn-secondary" onclick="resetGame()">Reset Game</button>
+  </div>
+  <div class = "game_button">
+    <% if 1 == Cardgame.user_ids(@current_user.select(:current_game).first.attributes.values[1]).size %>
+      <%= button_to  'Leave Game', game_session_path, method: :delete, :class => 'btn btn-warning', :id => "end_game_button"%>
+    <% else %>
+      <button type="button" class="btn btn-warning" onclick="leaveGame()">Leave Game</button>
+    <% end %>
+  </div>
+  <div class = "game_button">
+    <%= button_to  'End Game', game_session_path, method: :delete, :class => 'btn btn-danger', :id => "end_game_button"%>
+  </div>
 </div>
 
 <script type="text/javascript">

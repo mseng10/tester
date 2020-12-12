@@ -87,24 +87,6 @@
     color: darkred;
 }
 
-.end_buttons{
-    position:absolute;
-    left: 82%;
-    bottom: 0px;
-    /*transform: translate(-50%, -50%);*/
-    /*margin: 0 auto;*/
-    padding: 5%;
-}
-.leave_buttons{
-    position: absolute;
-    left: 76%;
-    bottom: 0px;
-    /*transform: translate(-50%, -50%);*/
-    /*margin: 0 auto;*/
-    padding: 5%
-}
-
-
 #other_user_hands{
     height: 100%;
     overflow-y:auto;
@@ -263,16 +245,6 @@
 
 } /* Green */
 
-
-.reset_buttons{
-    position: absolute;
-    left: 70%;
-    bottom: 0px;
-    /*transform: translate(-50%, -50%);*/
-    /*margin: 0 auto;*/
-    padding: 5%
-}
-
 .show_all_buttons{
     position: absolute;
     left: 44%;
@@ -301,11 +273,12 @@
 }
 
 #tablec{
-    bottom: 0%;
     position: absolute;
     width: 16%;
     right: 0%;
     margin-right: 5px;
+    top: 60%;
+    height: 20%;
 }
 
 .chatBox{
@@ -360,4 +333,38 @@
     margin-left: 5px;
     width: 16%;
     height: 45%;
+}
+
+.drawPile{
+    position: absolute;
+    right: 1%;
+    top: 10%;
+    margin-right: 5px;
+    width: 16%;
+    height: 15%;
+}
+
+#drawHeader, #sinkHeader, #tablecHeader {
+    text-align: center;
+}
+
+.sinkPile{
+    position: absolute;
+    right: 1%;
+    top: 35%;
+    margin-right: 5px;
+    width: 16%;
+    height: 15%;
+}
+
+.game_button{
+    float: left;
+    padding: 1px;
+}
+
+.game_buttons{
+    position: absolute;
+    bottom: 1%;
+    right: 0%;
+    margin-right: 0px;
 }
