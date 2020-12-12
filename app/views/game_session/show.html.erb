@@ -215,7 +215,7 @@
     <ul class="cards">
       <% @deckHashes.each do |hash| %>
         <% drag_info = "source=pile&pile_id=#{hash[:id]}" %>
-        <div style="width: 33%; float: left">
+        <div >
         <% if hash.size <= 0 %>
             <li id="<%= hash[:id] %>" class="empty_sink">&#127137</li>
         <% else %>
