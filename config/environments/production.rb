@@ -1,5 +1,11 @@
+require 'pusher'
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+
+  Pusher.app_id = "1121943"
+  Pusher.key = "cea183cfdabaf9f08a03"
+  Pusher.secret = "0b334ce391f264933e4d"
+  Pusher.cluster = "mt1"
 
   # Code is not reloaded between requests.
   config.cache_classes = true
