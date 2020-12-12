@@ -80,6 +80,15 @@
         });
     }
 
+    function hideAll(){
+        $.ajax({
+            url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=hideAll',
+            type: 'PUT',
+            id: '#update',
+            complete: function() {}
+        });
+    }
+
     function flipCard(card,user) {
         $.ajax({
             url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=flipCard&id='+card+'&index='+user,
@@ -268,7 +277,11 @@
 </div>
 
 <div class = "show_all_buttons">
-  <button type="button" class="btn btn-success" onclick="showAll()">&#x21ba; Show All Cards</button>
+  <button type="button" class="btn btn-outline-success" onclick="showAll()">Show All Cards</button>
+</div>
+
+<div class = "hide_all_buttons">
+  <button type="button" class="btn btn-outline-danger" onclick="hideAll()">Hide All Cards</button>
 </div>
 
 <div class = "reset_buttons">
