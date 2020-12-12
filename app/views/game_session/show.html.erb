@@ -215,16 +215,16 @@
     <ul class="cards">
       <% @deckHashes.each do |hash| %>
         <% drag_info = "source=pile&pile_id=#{hash[:id]}" %>
-        <div draggable="true" ondragstart="drag(event, '<%= drag_info %>')" style="width: 33%; float: left">
+        <div style="width: 33%; float: left">
         <% if hash.size <= 0 %>
             <li id="<%= hash[:id] %>" class="empty_sink">&#127137</li>
         <% else %>
           <% if hash.values.last[0] == "R" %>
               <li><%= hash[:id] %></li>
-              <li id="<%= hash[:id] %>" onclick="toggleCardDropdown('draw_<%= hash[:id] %>')" class="user_card_red"><%= raw(hash.values.last.gsub("R", "")) %></li>
+              <li draggable="true" ondragstart="drag(event, '<%= drag_info %>')" id="<%= hash[:id] %>" onclick="toggleCardDropdown('draw_<%= hash[:id] %>')" class="user_card_red"><%= raw(hash.values.last.gsub("R", "")) %></li>
           <% elsif hash.values.last[0] == "B" %>
               <li><%= hash[:id] %></li>
-              <li id="<%= hash[:id] %>" onclick="toggleCardDropdown('draw_<%= hash[:id] %>')" class="user_card_black"><%= raw(hash.values.last.gsub("B", "")) %></li>
+              <li draggable="true" ondragstart="drag(event, '<%= drag_info %>')" id="<%= hash[:id] %>" onclick="toggleCardDropdown('draw_<%= hash[:id] %>')" class="user_card_black"><%= raw(hash.values.last.gsub("B", "")) %></li>
           <% end %>
             </div>
           <ul style="bottom: -100% " id="dropdown_draw_<%= hash[:id] %>" class="dropdown-content">
@@ -256,16 +256,17 @@
       <% @sinkHashes.each do |hash| %>
         <% drag_info = "source=pile&pile_id=#{hash[:id]}" %>
         <% drop_info = "dest=sink&sink_id=sink_#{hash[:id]}" %>
-        <div draggable="true" ondragstart="drag(event, '<%= drag_info %>')" ondrop="drop(event, '<%= drop_info %>')" ondragover="allowDrop(event)" style="width: 33%; float: left">
-          <% if hash.size <= 0 %>
-            <li class="empty_sink">&#127137</li>
+        <div ondrop="drop(event, '<%= drop_info %>')" ondragover="allowDrop(event)">
+          <% if hash.size <= 1 %>
+            <li class="sinkHeader"><%= hash[:id] %></li>
+            <li class="empty_sink">&#127136</li>
           <% else %>
             <% if hash.values.last[0] == "R" %>
-                <li><%= hash[:id] %></li>
-                <li onclick="toggleCardDropdown('sink_<%= hash[:id] %>')" class="user_card_red"><%= raw(hash.values.last.gsub("R", "")) %></li>
+                <li class="sinkHeader"><%= hash[:id] %></li>
+                <li draggable="true" ondragstart="drag(event, '<%= drag_info %>')" onclick="toggleCardDropdown('sink_<%= hash[:id] %>')" class="user_card_red"><%= raw(hash.values.last.gsub("R", "")) %></li>
             <% elsif hash.values.last[0] == "B" %>
-                <li><%= hash[:id] %></li>
-                <li onclick="toggleCardDropdown('sink_<%= hash[:id] %>')" class="user_card_black"><%= raw(hash.values.last.gsub("B", "")) %></li>
+                <li class="sinkHeader"><%= hash[:id] %></li>
+                <li draggable="true" ondragstart="drag(event, '<%= drag_info %>')" onclick="toggleCardDropdown('sink_<%= hash[:id] %>')" class="user_card_black"><%= raw(hash.values.last.gsub("B", "")) %></li>
             <% end %>
           </div>
           <ul style="bottom: -100%" id="dropdown_sink_<%= hash[:id] %>" class="dropdown-content">
