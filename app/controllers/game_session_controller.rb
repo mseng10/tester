@@ -92,7 +92,7 @@ class GameSessionController < ApplicationController
   def new
     game_id = @current_user.select(:current_game).first.attributes.values[1]
     Cardgame.where(game_id: game_id).update_all(started: true)
-    Cardgame.where(game_id: game_id).first.notify_pusher
+    Cardgame.where(game_id: game_id).first.notify_pusher(game_id)
     redirect_to game_session_path(game_id)
   end
 
@@ -230,7 +230,7 @@ class GameSessionController < ApplicationController
       user_ids.each do |id|
         User.where(id: id).update_all(current_game: 0)
       end
-      Cardgame.where(game_id: game_id).first.notify_pusher
+      Cardgame.where(game_id: game_id).first.notify_pusher(game_id)
     end
     redirect_to games_path
     flash[:notice] = "One of the user ended the game"
@@ -319,7 +319,9 @@ class GameSessionController < ApplicationController
         target_user_id = User.where(username: apiHelper.parameters['dest']).select(:id).first.attributes.values[0]
         target_user_cards = Hand.where(user_id: target_user_id).select(:cards).first.attributes.values[1]
         target_user_cards.append(current_picked_card)
-        Hand.where(user_id: target_user_id).update_all(cards: target_user_cards)
+        table_booleans = Hand.where(user_id: target_user_id).select(:user_cards_shown).first.attributes.values[1]
+        table_booleans = table_booleans.append(false)
+        Hand.where(user_id: target_user_id).update_all(cards: target_user_cards, user_cards_shown: table_booleans)
       end
       #GOOD
       decks = @current_game.select(:deck_ids).first.attributes.values[1]
@@ -460,7 +462,7 @@ class GameSessionController < ApplicationController
       Deck.where(id: deck_id).update_all(cards: deck)
     end
 
-    Cardgame.where(:game_id => game_id).first.notify_pusher
+    Cardgame.where(:game_id => game_id).first.notify_pusher(game_id)
     redirect_to game_session_path(game_id)
   end
 end

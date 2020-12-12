@@ -5,8 +5,9 @@ update_users = (data) ->
 
 $ ->
   pusher = new Pusher('<%= Pusher.key %>')
-  channel = pusher.subscribe('update_users')
+  channel = pusher.subscribe('update_users_'+window.location.href.replace(/.+\/.+\//i, ''))
   channel.bind 'up_users', (data) ->
     update_users data
     return
+#  pusher.disconnect();
   return

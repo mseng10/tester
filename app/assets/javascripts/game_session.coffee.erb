@@ -4,7 +4,7 @@ update = (data) ->
 
 $ ->
   pusher = new Pusher('<%= Pusher.key %>')
-  channel = pusher.subscribe('update')
+  channel = pusher.subscribe('update_'+window.location.href.replace(/.+\/.+\//i, ''))
   channel.bind 'up', (data) ->
     update data
     return

@@ -7,7 +7,7 @@ class GamesController < ApplicationController
   def index
     user_game_id = @current_user.select(:current_game).first.attributes.values[1]
     if user_game_id != 0
-      flash[:notice] = "Your game: "+user_game_id+" is still running."
+      flash[:notice] = "Your game: "+user_game_id.to_s+" is still running."
     end
   end
 
