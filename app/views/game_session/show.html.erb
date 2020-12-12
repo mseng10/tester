@@ -147,24 +147,50 @@
         }
     }
 
+    function sendMessage(){
+        if (document.getElementById('message').value.length == 0){
+            document.getElementById('message').placeholder = "Please enter text!"
+        }
+        else{
+            $.ajax({
+                url: '/game_session/'+ <%= request.original_url.split(//).last(4).join.to_i %> + '.function=addMessage&value='+document.getElementById('message').value,
+                type: 'PUT',
+                id: '#update',
+                complete: function() {
+                }
+            });
+        }
+    }
 </script>
 
-<div class = "container">
-  <h3 style="position: fixed; left: 5%; top: 45%; margin: 0 auto;"> Chat </h3>
-  <div style="position: fixed; left: 0%; top: 48%; margin: 0 auto;" , id="chatBox">
-    <% @messages.each do |key, value| %>
-        <ul class="message">
-          <li class="username_chat"><%= value[:username] %></li>
-          <li class="username_message"><%= value[:message] %></li>
-        </ul>
-    <% end %>
+<div class = "chatBox">
+  <h3> Chat </h3>
+  <div class = "messagesDiv">
+    <table id="chatBox" class = "table table-striped">
+      <tbody>
+        <% @messages.each do |key, value| %>
+          <tr class="message">
+            <% if @current_user.pluck(:username)[0] == value[:username] %>
+              <th style="color:mediumseagreen" class="username_chat"><%= value[:username] %>:</th>
+            <% else %>
+              <th style="color:lightseagreen" class="username_chat"><%= value[:username] %>:</th>
+            <% end %>
+              <td class="username_message"><%= value[:message] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class = "messageSubmit">
+    <input style="width:80%" type="text" id="message" name="fname" placeholder="Type Your Message">
+    <button style="font-size: 10px;"type="button" class="btn btn-outline-primary" onclick="sendMessage()">&#9658;</button>
   </div>
 </div>
 
 
-<div class="container">
-  <h3 style="position: fixed; left: 5%; top: 15%; margin: 0 auto;"> Players </h3>
-  <div style="position: fixed; left: 0%; top: 35%; margin: 0 auto;" , id="other_user_hands">
+<div class="otherUsers">
+  <h3> Players </h3>
+  <div id="other_user_hands">
     <% @user_cards_hash.each do |key, value| %>
       <% drop_info = "dest=other_user&username=#{value[:username]}" %>
       <% if key != @current_user.select(:id).first.attributes.values[0] %>
@@ -402,3 +428,7 @@
 <div class = "end_buttons">
   <%= button_to  raw('&#10005;')+' End Game', game_session_path, method: :delete, :class => 'btn btn-danger', :id => "end_game_button"%>
 </div>
+
+<script type="text/javascript">
+    $('.messagesDiv').scrollTop($('.messagesDiv')[0].scrollHeight);
+</script>

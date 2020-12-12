@@ -210,7 +210,7 @@ class GameSessionController < ApplicationController
     array_of_messages.each do |message|
       user = {}
       user[:username] = message[0]
-      user[:message] = message[1]
+      user[:message] = message[1].gsub("%20"," ")
       @messages[count] = user
       count = count + 1
     end
@@ -372,6 +372,13 @@ class GameSessionController < ApplicationController
         Hand.where(user_id: user_id).update_all(cards: current_user_cards)
         Hand.where(user_id: user_id).update_all(user_cards_shown: current_user_cards_shown)
       end
+
+    elsif apiHelper.function == 'addMessage'
+      message = apiHelper.parameters['value']
+      new_message = [@current_user.pluck(:username)[0], message]
+      messages = Cardgame.messages(game_id)
+      messages.append(new_message)
+      Cardgame.where(game_id: game_id).update_all(messages: messages)
 
     #If the user elects to flip a card
     elsif apiHelper.function == 'flipCard'
