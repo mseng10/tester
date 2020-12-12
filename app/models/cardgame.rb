@@ -6,6 +6,7 @@ class Cardgame < ActiveRecord::Base
   serialize :discard_ids, JSON
   serialize :table, JSON
   serialize :table_cards_shown, JSON
+  serialize :messages, JSON
 
   # Returns user ids in a given game as array
   def self.user_ids(game_id)
@@ -31,6 +32,10 @@ class Cardgame < ActiveRecord::Base
 
   def self.table_cards_shown(game_id)
     Cardgame.where(game_id: game_id).first[:table_cards_shown]
+  end
+
+  def self.messages(game_id)
+    Cardgame.where(game_id: game_id).first[:messages]
   end
 
   def notify_pusher(game_id)
