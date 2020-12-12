@@ -1,3 +1,4 @@
+require 'pusher'
 class Cardgame < ActiveRecord::Base
   serialize :user_ids, JSON
   serialize :hand_ids, JSON
@@ -30,6 +31,14 @@ class Cardgame < ActiveRecord::Base
 
   def self.table_cards_shown(game_id)
     Cardgame.where(game_id: game_id).first[:table_cards_shown]
+  end
+
+  def notify_pusher
+    Pusher.trigger('update', 'up', "")
+  end
+
+  def increment_users_pusher(usernames)
+    Pusher.trigger('update_users', 'up_users', usernames.to_s)
   end
 end
 

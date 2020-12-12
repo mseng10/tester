@@ -89,7 +89,7 @@ class LobbyController < ApplicationController
       # Add user to game table
       old_users = Cardgame.user_ids(game_id)
       Cardgame.where(game_id: game_id).update_all(user_ids: old_users.append(user_id))
-
+      usernames = User.players_in_game(game_id)
 
       if Hand.exists?(user_id: user_id)
         Hand.where(user_id: user_id).destroy_all
@@ -99,6 +99,7 @@ class LobbyController < ApplicationController
       old_hands = Cardgame.hand_ids(game_id)
       Cardgame.where(game_id: game_id).update_all(hand_ids: old_hands.concat(hand))
 
+      Cardgame.where(game_id: game_id).first.increment_users_pusher(usernames)
       redirect_to lobby_path(game_id)
 
     else

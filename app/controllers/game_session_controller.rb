@@ -92,6 +92,7 @@ class GameSessionController < ApplicationController
   def new
     game_id = @current_user.select(:current_game).first.attributes.values[1]
     Cardgame.where(game_id: game_id).update_all(started: true)
+    Cardgame.where(game_id: game_id).first.notify_pusher
     redirect_to game_session_path(game_id)
   end
 
@@ -219,7 +220,6 @@ class GameSessionController < ApplicationController
         Cardgame.where(game_id: game_id).update_all(started: false )
       end
 
-      Cardgame.delete(row_id)
       deck_ids.each do |id|
         Deck.delete(id)
       end
@@ -230,6 +230,7 @@ class GameSessionController < ApplicationController
       user_ids.each do |id|
         User.where(id: id).update_all(current_game: 0)
       end
+      Cardgame.where(game_id: game_id).first.notify_pusher
     end
     redirect_to games_path
     flash[:notice] = "One of the user ended the game"
@@ -459,6 +460,7 @@ class GameSessionController < ApplicationController
       Deck.where(id: deck_id).update_all(cards: deck)
     end
 
+    Cardgame.where(:game_id => game_id).first.notify_pusher
     redirect_to game_session_path(game_id)
   end
 end
