@@ -74,7 +74,6 @@ form label {
 .cards{
     list-style-type: none;
     height: 40px;
-    /*TODO margin-top:0;*/
 }
 
 
@@ -82,3 +81,12 @@ form label {
     float: left;
 }
 
+.other_cards{
+    /*display: inline;*/
+    list-style-type: none;
+    height: 40px;
+}
+
+.other_cards li{
+    float: left;
+}

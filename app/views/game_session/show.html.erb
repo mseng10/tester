@@ -194,7 +194,7 @@
     <% @user_cards_hash.each do |key, value| %>
       <% drop_info = "dest=other_user&username=#{value[:username]}" %>
       <% if key != @current_user.select(:id).first.attributes.values[0] %>
-        <ul ondrop="drop(event, '<%= drop_info %>')" ondragover="allowDrop(event)" class="cards">
+        <ul ondrop="drop(event, '<%= drop_info %>')" ondragover="allowDrop(event)" class="other_cards">
           <li class="username"><%= value[:username] %></li>
           <% value[:cards].each do |card_id, unicode| %>
             <% if unicode[0] == "R" %>
