@@ -455,6 +455,11 @@ class GameSessionController < ApplicationController
 
       Cardgame.where(id: @current_game.pluck(:id)).update_all(deck_ids: deck_ids, discard_ids: discard_ids, hand_ids: hand_ids, table: [], table_cards_shown: [])
 
+    elsif apiHelper.function == 'showAll'
+      cardsShown = Hand.where(user_id: user_id).pluck(:user_cards_shown)[0]
+      cardsShown.fill(true)
+      Hand.where(user_id: user_id).update_all(user_cards_shown: cardsShown)
+
     elsif apiHelper.function == 'shuffle'
       deck_id = apiHelper.parameters['deck'].to_i
       deck = Deck.where(id: deck_id).pluck(:cards)[0]
