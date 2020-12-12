@@ -31,6 +31,7 @@ When /^I have entered the game ID: "(.+)"$/ do |id|
 end
 
 When /^I select the start game button$/ do
+  allow(Pusher).to receive(:trigger)
   click_button 'Start Game'
 end
 
@@ -43,5 +44,5 @@ When /^I select the end game button$/ do
 end
 
 When /^I select the reset game button$/ do
-  click_button "end_game_button", visible: true
+  click_button "reset_game_button", visible: true
 end

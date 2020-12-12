@@ -6,6 +6,7 @@
 
 require 'cucumber/rails'
 require 'rspec/expectations'
+require 'cucumber/rspec/doubles'
 
 # frozen_string_literal: true
 Capybara.default_selector = :css
