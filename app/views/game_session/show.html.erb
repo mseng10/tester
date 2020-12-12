@@ -149,9 +149,21 @@
 
 </script>
 
+<div class = "container">
+  <h3 style="position: fixed; left: 5%; top: 45%; margin: 0 auto;"> Chat </h3>
+  <div style="position: fixed; left: 0%; top: 48%; margin: 0 auto;" , id="chatBox">
+    <% @messages.each do |key, value| %>
+        <ul class="message">
+          <li class="username_chat"><%= value[:username] %></li>
+          <li class="username_message"><%= value[:message] %></li>
+        </ul>
+    <% end %>
+  </div>
+</div>
+
 
 <div class="container">
-  <h3 style="position: fixed; left: 5%; top: 30%; margin: 0 auto;"> Players </h3>
+  <h3 style="position: fixed; left: 5%; top: 15%; margin: 0 auto;"> Players </h3>
   <div style="position: fixed; left: 0%; top: 35%; margin: 0 auto;" , id="other_user_hands">
     <% @user_cards_hash.each do |key, value| %>
       <% drop_info = "dest=other_user&username=#{value[:username]}" %>

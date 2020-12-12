@@ -203,6 +203,18 @@ class GameSessionController < ApplicationController
     @sinks.each do |sink|
       @sink_sizes[sink] = Deck.cards(sink).size
     end
+
+    @messages = {}
+    count = 0
+    array_of_messages = @current_game.pluck(:messages)[0]
+    array_of_messages.each do |message|
+      user = {}
+      user[:username] = message[0]
+      user[:message] = message[1]
+      @messages[count] = user
+      count = count + 1
+    end
+
   end
 
 
