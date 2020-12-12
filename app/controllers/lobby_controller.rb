@@ -61,7 +61,8 @@ class LobbyController < ApplicationController
                       :show_discard => show_discard,
                       :table_cards_shown => [],
                       :jokers => jokers,
-                      :shuffle => shuffle
+                      :shuffle => shuffle,
+                      :messages => []
                      })
 
     redirect_to lobby_path(game_id)
