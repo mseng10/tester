@@ -210,7 +210,11 @@ class GameSessionController < ApplicationController
     array_of_messages.each do |message|
       user = {}
       user[:username] = message[0]
-      user[:message] = message[1].gsub("%20"," ")
+      if message[1] != nil
+        user[:message] = message[1].gsub("%20"," ")
+      else
+        user[:message] = '?'
+      end
       @messages[count] = user
       count = count + 1
     end
