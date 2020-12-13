@@ -95,6 +95,13 @@
     /*display: block;*/
     transform-origin: left top;
     width: 100%;
+    display: inline-block;
+}
+
+.ul_other_user_cards{
+    width: 100%;
+    overflow-x: auto;
+
 }
 
 .empty_sink{
@@ -151,8 +158,6 @@
     height:60vh;
     overflow:hidden;
     margin: auto;
-    /*width: 60%;*/
-    /*height: 60%;*/
     background: #11e092;
     border-radius: 50%;
     position:absolute;
@@ -215,11 +220,7 @@
 .form-label-group input::placeholder {
     color: lightslategrey;
 }
-/*#other_user_hands{*/
-/*    transition: transform .2s;*/
-/*    display: block;*/
-/*    transform-origin: left top;*/
-/*}*/
+
 #other_user_hands:hover{
     transform: scale(2.0);
     z-index: 1;
@@ -280,9 +281,7 @@
 
 .message{
     padding: 1px;
-    /*border-width: 1px;*/
-    /*border-style: solid;*/
-    /*border-bottom: grey;*/
+
 }
 
 #chatBox{
