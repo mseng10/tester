@@ -172,6 +172,8 @@
           <tr class="message">
             <% if @current_user.pluck(:username)[0] == value[:username] %>
               <th style="color:mediumseagreen" class="username_chat"><%= value[:username] %>:</th>
+            <% elsif value[:username] == 'Server'%>
+                <th style="color:darkred" class="username_chat"><%= value[:username] %>:</th>
             <% else %>
               <th style="color:lightseagreen" class="username_chat"><%= value[:username] %>:</th>
             <% end %>
@@ -194,16 +196,18 @@
     <% @user_cards_hash.each do |key, value| %>
       <% drop_info = "dest=other_user&username=#{value[:username]}" %>
       <% if key != @current_user.select(:id).first.attributes.values[0] %>
-        <ul ondrop="drop(event, '<%= drop_info %>')" ondragover="allowDrop(event)" class="other_cards">
-          <li class="username"><%= value[:username] %></li>
-          <% value[:cards].each do |card_id, unicode| %>
-            <% if unicode[0] == "R" %>
-              <li class="other_users_card_red"><%= raw(unicode.gsub("R", "")) %></li>
-            <% elsif unicode[0] == "B" %>
-              <li class="other_users_card_black"><%= raw(unicode.gsub("B", "")) %></li>
+        <div class="ul_other_user_cards" id="horizontal_scrolly_bar">
+          <ul ondrop="drop(event, '<%= drop_info %>')" ondragover="allowDrop(event)" class="other_cards">
+            <li class="username"><%= value[:username] %></li>
+            <% value[:cards].each do |card_id, unicode| %>
+              <% if unicode[0] == "R" %>
+                <li class="other_users_card_red"><%= raw(unicode.gsub("R", "")) %></li>
+              <% elsif unicode[0] == "B" %>
+                <li class="other_users_card_black"><%= raw(unicode.gsub("B", "")) %></li>
+              <% end %>
             <% end %>
-          <% end %>
-        </ul>
+          </ul>
+        </div>
       <% end %>
     <% end %>
   </div>

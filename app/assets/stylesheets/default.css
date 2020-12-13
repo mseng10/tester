@@ -15,7 +15,7 @@ div#content {
 }
 
 .navbar{
-    height: 50%; /* Just an example height*/
+    height: 50%;
 }
 
 a {
@@ -84,9 +84,38 @@ form label {
 .other_cards{
     /*display: inline;*/
     list-style-type: none;
-    height: 40px;
+    height: 20%;
+    overflow-x: scroll;
+    white-space: nowrap;
 }
 
 .other_cards li{
-    float: left;
+    /*float: left;*/
+    display: inline-block;
 }
+
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 5px 5px 5px grey;
+    border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background:  DarkSlateGrey;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #28a745!important;
+}
+
+
+

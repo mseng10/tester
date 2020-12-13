@@ -279,6 +279,7 @@ class GameSessionController < ApplicationController
         table_booleans = @current_game.pluck(:table_cards_shown)[0]
         table_booleans = table_booleans.append(true)
         Cardgame.where(game_id: game_id).update_all(table_cards_shown: table_booleans)
+        add_message('Server', 'Card moved from user to table.', game_id)
 
       # Move card to sink
       # #good
@@ -287,6 +288,7 @@ class GameSessionController < ApplicationController
         current_cards_in_sink = Deck.where(id: sinkID).select(:cards).first.attributes.values[1]
         current_cards_in_sink.append(value)
         Deck.where(id: sinkID).update_all(cards: current_cards_in_sink, top_card_showed: true)
+        add_message('Server', 'Card moved from user to sink ' + sinkID, game_id)
 
       # Move Card to other users hand
       # #Good
@@ -297,6 +299,7 @@ class GameSessionController < ApplicationController
         other_user_booleans = Hand.user_cards_shown(other_user_id)
         other_user_booleans.append(false)
         Hand.where(user_id: other_user_id).update_all(cards: other_user_cards, user_cards_shown: other_user_booleans)
+        add_message('Server', 'Card moved from user to user.', game_id)
       end
 
     #GOOOD
@@ -315,6 +318,7 @@ class GameSessionController < ApplicationController
         table_booleans = @current_game.pluck(:table_cards_shown)[0]
         table_booleans = table_booleans.append(true)
         Cardgame.where(game_id: game_id).update_all(table_cards_shown: table_booleans)
+        add_message('Server', 'Card moved from pile '+apiHelper.parameters['source']+' to table.', game_id)
 
       #GOOD
       elsif apiHelper.parameters['dest'].include?('sink')
@@ -322,6 +326,7 @@ class GameSessionController < ApplicationController
         current_cards_in_sink = Deck.where(id: sinkID).select(:cards).first.attributes.values[1]
         current_cards_in_sink.append(current_picked_card)
         Deck.where(id: sinkID).update_all(cards: current_cards_in_sink)
+        add_message('Server', 'Card moved from draw pile '+apiHelper.parameters['source']+' to sink ' + sinkID, game_id)
 
       #IDK
       elsif apiHelper.parameters['dest'].include?('draw')
@@ -329,6 +334,7 @@ class GameSessionController < ApplicationController
         current_cards_in_draw = Deck.where(id: draw_id).select(:cards).first.attributes.values[1]
         current_cards_in_draw.append(current_picked_card)
         Deck.where(id: draw_id).update_all(cards: current_cards_in_draw)
+        add_message('Server', 'How did you do this???', game_id)
 
         #GOOD
       else
@@ -338,6 +344,7 @@ class GameSessionController < ApplicationController
         table_booleans = Hand.where(user_id: target_user_id).select(:user_cards_shown).first.attributes.values[1]
         table_booleans = table_booleans.append(false)
         Hand.where(user_id: target_user_id).update_all(cards: target_user_cards, user_cards_shown: table_booleans)
+        add_message('Server', 'Card moved from pile '+apiHelper.parameters['source']+' to user.', game_id)
       end
       #GOOD
       decks = @current_game.select(:deck_ids).first.attributes.values[1]
@@ -365,6 +372,7 @@ class GameSessionController < ApplicationController
         current_cards_in_sink.append(card_id_helper)
         Deck.where(id: sink_id).update_all(cards: current_cards_in_sink)
         Deck.where(:id => sink_id).update_all(:top_card_showed => @current_game.select(:show_discard).first.attributes["show_discard"])
+        add_message('Server', 'Card moved from table to sink ' + sinkID, game_id)
 
       #good
       else
@@ -375,6 +383,7 @@ class GameSessionController < ApplicationController
         current_user_cards_shown.append(false)
         Hand.where(user_id: user_id).update_all(cards: current_user_cards)
         Hand.where(user_id: user_id).update_all(user_cards_shown: current_user_cards_shown)
+        add_message('Server', 'Card moved from table to user.', game_id)
       end
 
     elsif apiHelper.function == 'addMessage'
@@ -428,6 +437,8 @@ class GameSessionController < ApplicationController
         Cardgame.where(id: @current_game.pluck(:id)).update_all(user_ids: user_ids, hand_ids: hand_ids)
         Hand.delete(hand_id)
         User.where(id: user_id).update_all(current_game: 0)
+        add_message('Server', 'User '+@current_user.pluck(:username)[0]+' has left the game', game_id)
+
         redirect_to games_path
         return
       else
@@ -477,6 +488,7 @@ class GameSessionController < ApplicationController
       end
 
       Cardgame.where(id: @current_game.pluck(:id)).update_all(deck_ids: deck_ids, discard_ids: discard_ids, hand_ids: hand_ids, table: [], table_cards_shown: [])
+      add_message('Server', 'Game has been reset.', game_id)
 
     elsif apiHelper.function == 'showAll'
       cardsShown = Hand.where(user_id: user_id).pluck(:user_cards_shown)[0]
@@ -493,11 +505,20 @@ class GameSessionController < ApplicationController
       deck = Deck.where(id: deck_id).pluck(:cards)[0]
       deck = deck.shuffle
       Deck.where(id: deck_id).update_all(cards: deck)
+      add_message('Server', 'Deck '+deck_id+' has been shuffled', deck_id)
     end
 
     Cardgame.where(:game_id => game_id).first.notify_pusher(game_id)
     redirect_to game_session_path(game_id)
   end
+
+  def add_message(from, message, game_id)
+    new_message = [from, message]
+    messages = Cardgame.messages(game_id)
+    messages.append(new_message)
+    Cardgame.where(game_id: game_id).update_all(messages: messages)
+  end
+
 end
 
 class ApiHelper
