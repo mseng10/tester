@@ -15,20 +15,20 @@
  */
 
 .user_card_black:hover,.user_card_black_shown:hover, .other_users_card_black:hover {
-    border-bottom: 2px solid deepskyblue;
+    border-bottom: 2px solid DarkSlateGrey;
 }
 
 .user_card_black:active,.user_card_black_shown:active, .other_users_card_black:active, #user_card:focus {
-    border-bottom: 2px solid limegreen;
+    border-bottom: 2px solid #28a745!important;
 }
 
 .user_card_red:hover,.user_card_red_shown:hover, .other_users_card_red:hover {
-    border-bottom: 2px solid deepskyblue;
+    border-bottom: 2px solid DarkSlateGrey;
 }
 
 
 .user_card_red:active, .user_card_red_shown:active, .other_users_card_red:active, #user_card:focus {
-    border-bottom: 2px solid limegreen;
+    border-bottom: 2px solid #28a745!important;
 }
 
 .user_card_red_shown{
